@@ -1,7 +1,8 @@
 const { BASE_URL } = process.env
 
+// set default BASE_URL
 const instance = axios.create({
-    baseURL: 'https://api.example.com'
+    baseURL: BASE_URL//'https://api.example.com'
 });
 
 export default instance;

@@ -1,10 +1,10 @@
 import React from 'react';
-import AppNavigation from './utils/RouteConfig';
+import RouteConfig from './components/RouteConfig/RouteConfig';
 import { BrowserRouter } from 'react-router-dom';
 function App() {
   return (
-    <BrowserRouter>,
-      <AppNavigation />
+    <BrowserRouter>
+      <RouteConfig />
     </BrowserRouter>
   );
 }
