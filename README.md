@@ -1,3 +1,13 @@
+
+# Getting Started
+To run app:
+
+```
+npm install
+npm start
+```
+
+
 # Development Guide
 
 Components should be developed such that they are as modular as possible.
@@ -12,15 +22,6 @@ Guidelines: All stylings should be scoped locally to avoid interference with oth
 
 ### Navigation:
 - React Router
-
-## Getting Started
-To run app:
-
-```
-npm install
-npm start
-```
-
 
 # Template App Setup Goals
 - [x] Basic App Folder Structure
