@@ -1,8 +1,5 @@
 import React from "react"
-import {
-    Routes,
-    Route,
-} from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { BaseLayout } from '../Layout/BaseLayout'
 import { PageOne } from '../../pages/PageOne/PageOne'
 import { PageTwo } from '../../pages/PageTwo/PageTwo'
@@ -15,7 +12,7 @@ const RouteConfig = () => {
                 <Route path="PageOne" element={<PageOne />} />
                 <Route path="PageTwo" element={<PageTwo />} />
             </Route>
-            <Route path="*" element={<PageNotFound />}/>
+            <Route path="*" element={<PageNotFound />} />
         </Routes>
     )
 }
