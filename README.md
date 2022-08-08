@@ -27,5 +27,6 @@ Guidelines: All stylings should be scoped locally to avoid interference with oth
 - [x] Basic App Folder Structure
 - [x] Basic Navigation
 - [x] Basic API MGR
+- [ ] Test API MGR
 - [ ] Base App Layout
 - [ ] UI Library
