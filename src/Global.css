@@ -1,0 +1,28 @@
+body{
+    color: red;
+    font-weight: bold;
+    margin: 0rem;
+}
+
+.nav-bar{
+    background-color: #112B3C;
+    padding: 0.5rem 1rem;
+    color: #EFEFEF;
+}
+.nav-bar a{
+    color: #EFEFEF;
+    text-decoration:none;
+}
+
+.nav-bar ul{
+    list-style-type:none;
+}
+
+.global-component{
+    padding: 0.5rem 1rem;
+    background-color: #EFEFEF;
+    height: 100vh;
+}
+.global-card{
+    padding: 0.5rem 1rem;
+}
