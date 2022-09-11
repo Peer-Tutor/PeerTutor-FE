@@ -7,21 +7,16 @@ import { Button } from 'primereact/button';
 import { Dropdown } from 'primereact/dropdown';
 
 const PageOne = () => {
-    const [state, setState] = useState()
+    const [state, setState] = useState() // todo type script
 
     useEffect(() => {
         const url = getUrl(Subdomain.ACCOUNT_MGR, '/health')
         axios.get(url).then(res=>{
             console.log(res)
+            setState(res)
         }).catch(err=>{
             console.log('error!' , err)
         })
-        // callApi('/health', null, 'GET').then(res => {
-        //     console.log('success, res=', res)
-        // }).catch(err => {
-        //     console.log('error', err)
-        // })
-
     }, [])
     // console.log('page one rendered')
     return (
