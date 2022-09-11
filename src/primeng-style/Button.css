@@ -1,0 +1,24 @@
+.p-button, .p-button:enabled:hover {
+    border-radius: 1rem;
+    margin: 0.25rem;
+    border: hidden  !important;
+    background-color: #112B3C;
+    color: #EFEFEF;
+}
+
+.p-button:disabled, .p-button:disabled:hover{
+    color: #EFEFEF !important;
+    background-color: #EFEFEF !important;
+}
+
+.p-button-primary {  background-color: #F66B0E !important; }
+.p-button-secondary { background-color: #205375 !important; }
+.p-button-tertiary, .p-button-tertiary:enabled:hover{
+    color: #205375 !important;
+    background-color: #EFEFEF !important;
+    border: 0.125rem solid #205375 !important;
+}
+
+.p-button:enabled:focus, .p-button-primary:enabled:focus, .p-button-secondary:enabled:focus, .p-button-tertiary:enabled:focus{
+    box-shadow: none !important;
+}
