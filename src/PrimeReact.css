@@ -1,0 +1,68 @@
+.p-button, .p-button:enabled:hover {
+    border-radius: 1rem;
+    margin: 0.25rem;
+    border: hidden  !important;
+    background-color: #112B3C;
+    color: #EFEFEF;
+    padding: 0.55rem 1.25rem !important;
+    width: fit-content !important;
+    height: 2.45rem !important;
+}
+
+.p-button:disabled, .p-button:disabled:hover{
+    color: #EFEFEF !important;
+    background-color: #EFEFEF !important;
+}
+
+.p-button-primary {  background-color: #F66B0E !important; }
+.p-button-secondary { background-color: #205375 !important; }
+.p-button-tertiary, .p-button-tertiary:enabled:hover{
+    color: #205375 !important;
+    background-color: #ffffff !important;
+    border: 0.125rem solid #205375 !important;
+    padding: 0.4rem 1.25rem !important;
+}
+
+.p-button:enabled:focus, .p-button-primary:enabled:focus, .p-button-secondary:enabled:focus, .p-button-tertiary:enabled:focus{
+    box-shadow: none !important;
+}
+
+.p-dropdown{
+    border-radius: 1rem !important;
+    border: 0.05rem solid #112B3C !important;
+    height: 2.5rem !important;
+ }
+
+.p-dropdown-label.p-inputtext.p-placeholder{ padding: 0.5rem 0.5rem !important; }
+.p-dropdown.p-dropdown-clearable .p-dropdown-label{ padding: 0.5rem 1.5rem 0.5rem 1rem !important;}
+
+.p-dropdown:not(.p-disabled).p-focus, .p-inputtext:enabled:focus{
+    border: 0.05rem solid #112B3C !important;
+    box-shadow: none !important;
+}
+
+input{
+    border-radius: 1rem !important;
+    padding: 0.5rem !important;
+    border: 0.05rem solid #112B3C !important;
+ }
+input.p-inputtext.p-component{height: fit-content !important;}
+.p-input-icon-left > .p-inputtext{ padding-left: 2rem !important; }
+
+.p-card .p-card-body, .p-card .p-card-content{ padding: 0.5rem !important; }
+.statCard { border: 1px solid #112B3C !important; min-width: 10rem !important; }
+.statCard .p-card-body{ padding: 0.5rem !important; }
+.statCard .p-card-body .p-card-content{ padding: 0.5rem !important; }
+
+.p-panel .p-panel-header{ padding: 1rem !important; color: #112B3C !important;}
+.p-panel .p-panel-content{ min-height: 50vh !important;}
+.singlePanel .p-panel-content{ min-height: 71.5vh !important;}
+
+.p-badge.p-badge-info, .p-badge.p-badge-dot { background-color: #112B3C !important; }
+.p-badge.p-badge-success{ background-color: #F66B0E !important; }
+.p-badge.p-badge-warning,.p-badge.p-badge-danger { background-color: #112B3C !important; }
+
+
+.p-calendar-w-btn-right .p-inputtext{ border-top-right-radius: 0 !important; border-bottom-right-radius: 0 !important;}
+.p-calendar-w-btn-right .p-datepicker-trigger:enabled:hover{ border-top-left-radius: 0 !important; border-bottom-left-radius: 0 !important; }
+.p-calendar-w-btn-right .p-datepicker-trigger{ margin: 0 !important; }

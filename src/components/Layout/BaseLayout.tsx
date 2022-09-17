@@ -9,9 +9,11 @@ interface BaseLayoutProps {
 const BaseLayout = (props:BaseLayoutProps) => {
     console.log('baselayour rendered')
     return (
-        <div>
+        <div className="global-component">
             <NavBar/>
-            <Outlet />
+            <div className="p-4">
+                <Outlet />
+            </div>
         </div>
     )
 }
