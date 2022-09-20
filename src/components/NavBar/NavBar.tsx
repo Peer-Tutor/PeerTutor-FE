@@ -18,6 +18,10 @@ export default function NavBar() {
                     <i className="text-xl mr-3 fa-solid fa-id-card"></i>
                     <Link to="/AccountManagement">Account Management</Link>
                 </li>
+               <li className="flex flex-grow-1 align-items-center mr-5">
+                    <i className="text-xl mr-3 fa-solid fa-id-card"></i>
+                    <Link to="/TuitionBooking">Tuition Booking</Link>
+                </li>
                 <li className="flex mx-3 text-3xl" >|</li>
                 <li className="flex mx-2"><i className="text-3xl fa-regular fa-circle-user"></i></li>
                 <li className="flex mx-3 flex-column">
