@@ -115,7 +115,7 @@ const TuitionBooking = () => {
                         </tr>
                         <div id="StudentList" >
                             <Button label="Student 1"  className="p-button" onClick={handleClick}/><br/>
-                            <Button label="Student 2"  className="p-button"/>
+                            <Button label="Student 2"  className="p-button" onClick={handleClick}/>
   				            <Dialog
   				            	header='Student Information'
   				            	visible={visibility}
