@@ -7,12 +7,14 @@ import { Button } from 'primereact/button';
 import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
 import { Dialog } from 'primereact/dialog';
+import { Calendar } from 'primereact/calendar';
 
 const TuitionBooking = () => {
     const [state, setState] = useState() // todo type script
     const [selectedCity1, setSelectedCity1] = useState<any>(null);
     const [value1, setValue1] = useState('');
     const [visibility, setDialogVisibility] = useState(false);
+    const [date, setDate] = useState<Date | Date[] | undefined>(undefined);
 
     function dialogClose() {
         setDialogVisibility(false);
@@ -101,6 +103,9 @@ const TuitionBooking = () => {
                         </span>
                     </div>
                 </div>
+            </div>
+            <div>
+                <Calendar inline value={date} onChange={(e) => setDate(e.value)}></Calendar>
             </div>
             <div>
                 <label className="flex my-2 text-xl">Request List</label>
