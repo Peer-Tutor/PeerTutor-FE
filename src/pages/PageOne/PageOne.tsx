@@ -7,16 +7,19 @@ import { Button } from 'primereact/button';
 import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
 
+type ResponseDataExample = {
+    data: any
+}
 const PageOne = () => {
-    const [state, setState] = useState() // todo type script
+    const [state, setState] = useState<ResponseDataExample>({data: null}) // todo type script
     const [selectedCity1, setSelectedCity1] = useState<any>(null);
     const [value1, setValue1] = useState('');
 
     useEffect(() => {
         const url = getUrl(Subdomain.ACCOUNT_MGR, '/health')
         axios.get(url).then(res=>{
-            console.log(res)
-            //setState(res)
+            console.log("res.data=", res.data)
+            setState(res.data)
         }).catch(err=>{
             console.log('error!' , err)
         })
