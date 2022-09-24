@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { AuthenticationStorage } from "../../constants/Model";
+import { AccountType, PageLink, SessionStorage } from "../../constants/Constant";
 import { Fieldset } from 'primereact/fieldset';
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
@@ -9,17 +11,27 @@ import { Link } from "react-router-dom";
 
 const LoginDashboard = () => {
     const [registerView, setRegister] = useState(false);
-    const [accountType, setAccountType] = useState('STUDENT');
+    const [accountType, setAccountType] = useState(AccountType.STUDENT);
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
 
-    const [route, setRoute] = useState('/dashboard/tutee');
+    const [route, setRoute] = useState(PageLink.DASHBOARD_LOGIN);
 
-    const accountTypeList = [ { name: 'Student', code: 'STUDENT' }, { name: 'Tutor', code: 'Tutor' } ];
-    const accountTypeChange = (e: { value: any }) => {
-        setAccountType(e.value);
-        if(e.value == 'STUDENT'){ setRoute('/dashboard/tutee'); }else{ setRoute('/dashboard/tutor'); }
-    }
+    const accountTypeList = [ { name: 'Student', code: AccountType.STUDENT }, { name: 'Tutor', code: AccountType.TUTOR } ];
+
+    const accountTypeChange = (e: { value: any }) => { setAccountType(e.value); };
+
+    const redirectScreen = () =>{
+        if(accountType == AccountType.STUDENT){
+            setRoute(PageLink.DASHBOARD_STUDENT);
+            var sessionToken = { name: 'Test', sessionToken: 'ABCDS', accountType: AccountType.STUDENT, homeLink: PageLink.DASHBOARD_STUDENT };
+            sessionStorage.setItem(SessionStorage.ACCOUNT, JSON.stringify(sessionToken));
+        }else{
+            setRoute(PageLink.DASHBOARD_TUTOR);
+            var sessionToken = { name: 'Test', sessionToken: 'ABCDS', accountType: AccountType.TUTOR, homeLink: PageLink.DASHBOARD_TUTOR };
+            sessionStorage.setItem(SessionStorage.ACCOUNT, JSON.stringify(sessionToken));
+        }
+    };
 
     if(registerView){
         return (
@@ -36,7 +48,7 @@ const LoginDashboard = () => {
                                            placeholder="Password" feedback={false}/>
                                 <Dropdown optionLabel="name" optionValue="code" value={accountType} options={accountTypeList} onChange={accountTypeChange}/>
                                 <div className="flex flex-grow-1 flex-row-reverse">
-                                   <Link to={route}>
+                                   <Link to={route} onClick={redirectScreen}>
                                         <Button label="Register" className="p-button-primary flex" />
                                    </Link>
                                         <Button label="Login" className="p-button-secondary" onClick={()=>setRegister(false)}/>
@@ -61,7 +73,7 @@ const LoginDashboard = () => {
                                 <Password  className="col-12 p-0" inputClassName="col-12"  value={password} onChange={(e) => setPassword(e.target.value)}
                                            placeholder="Password" feedback={false}/>
                                 <div className="flex flex-grow-1 flex-row-reverse">
-                                   <Link to={route}>
+                                   <Link to={route} onClick={redirectScreen}>
                                         <Button label="Login" className="p-button-primary flex" />
                                     </Link>
                                         <Button label="Register" className="p-button-secondary" onClick={()=>setRegister(true)}/>

@@ -5,7 +5,7 @@ import styles from "src/style-sheet/global.module.css";
 
 type BaseLayoutProps = {
     authenticated: boolean;
-}
+};
 const BaseLayout = (props:BaseLayoutProps) => {
     return (
         <div className="global-component">

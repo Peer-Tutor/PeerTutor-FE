@@ -1,23 +1,41 @@
 import axios from "axios"
 import React, { useEffect, useState } from "react";
-import { Subdomain } from "../../constants/Subdomain"
-import { getUrl } from "../../utils/apiUtils"
+import { Subdomain } from "../../constants/Subdomain";
+import { AuthenticationStorage } from "../../constants/Model";
+import { SessionStorage } from "../../constants/Constant";
+import { getUrl } from "../../utils/apiUtils";
 import styles from './PrimeReactSample.module.css'; //'./PrimeReactSample.module.css'
 import { Button } from 'primereact/button';
 import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
 
-type ResponseDataExample = string
+type ResponseDataExample = string;
+type ResponseJsonExample = {
+    name: string;
+    sessionToken: string;
+    accountType: string;
+};
 const PrimeReactSample = () => {
     const [state, setState] = useState<ResponseDataExample>() // todo type script
+    const [json, setJson] = useState<ResponseJsonExample>() // todo type script
     const [selectedCity1, setSelectedCity1] = useState<any>(null);
     const [value1, setValue1] = useState('');
+    const [prop, setProp] = useState<AuthenticationStorage>({});
 
     useEffect(() => {
+        const props = sessionStorage.getItem(SessionStorage.ACCOUNT);
+        if(props != null){ setProp(JSON.parse(props)); }
         const url = getUrl(Subdomain.ACCOUNT_MGR, '/health')
         axios.get<ResponseDataExample>(url).then(res => {
             console.log("res.data=", res.data)
             setState(res.data)
+        }).catch(err => {
+            console.log('error!', err)
+        })
+        const url2 = getUrl(Subdomain.ACCOUNT_MGR, '/account')
+        axios.get<ResponseJsonExample>(url2).then(res => {
+            console.log("res.data=", res.data)
+            setJson(res.data)
         }).catch(err => {
             console.log('error!', err)
         })
@@ -40,7 +58,7 @@ const PrimeReactSample = () => {
         <div>
             <div className="global-card">
                 <div className="flex flex-column align-items-start gap-3">
-                    <h1>Api Response = "{state}"</h1>
+                    <h1>Api Response = "{state}"  {prop.sessionToken ?? ''}</h1>
                 </div>
                 <label className="text-3xl  text-orange">DasboardActionCard fields</label>
                 <div className="flex align-items-center w-6 mt-3 mb-6 gap-3">
