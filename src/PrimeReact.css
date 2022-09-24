@@ -32,7 +32,7 @@
     border: 0.05rem solid #112B3C !important;
     height: 2.5rem !important;
  }
-
+.p-dropdown .p-dropdown-label{ padding: 0.5rem 0.5rem !important;}
 .p-dropdown-label.p-inputtext.p-placeholder{ padding: 0.5rem 0.5rem !important; }
 .p-dropdown.p-dropdown-clearable .p-dropdown-label{ padding: 0.5rem 1.5rem 0.5rem 1rem !important;}
 
@@ -50,13 +50,13 @@ input.p-inputtext.p-component{height: fit-content !important;}
 .p-input-icon-left > .p-inputtext{ padding-left: 2rem !important; }
 
 .p-card .p-card-body, .p-card .p-card-content{ padding: 0.5rem !important; }
-.statCard { border: 1px solid #112B3C !important; min-width: 10rem !important; }
+.statCard { border: 1px solid #112B3C !important; min-width: 10rem !important; border-radius: 1.5rem !important; margin-bottom: 0rem !important; }
 .statCard .p-card-body{ padding: 0.5rem !important; }
 .statCard .p-card-body .p-card-content{ padding: 0.5rem !important; }
 
 .p-panel .p-panel-header{ padding: 1rem !important; color: #112B3C !important;}
-.p-panel .p-panel-content{ min-height: 50vh !important;}
-.singlePanel .p-panel-content{ min-height: 71.5vh !important;}
+.p-panel .p-panel-content{ min-height: 55vh !important;}
+.singlePanel .p-panel-content{ min-height: 74.5vh !important;}
 
 .p-badge.p-badge-info, .p-badge.p-badge-dot { background-color: #112B3C !important; }
 .p-badge.p-badge-success{ background-color: #F66B0E !important; }
@@ -66,3 +66,5 @@ input.p-inputtext.p-component{height: fit-content !important;}
 .p-calendar-w-btn-right .p-inputtext{ border-top-right-radius: 0 !important; border-bottom-right-radius: 0 !important;}
 .p-calendar-w-btn-right .p-datepicker-trigger:enabled:hover{ border-top-left-radius: 0 !important; border-bottom-left-radius: 0 !important; }
 .p-calendar-w-btn-right .p-datepicker-trigger{ margin: 0 !important; }
+
+.field { margin: 0 !important; }

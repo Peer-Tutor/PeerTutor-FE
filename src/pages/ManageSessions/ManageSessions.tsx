@@ -8,11 +8,11 @@ import { Button } from 'primereact/button';
 const ManageSessions = () => {
     return (
     <div className="grid col-12">
-        <div className="field col-6">
+        <div className="field col-7">
            <SessionStats />
            <UpcomingActivities />
         </div>
-        <div className="field col-6">
+        <div className="field col-5">
             <IncomingRequest />
         </div>
     </div>

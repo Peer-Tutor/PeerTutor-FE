@@ -2,7 +2,7 @@ import axios from "axios"
 import React, { useEffect, useState } from "react";
 import { Subdomain } from "../../constants/Subdomain"
 import { getUrl } from "../../utils/apiUtils"
-import styles from './PageOne.module.css'; //'./PageOne.module.css'
+import styles from './PrimeReactSample.module.css'; //'./PrimeReactSample.module.css'
 import { Button } from 'primereact/button';
 import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';

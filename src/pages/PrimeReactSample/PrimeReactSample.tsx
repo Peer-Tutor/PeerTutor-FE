@@ -2,13 +2,13 @@ import axios from "axios"
 import React, { useEffect, useState } from "react";
 import { Subdomain } from "../../constants/Subdomain"
 import { getUrl } from "../../utils/apiUtils"
-import styles from './PageOne.module.css'; //'./PageOne.module.css'
+import styles from './PrimeReactSample.module.css'; //'./PrimeReactSample.module.css'
 import { Button } from 'primereact/button';
 import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
 
 type ResponseDataExample = string
-const PageOne = () => {
+const PrimeReactSample = () => {
     const [state, setState] = useState<ResponseDataExample>() // todo type script
     const [selectedCity1, setSelectedCity1] = useState<any>(null);
     const [value1, setValue1] = useState('');
@@ -42,7 +42,7 @@ const PageOne = () => {
                 <div className="flex flex-column align-items-start gap-3">
                     <h1>Api Response = "{state}"</h1>
                 </div>
-                <label className="text-3xl  text-orange">Input fields</label>
+                <label className="text-3xl  text-orange">DasboardActionCard fields</label>
                 <div className="flex align-items-center w-6 mt-3 mb-6 gap-3">
 
                     <div className="flex flex-column align-items-center gap-3">
@@ -98,4 +98,4 @@ const PageOne = () => {
         </div>
     )
 }
-export { PageOne }
+export { PrimeReactSample }
