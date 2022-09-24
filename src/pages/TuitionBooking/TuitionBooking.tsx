@@ -14,7 +14,11 @@ const TuitionBooking = () => {
     const [selectedCity1, setSelectedCity1] = useState<any>(null);
     const [value1, setValue1] = useState('');
     const [visibility, setDialogVisibility] = useState(false);
+    const [valueBookingForm, setValueBookingForm] = useState('');
+    const [visibilityBookingForm, setBookingFormVisibility] = useState(false);
     const [date, setDate] = useState<Date | Date[] | undefined>(undefined);
+    const [selectedTime, setTime] = useState<any>(null);
+    const [selectedSubject, setSubject] = useState<any>(null);
 
     function dialogClose() {
         setDialogVisibility(false);
@@ -23,24 +27,54 @@ const TuitionBooking = () => {
         setDialogVisibility(true);
     }
 
-  const renderFooter = () => {
-    return (
-      <div>
-        <Button
-          label="Accept"
-          icon="pi pi-times"
-          onClick={() => setDialogVisibility(false)}
-          className="p-button-text"
-        />
-        <Button
-          label="Reject"
-          icon="pi pi-check"
-          onClick={() => setDialogVisibility(false)}
-          autoFocus
-        />
-      </div>
-    );
-  };
+    function closeBookingForm()
+    {
+        setBookingFormVisibility(false);
+    }
+
+    function showBookingForm()
+    {
+        setBookingFormVisibility(true);
+
+    }
+
+    const renderBookingFormFooter = () => {
+      return (
+        <div>
+          <Button
+            label="Cancel"
+            icon="pi pi-times"
+            onClick={() => setBookingFormVisibility(false)}
+            className="p-button-text"
+          />
+          <Button
+            label="Book"
+            icon="pi pi-check"
+            onClick={() => setBookingFormVisibility(false)}
+            autoFocus
+          />
+        </div>
+      );
+    };
+
+    const renderFooter = () => {
+      return (
+        <div>
+          <Button
+            label="Accept"
+            icon="pi pi-times"
+            onClick={() => setDialogVisibility(false)}
+            className="p-button-text"
+          />
+          <Button
+            label="Reject"
+            icon="pi pi-check"
+            onClick={() => setDialogVisibility(false)}
+            autoFocus
+          />
+        </div>
+      );
+    };
 
     useEffect(() => {
         const url = getUrl(Subdomain.ACCOUNT_MGR, '/health')
@@ -57,12 +91,36 @@ const TuitionBooking = () => {
             setSelectedCity1(e.value);
         }
 
+     const onTimeChange = (e: { value: any}) => {
+            setTime(e.value);
+        }
+
+     const onSubjectChange = (e: { value: any}) => {
+            setSubject(e.value);
+        }
+
+    const time =[
+                { name: '1PM', code: '1PM' },
+                { name: '2PM', code: '2PM' },
+                { name: '3PM', code: '3PM' },
+                { name: '4PM', code: '4PM' },
+                { name: '5PM', code: '5PM' }
+                ];
+
     const cities = [
             { name: 'New York', code: 'NY' },
             { name: 'Rome', code: 'RM' },
             { name: 'London', code: 'LDN' },
             { name: 'Istanbul', code: 'IST' },
             { name: 'Paris', code: 'PRS' }
+        ];
+
+    const subjects = [
+            { name: 'English', code: 'English' },
+            { name: 'History', code: 'History' },
+            { name: 'Math', code: 'Math' },
+            { name: 'Science', code: 'Science' },
+            { name: 'Social Studies', code: 'Social Studies' }
         ];
     return (
         <div>
@@ -105,7 +163,39 @@ const TuitionBooking = () => {
                 </div>
             </div>
             <div>
-                <Calendar inline value={date} onChange={(e) => setDate(e.value)}></Calendar>
+                <Calendar id="TuitionCalendar" inline value={date} onChange={showBookingForm}></Calendar>
+            </div>
+            <div>
+  				<Dialog
+  					header='Booking Form'
+  					visible={visibilityBookingForm}
+  					onHide={closeBookingForm}
+  					modal={true}
+  					footer={renderBookingFormFooter()}
+  					maximizable={true}>
+  					<div>
+  					<table>
+  				        <colgroup>
+                            <col width="50%" text-align="left"/>
+                            <col width="50%" />
+                        </colgroup>
+                        <tr>
+  					        <td><label className="flex my-2 text-lg">Date</label></td>
+                            <td><label id="Date" className="flex my-2 text-lg"></label></td>
+                        </tr>
+                        <tr>
+  					        <td><label className="flex my-2 text-lg">Time</label></td>
+  					        <Dropdown optionLabel="name" value={selectedTime} options={time}
+                                      onChange={onTimeChange}/>
+                        </tr>
+                        <tr>
+  					        <td><label className="flex my-2 text-lg">Subject</label></td>
+                            <Dropdown optionLabel="name" value={selectedSubject} options={subjects}
+                                      onChange={onSubjectChange}/>
+                        </tr>
+  					</table>
+  					</div>
+                </Dialog>
             </div>
             <div>
                 <label className="flex my-2 text-xl">Request List</label>
