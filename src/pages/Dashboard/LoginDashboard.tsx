@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { AuthenticationStorage } from "../../constants/Model";
-import { AccountType, PageLink, SessionStorage } from "../../constants/Constant";
-import { Fieldset } from 'primereact/fieldset';
+import { AccountType, PageLink, SessionStorage, AccountTypeList } from "../../constants/Constant";
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 import { Dropdown } from 'primereact/dropdown';
@@ -17,7 +16,7 @@ const LoginDashboard = () => {
 
     const [route, setRoute] = useState(PageLink.DASHBOARD_LOGIN);
 
-    const accountTypeList = [ { name: 'Student', code: AccountType.STUDENT }, { name: 'Tutor', code: AccountType.TUTOR } ];
+    const accountTypeList = AccountTypeList;
 
     const accountTypeChange = (e: { value: any }) => { setAccountType(e.value); };
 
@@ -66,12 +65,15 @@ const LoginDashboard = () => {
                     <Card className="col-12 my-auto py-8">
                         <div className="grid">
                             <div className="col-12 text-center">
-                                <img src={require('../../resources/TutorPeer.png')} width={400} height={120} alt=""/>
+                                <Link to={PageLink.DEFAULT}>
+                                    <img src={require('../../resources/TutorPeer.png')} width={400} height={120} alt=""/>
+                                </Link>
                             </div>
                             <div className="mx-auto my-5 grid align-items-center gap-4 col-6">
                                 <InputText type="text" className="col-12"  value={name} onChange={(e) => setName(e.target.value)} placeholder="Name" />
                                 <Password  className="col-12 p-0" inputClassName="col-12"  value={password} onChange={(e) => setPassword(e.target.value)}
                                            placeholder="Password" feedback={false}/>
+                                <Dropdown optionLabel="name" optionValue="code" value={accountType} options={accountTypeList} onChange={accountTypeChange}/>
                                 <div className="flex flex-grow-1 flex-row-reverse">
                                    <Link to={route} onClick={redirectScreen}>
                                         <Button label="Login" className="p-button-primary flex" />

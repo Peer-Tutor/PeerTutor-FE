@@ -10,7 +10,7 @@ const BaseLayout = (props:BaseLayoutProps) => {
     return (
         <div className="global-component">
             <NavBar authenticated={props.authenticated}/>
-            <div className="p-4">
+            <div className="px-4 pt-4">
                 <Outlet />
             </div>
         </div>

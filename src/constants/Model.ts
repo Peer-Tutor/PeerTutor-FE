@@ -3,4 +3,6 @@ export type AuthenticationStorage = {
     sessionToken?: string;
     accountType?: string;
     homeLink?: string;
+    intro?: string;
+    subject?: string;
 };

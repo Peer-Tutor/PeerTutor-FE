@@ -6,6 +6,7 @@ import { PrimeReactSample } from '../../pages/PrimeReactSample/PrimeReactSample'
 import { TutorDashboard } from '../../pages/Dashboard/TutorDashboard';
 import { TuteeDashboard } from '../../pages/Dashboard/TuteeDashboard';
 import { LoginDashboard } from '../../pages/Dashboard/LoginDashboard';
+import { WelcomeDashboard } from '../../pages/Dashboard/WelcomeDashboard';
 
 import { ManageSessions } from '../../pages/ManageSessions/ManageSessions';
 import { AccountManagement } from '../../pages/AccountManagement/AccountManagement';
@@ -16,6 +17,7 @@ const RouteConfig = () => {
     return (
         <Routes>
             <Route path="/" element={<BaseLayout authenticated={false}/>}>
+                <Route path="" element={<WelcomeDashboard />} />
                 <Route path="library" element={<PrimeReactSample />} />
                 <Route path="*" element={<PageNotFound />} />
             </Route>
