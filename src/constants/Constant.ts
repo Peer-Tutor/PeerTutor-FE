@@ -12,6 +12,7 @@ export enum PageLink {
     MANAGE_SESSION = '/dashboard/manage-session',
     MANAGE_ACCOUNT = '/dashboard/manage-account',
     TUITION_BOOKING = '/dashboard/tuition-booking',
+    TUITION_CALENDAR = '/dashboard/tuition-calendar',
 }
 
 export enum SessionStorage {

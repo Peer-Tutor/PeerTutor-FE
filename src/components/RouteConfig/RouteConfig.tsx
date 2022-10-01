@@ -11,6 +11,7 @@ import { WelcomeDashboard } from '../../pages/Dashboard/WelcomeDashboard';
 import { ManageSessions } from '../../pages/ManageSessions/ManageSessions';
 import { AccountManagement } from '../../pages/AccountManagement/AccountManagement';
 import { TuitionBooking } from '../../pages/TuitionBooking/TuitionBooking';
+import { TutorCalendar } from '../../pages/TutorCalendar/TutorCalendar';
 import { PageNotFound } from "../../pages/PageNotFound/PageNotFound";
 
 const RouteConfig = () => {
@@ -27,6 +28,7 @@ const RouteConfig = () => {
                 <Route path="manage-session" element={<ManageSessions />} />
                 <Route path="manage-account" element={<AccountManagement />} />
                 <Route path="tuition-booking" element={<TuitionBooking />} />
+                <Route path="TutorCalendar" element={<TutorCalendar />} />
                 <Route path="*" element={<PageNotFound />} />
             </Route>
             <Route path="/account" element={<LoginDashboard />} />
