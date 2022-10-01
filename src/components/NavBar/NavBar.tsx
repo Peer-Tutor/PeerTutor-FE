@@ -1,19 +1,46 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { AuthenticationStorage } from "../../constants/Model";
-import { AccountType, PageLink, SessionStorage } from "../../constants/Constant";
+import { Link, useNavigate  } from "react-router-dom";
+import { Subdomain } from "../../constants/Subdomain";
+import { AuthenticationStorage, AccountResponse } from "../../constants/Model";
+import { AccountType, PageLink, SessionStorage, AccountTypeList, SubjectList } from "../../constants/Constant";
 import styles from "src/style-sheet/global.module.css";
+import { getUrl } from "../../utils/apiUtils";
+import axios from "axios";
 
 type BaseLayoutProps = {
     authenticated: boolean;
 };
 export default function NavBar(props: BaseLayoutProps) {
     const [session, setSession] = useState<AuthenticationStorage>({});
+    const navigate = useNavigate();
 
     useEffect(() => {
         const sessionToken = sessionStorage.getItem(SessionStorage.ACCOUNT);
-        if(sessionToken != null){ setSession(JSON.parse(sessionToken)); }
-    }, [])
+        if(sessionToken != null){
+            const token = JSON.parse(sessionToken);
+            setSession(token);
+            let url = '';
+            if(token.accountType == AccountType.STUDENT){
+                url = getUrl(Subdomain.STUDENT_MGR, '/student');
+            }else{
+                url = getUrl(Subdomain.TUTOR_MGR, '/tutor');
+            }
+
+            axios.get<AccountResponse>(url, { params: {
+                name: token.name ?? '',
+                sessionToken: token.sessionToken ?? '',
+                accountName: token.name,
+                id: token.profileId ?? ''
+            } }).then(res => {
+                token.displayName = res.data.displayName;
+                token.profileId = res.data.id;
+                sessionStorage.setItem(SessionStorage.ACCOUNT, JSON.stringify(token));
+                setSession(token);
+            }).catch(err => {
+                console.log('error!', err);
+            });
+        }
+    }, [navigate])
 
     const clearSession = () =>{ sessionStorage.removeItem(SessionStorage.ACCOUNT); }
 
@@ -40,7 +67,7 @@ export default function NavBar(props: BaseLayoutProps) {
                         <li className="flex flex-grow-1 align-items-center text-right mx-3 text-4xl flex-row-reverse" >|</li>
                         <li className="flex align-items-center mx-2"><i className="text-3xl fa-regular fa-circle-user"></i></li>
                         <li className="flex align-self-center mx-3 flex-column">
-                            <label className="text-base font-semibold">{session.name}</label>
+                            <label className="text-base font-semibold">{session.displayName ?? session.name}</label>
                             <label className="text-sm font-normal">{session.accountType}</label>
                         </li>
                         <li className="flex align-items-center ml-5 mr-2">
@@ -78,7 +105,7 @@ export default function NavBar(props: BaseLayoutProps) {
                         <li className="flex flex-grow-1 align-items-center text-right mx-3 text-4xl flex-row-reverse" >|</li>
                         <li className="flex align-items-center mx-2"><i className="text-3xl fa-regular fa-circle-user"></i></li>
                         <li className="flex align-self-center mx-3 flex-column">
-                            <label className="text-base font-semibold">{session.name}</label>
+                            <label className="text-base font-semibold">{session.displayName ?? session.name}</label>
                             <label className="text-sm font-normal">{session.accountType}</label>
                         </li>
                         <li className="flex align-items-center ml-5 mr-2">

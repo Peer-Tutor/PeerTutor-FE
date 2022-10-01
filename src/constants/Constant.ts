@@ -32,9 +32,32 @@ export enum Subject {
     TAMIL = "Tamil"
 }
 
+export enum Certificate {
+    OLEVEL = "O-Level",
+    ALEVEL = "A-Level",
+    DIPLOMA = "Diploma",
+    BACHELOR = "Bachelor",
+    MASTER = "Master",
+    DOCTORATE = "Doctorate"
+}
+
 export const AccountTypeList = [ { name: 'Student', code: AccountType.STUDENT }, { name: 'Tutor', code: AccountType.TUTOR } ];
+
 export const SubjectList = [
     { name: Subject.BIOLOGY, code: Subject.BIOLOGY },
+    { name: Subject.CHEMISTRY, code: Subject.CHEMISTRY },
+    { name: Subject.CHINESE, code: Subject.CHINESE },
+    { name: Subject.ENGLISH, code: Subject.ENGLISH },
+    { name: Subject.GEOGRAPHY, code: Subject.GEOGRAPHY },
+    { name: Subject.HISTORY, code: Subject.HISTORY },
+    { name: Subject.MALAY, code: Subject.MALAY },
+    { name: Subject.MATH, code: Subject.MATH },
+    { name: Subject.PHYSICS, code: Subject.PHYSICS },
+    { name: Subject.TAMIL, code: Subject.TAMIL }
+];
+
+export const CertificateList = [
+    { name: Certificate.OLEVEL, code: Certificate.OLEVEL },
     { name: Subject.CHEMISTRY, code: Subject.CHEMISTRY },
     { name: Subject.CHINESE, code: Subject.CHINESE },
     { name: Subject.ENGLISH, code: Subject.ENGLISH },

@@ -1,35 +1,58 @@
-import React, { useEffect, useState } from "react";
-import { AuthenticationStorage } from "../../constants/Model";
+import React, { useEffect, useState, useRef } from "react";
+import { Subdomain } from "../../constants/Subdomain";
+import { AuthenticationStorage, AccountResponse } from "../../constants/Model";
 import { AccountType, PageLink, SessionStorage, AccountTypeList } from "../../constants/Constant";
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
 import { Password } from 'primereact/password';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { getUrl } from "../../utils/apiUtils";
+import axios from "axios";
 
 const LoginDashboard = () => {
+    const navigate = useNavigate();
     const [registerView, setRegister] = useState(false);
     const [accountType, setAccountType] = useState(AccountType.STUDENT);
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
-
     const [route, setRoute] = useState(PageLink.DASHBOARD_LOGIN);
 
     const accountTypeList = AccountTypeList;
-
     const accountTypeChange = (e: { value: any }) => { setAccountType(e.value); };
 
-    const redirectScreen = () =>{
-        if(accountType == AccountType.STUDENT){
-            setRoute(PageLink.DASHBOARD_STUDENT);
-            var sessionToken = { name: 'Test', sessionToken: 'ABCDS', accountType: AccountType.STUDENT, homeLink: PageLink.DASHBOARD_STUDENT };
-            sessionStorage.setItem(SessionStorage.ACCOUNT, JSON.stringify(sessionToken));
-        }else{
-            setRoute(PageLink.DASHBOARD_TUTOR);
-            var sessionToken = { name: 'Test', sessionToken: 'ABCDS', accountType: AccountType.TUTOR, homeLink: PageLink.DASHBOARD_TUTOR };
-            sessionStorage.setItem(SessionStorage.ACCOUNT, JSON.stringify(sessionToken));
-        }
+    const loginAccount = () =>{
+        const url = getUrl(Subdomain.ACCOUNT_MGR, '/account')
+        axios.get<AccountResponse>(url, { params: { name: name, password: password} }).then(res => {
+            if(accountType == AccountType.STUDENT){
+                var sessionToken = { name: name, sessionToken: res.data.sessionToken, accountType: AccountType.STUDENT, homeLink: PageLink.DASHBOARD_STUDENT };
+                sessionStorage.setItem(SessionStorage.ACCOUNT, JSON.stringify(sessionToken));
+                navigate(PageLink.DASHBOARD_STUDENT);
+            }else{
+                var sessionToken = { name: name, sessionToken: res.data.sessionToken, accountType: AccountType.TUTOR, homeLink: PageLink.DASHBOARD_TUTOR };
+                sessionStorage.setItem(SessionStorage.ACCOUNT, JSON.stringify(sessionToken));
+                navigate(PageLink.DASHBOARD_TUTOR);
+            }
+        }).catch(err => {
+            console.log('error!', err);
+        });
+    };
+
+    const registerAccount = () =>{
+        const url = getUrl(Subdomain.ACCOUNT_MGR, '/account')
+        axios.post(url, {name: name, password: password, usertype: accountType}).then(res => {
+           if(accountType == AccountType.STUDENT){
+                var sessionToken = { name: res.data.name, sessionToken: res.data.sessionToken, accountType: AccountType.STUDENT, homeLink: PageLink.DASHBOARD_STUDENT };
+                sessionStorage.setItem(SessionStorage.ACCOUNT, JSON.stringify(sessionToken));
+           }else{
+                var sessionToken = {  name: res.data.name, sessionToken: res.data.sessionToken, accountType: AccountType.TUTOR, homeLink: PageLink.DASHBOARD_TUTOR };
+                sessionStorage.setItem(SessionStorage.ACCOUNT, JSON.stringify(sessionToken));
+           }
+           navigate(PageLink.MANAGE_ACCOUNT);
+        }).catch(err => {
+            console.log('error!', err);
+        });
     };
 
     if(registerView){
@@ -47,7 +70,7 @@ const LoginDashboard = () => {
                                            placeholder="Password" feedback={false}/>
                                 <Dropdown optionLabel="name" optionValue="code" value={accountType} options={accountTypeList} onChange={accountTypeChange}/>
                                 <div className="flex flex-grow-1 flex-row-reverse">
-                                   <Link to={route} onClick={redirectScreen}>
+                                   <Link to={route} onClick={registerAccount}>
                                         <Button label="Register" className="p-button-primary flex" />
                                    </Link>
                                         <Button label="Login" className="p-button-secondary" onClick={()=>setRegister(false)}/>
@@ -73,9 +96,8 @@ const LoginDashboard = () => {
                                 <InputText type="text" className="col-12"  value={name} onChange={(e) => setName(e.target.value)} placeholder="Name" />
                                 <Password  className="col-12 p-0" inputClassName="col-12"  value={password} onChange={(e) => setPassword(e.target.value)}
                                            placeholder="Password" feedback={false}/>
-                                <Dropdown optionLabel="name" optionValue="code" value={accountType} options={accountTypeList} onChange={accountTypeChange}/>
                                 <div className="flex flex-grow-1 flex-row-reverse">
-                                   <Link to={route} onClick={redirectScreen}>
+                                   <Link to={route} onClick={loginAccount}>
                                         <Button label="Login" className="p-button-primary flex" />
                                     </Link>
                                         <Button label="Register" className="p-button-secondary" onClick={()=>setRegister(true)}/>

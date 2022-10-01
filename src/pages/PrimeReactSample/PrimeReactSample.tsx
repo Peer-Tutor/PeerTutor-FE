@@ -10,14 +10,9 @@ import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
 
 type ResponseDataExample = string;
-type ResponseJsonExample = {
-    name: string;
-    sessionToken: string;
-    accountType: string;
-};
+
 const PrimeReactSample = () => {
     const [state, setState] = useState<ResponseDataExample>() // todo type script
-    const [json, setJson] = useState<ResponseJsonExample>() // todo type script
     const [selectedCity1, setSelectedCity1] = useState<any>(null);
     const [value1, setValue1] = useState('');
     const [prop, setProp] = useState<AuthenticationStorage>({});
@@ -25,20 +20,13 @@ const PrimeReactSample = () => {
     useEffect(() => {
         const props = sessionStorage.getItem(SessionStorage.ACCOUNT);
         if(props != null){ setProp(JSON.parse(props)); }
-        const url = getUrl(Subdomain.ACCOUNT_MGR, '/health')
+        const url = getUrl(Subdomain.ACCOUNT_MGR, '/health');
         axios.get<ResponseDataExample>(url).then(res => {
             console.log("res.data=", res.data)
             setState(res.data)
         }).catch(err => {
             console.log('error!', err)
-        })
-        const url2 = getUrl(Subdomain.ACCOUNT_MGR, '/account')
-        axios.get<ResponseJsonExample>(url2).then(res => {
-            console.log("res.data=", res.data)
-            setJson(res.data)
-        }).catch(err => {
-            console.log('error!', err)
-        })
+        });
     }, [])
     // console.log('page one rendered')
 

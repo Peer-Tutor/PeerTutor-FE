@@ -28,7 +28,7 @@ const RouteConfig = () => {
                 <Route path="manage-session" element={<ManageSessions />} />
                 <Route path="manage-account" element={<AccountManagement />} />
                 <Route path="tuition-booking" element={<TuitionBooking />} />
-                <Route path="TutorCalendar" element={<TutorCalendar />} />
+                <Route path="tuition-calendar" element={<TutorCalendar />} />
                 <Route path="*" element={<PageNotFound />} />
             </Route>
             <Route path="/account" element={<LoginDashboard />} />
