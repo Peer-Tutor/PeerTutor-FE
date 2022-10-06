@@ -1,39 +1,37 @@
 import axios from "axios"
-import React, { useEffect, useState } from "react";
-import { Subdomain } from "../../constants/Subdomain"
+import React, { useEffect, useState, useRef } from "react";
+import { Subdomain } from "../../constants/Subdomain";
+import { AuthenticationStorage, AccountResponse } from "../../constants/Model";
+import { AccountType, PageLink, SessionStorage, AccountTypeList } from "../../constants/Constant";
 import { getUrl } from "../../utils/apiUtils"
+import { Link, useNavigate } from "react-router-dom";
 import styles from './PrimeReactSample.module.css'; //'./PrimeReactSample.module.css'
 import { Button } from 'primereact/button';
 import { Dropdown } from 'primereact/dropdown';
-import { InputText } from 'primereact/inputtext';
 import { Dialog } from 'primereact/dialog';
 import { Calendar } from 'primereact/calendar';
+import { RequestListCard } from './RequestListCard';
+import { Card } from 'primereact/card';
 
 const TuitionBooking = () => {
     const [state, setState] = useState() // todo type script
     const [selectedCity1, setSelectedCity1] = useState<any>(null);
-    const [value1, setValue1] = useState('');
-    const [visibility, setDialogVisibility] = useState(false);
     const [valueBookingForm, setValueBookingForm] = useState('');
     const [visibilityBookingForm, setBookingFormVisibility] = useState(false);
-    const [date, setDate] = useState<Date | Date[] | undefined>(undefined);
+    const [date, setDate] = useState(new Date());
     const [selectedTime, setTime] = useState<any>(null);
     const [selectedSubject, setSubject] = useState<any>(null);
-
-    function dialogClose() {
-        setDialogVisibility(false);
-    }
-    function handleClick() {
-        setDialogVisibility(true);
-    }
+    const [isTutorView, setTutorView] = useState('');
 
     function closeBookingForm()
     {
         setBookingFormVisibility(false);
     }
 
-    function showBookingForm()
-    {
+    const showBookingForm = (e: { value: any }) => {
+        const newDate = e.value;
+        setDate(newDate);
+        console.log(newDate);
         setBookingFormVisibility(true);
 
     }
@@ -57,34 +55,34 @@ const TuitionBooking = () => {
       );
     };
 
-    const renderFooter = () => {
-      return (
-        <div>
-          <Button
-            label="Accept"
-            icon="pi pi-times"
-            onClick={() => setDialogVisibility(false)}
-            className="p-button-text"
-          />
-          <Button
-            label="Reject"
-            icon="pi pi-check"
-            onClick={() => setDialogVisibility(false)}
-            autoFocus
-          />
-        </div>
-      );
-    };
-
     useEffect(() => {
-        const url = getUrl(Subdomain.ACCOUNT_MGR, '/health')
-        axios.get(url).then(res=>{
-            console.log(res)
-            //setState(res)
-        }).catch(err=>{
-            console.log('error!' , err)
-        })
-    }, [])
+        const sessionToken = sessionStorage.getItem(SessionStorage.ACCOUNT);
+        // temporary, can remove
+        setTutorView("true");
+
+        if(sessionToken != null){
+            const token = JSON.parse(sessionToken);
+            let url = '';
+            if(token.accountType == AccountType.STUDENT){
+                url = getUrl(Subdomain.STUDENT_MGR, '/student');
+                setTutorView("false");
+            }else{
+                url = getUrl(Subdomain.TUTOR_MGR, '/tutor');
+                setTutorView("true");
+            }
+
+            axios.get<AccountResponse>(url, { params: {
+                name: token.name ?? '',
+                sessionToken: token.sessionToken ?? '',
+                accountName: token.name,
+                id: ''
+            } }).then(res => {
+                setSubject(res.data.subjects ?? '');
+            }).catch(err => {
+                console.log('error!', err);
+            });
+        };
+    }, []);
     // console.log('page one rendered')
 
      const onCityChange = (e: { value: any}) => {
@@ -107,14 +105,6 @@ const TuitionBooking = () => {
                 { name: '5PM', code: '5PM' }
                 ];
 
-    const cities = [
-            { name: 'New York', code: 'NY' },
-            { name: 'Rome', code: 'RM' },
-            { name: 'London', code: 'LDN' },
-            { name: 'Istanbul', code: 'IST' },
-            { name: 'Paris', code: 'PRS' }
-        ];
-
     const subjects = [
             { name: 'English', code: 'English' },
             { name: 'History', code: 'History' },
@@ -125,42 +115,7 @@ const TuitionBooking = () => {
     return (
         <div>
             <div className="global-card">
-                <label className="text-3xl  text-orange">Tuition Booking</label>
-                <div className="flex align-items-center w-6 mt-3 mb-6 gap-3">
-                    <div className="flex flex-column align-items-center gap-3">
-                        <Button label="Save"  className="p-button"/>
-                        <label>Default Button</label>
-                    </div>
-                    <div className="flex flex-column align-items-center gap-3">
-                        <Button label="Save"  className="p-button-primary"/>
-                        <label>Primary Button</label>
-                    </div>
-                    <div className="flex flex-column align-items-center gap-3">
-                        <Button label="Save"  className="p-button-secondary"/>
-                        <label>Secondary Button</label>
-                    </div>
-                    <div className="flex flex-column align-items-center gap-3">
-                        <Button label="Cancel"  className="p-button-tertiary"/>
-                        <label>Tertiary Button</label>
-                    </div>
-                </div>
-                <div className="flex align-items-center w-6 my-3 gap-3">
-                    <div className="flex flex-column align-items-center gap-3">
-                        <Dropdown optionLabel="name" value={selectedCity1} options={cities}
-                                  onChange={onCityChange}
-                                  placeholder="Select a City"
-                                  />
-                    </div>
-                    <div className="flex flex-column align-items-center">
-                        <InputText value={value1} onChange={(e) => setValue1(e.target.value)} placeholder="Search"/>
-                    </div>
-                    <div className="flex flex-column align-items-center">
-                        <span className="p-input-icon-left">
-                            <i className="fa-solid fa-magnifying-glass"></i>
-                            <InputText value={value1} onChange={(e) => setValue1(e.target.value)} placeholder="Search"/>
-                        </span>
-                    </div>
-                </div>
+                <label className="text-3xl text-orange">Tuition Booking</label>
             </div>
             <div>
                 <Calendar id="TuitionCalendar" inline value={date} onChange={showBookingForm}></Calendar>
@@ -181,7 +136,7 @@ const TuitionBooking = () => {
                         </colgroup>
                         <tr>
   					        <td><label className="flex my-2 text-lg">Date</label></td>
-                            <td><label id="Date" className="flex my-2 text-lg"></label></td>
+                            <td><label id="Date" className="flex my-2 text-lg">{date?.toLocaleDateString()}</label></td>
                         </tr>
                         <tr>
   					        <td><label className="flex my-2 text-lg">Time</label></td>
@@ -196,56 +151,9 @@ const TuitionBooking = () => {
   					</table>
   					</div>
                 </Dialog>
-            </div>
+            </div><br/>
             <div>
-                <label className="flex my-2 text-xl">Request List</label>
-                <div>
-                    <table>
-                        <colgroup>
-                            <col width="25%" text-align="left"/>
-                            <col width="75%" />
-                        </colgroup>
-                        <tr>
-                          <th>Student Name</th>
-                        </tr>
-                        <div id="StudentList" >
-                            <Button label="Student 1"  className="p-button" onClick={handleClick}/><br/>
-                            <Button label="Student 2"  className="p-button" onClick={handleClick}/>
-  				            <Dialog
-  				            	header='Student Information'
-  				            	visible={visibility}
-  				            	onHide={dialogClose}
-  				            	modal={true}
-  				            	footer={renderFooter()}
-  				            	maximizable={true}>
-  				            	<div>
-  				            	<table>
-  				                    <colgroup>
-                                        <col width="50%" text-align="left"/>
-                                        <col width="50%" />
-                                    </colgroup>
-                                    <tr>
-  				            	        <td><label className="flex my-2 text-lg">Student</label></td>
-                                        <td><label id="StudentName" className="flex my-2 text-lg">Vanessa</label></td>
-                                    </tr>
-                                    <tr>
-  				            	        <td><label className="flex my-2 text-lg">Subject</label></td>
-                                        <td><label id="Subject" className="flex my-2 text-lg">Math</label></td>
-                                    </tr>
-                                    <tr>
-  				            	        <td><label className="flex my-2 text-lg">Date</label></td>
-                                        <td><label id="Date" className="flex my-2 text-lg">18/9/2022</label></td>
-                                    </tr>
-                                    <tr>
-  				            	        <td><label className="flex my-2 text-lg">Time</label></td>
-                                        <td><label id="Time" className="flex my-2 text-lg">4:00pm</label></td>
-                                    </tr>
-  				            	</table>
-  				            	</div>
-                            </Dialog>
-                        </div>
-                    </table>
-                </div>
+                <RequestListCard tutorView={isTutorView}/>
             </div>
         </div>
     )
