@@ -13,6 +13,7 @@ import { AccountManagement } from '../../pages/AccountManagement/AccountManageme
 import { TuitionBooking } from '../../pages/TuitionBooking/TuitionBooking';
 import { TutorCalendar } from '../../pages/TutorCalendar/TutorCalendar';
 import { PageNotFound } from "../../pages/PageNotFound/PageNotFound";
+import { SearchTutor } from "../../pages/SearchTutor/SearchTutor";
 
 const RouteConfig = () => {
     return (
@@ -29,6 +30,7 @@ const RouteConfig = () => {
                 <Route path="manage-account" element={<AccountManagement />} />
                 <Route path="tuition-booking" element={<TuitionBooking />} />
                 <Route path="tuition-calendar" element={<TutorCalendar />} />
+                <Route path="search-tutor" element={<SearchTutor />} />
                 <Route path="*" element={<PageNotFound />} />
             </Route>
             <Route path="/account" element={<LoginDashboard />} />
