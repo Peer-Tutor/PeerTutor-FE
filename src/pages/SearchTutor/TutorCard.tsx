@@ -25,6 +25,7 @@ const TutorCard = (props: { tutorId: string, subject: string, name: string }) =>
                         <p className="m-0 mt-2"><span><b>Certifications: </b></span>O-Level | A-Level</p>
                     </div>
                 </div>
+                <Button icon="pi pi-bookmark" className="p-button-rounded p-button-outlined" aria-label="Bookmark" />
                 <Button label="Schedule Tuition" onClick={() => { onClickHandler(tutorId) }} className="p-button-primary" />
             </div>
         </>
