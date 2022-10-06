@@ -13,6 +13,7 @@ export enum PageLink {
     MANAGE_ACCOUNT = '/dashboard/manage-account',
     TUITION_BOOKING = '/dashboard/tuition-booking',
     TUITION_CALENDAR = '/dashboard/tuition-calendar',
+    SEARCH_TUTOR = '/dashboard/search-tutor'
 }
 
 export enum SessionStorage {
