@@ -17,8 +17,9 @@ const RequestCard = (props: StudentInfo) => {
    return (
            <Card className="my-3">
                 <div className="flex flex-row align-items-center gap-2">
-                     <div className="flex">
-                     </div>
+                    <div className="mr-6">
+                        <i className="fa-regular fa-user fa-3x"></i>
+                    </div>
                      <div className="flex">
                         <div className="flex-row">
                             <label id="Name" className="flex my-2 text-base">{props.Name}</label>

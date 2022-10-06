@@ -23,7 +23,7 @@ const RequestListCard = (props: AccountInfo) => {
                 </div>
                 <div className="grid">
                     <div className="col-12 md:col-4">
-                        <ScrollPanel style={{ width: '100%', height: '80%' }}>
+                        <ScrollPanel style={{ width: '68%', height: '80%' }}>
                              <RequestCard Name="Student1" Subject="Math" DateTime="21 Aug 2022 13:00"/>
                              <RequestCard Name="Student2" Subject="English" DateTime="21 Aug 2022 14:00"/>
                         </ScrollPanel>
