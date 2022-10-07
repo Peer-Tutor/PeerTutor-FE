@@ -42,7 +42,7 @@ const SearchTutor = () => {
                 {tutorList && tutorList?.length > 0 ? tutorList?.map((tutor, idx) => {
                     console.log(tutor.introduction)
                     return <TutorCard key={idx} intro={tutor.introduction} certs={tutor.certificates} tutorId={tutor.id} subject={tutor.subjects} name={tutor.displayName} />
-                }) : undefined}
+                }) : <p className="text-center">No tutors found.</p>}
                 <Paginator rows={10} totalRecords={120} first={0} onPageChange={(e) => { }}></Paginator>
             </Card>
         </div>
