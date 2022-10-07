@@ -3,9 +3,9 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PageLink } from "../../constants/Constant";
 
-
-const TutorCard = (props: { tutorId: string, subject: string, name: string }) => {
-    const { tutorId, subject, name, } = props
+type TutorCardProps =  { tutorId: string, subject: string, name: string, certs: string, intro: string }
+const TutorCard = (props: TutorCardProps) => {
+    const { tutorId, subject, name, certs, intro } = props
     const navigate = useNavigate();
 
     const onClickHandler = (id: string) => {
@@ -20,9 +20,10 @@ const TutorCard = (props: { tutorId: string, subject: string, name: string }) =>
                         <i className="fa-regular fa-user fa-3x"></i>
                     </div>
                     <div className="flex flex-column">
-                        <h3 className="m-0">Law Jia Jie</h3>
-                        <p className="m-0 mt-3"><span><b>Subject: </b></span>English | Math | Chinese</p>
-                        <p className="m-0 mt-2"><span><b>Certifications: </b></span>O-Level | A-Level</p>
+                        <h3 className="m-0">{name ? name : 'undefined'}</h3>
+                        <i><p className="m-0 mt-1">{intro ? intro : 'undefined'}</p></i>
+                        <p className="m-0 mt-3"><span><b>Subject: </b></span>{subject ? subject.replace(';', ' | ') : 'undefined'}</p>
+                        <p className="m-0 mt-2"><span><b>Certifications: </b></span>{certs.replace(';', ' | ')}</p>
                     </div>
                 </div>
                 <Button icon="pi pi-bookmark" className="p-button-rounded p-button-outlined" aria-label="Bookmark" />
