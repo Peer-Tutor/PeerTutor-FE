@@ -3,7 +3,7 @@ import { Link, useNavigate  } from "react-router-dom";
 import { Subdomain } from "../../constants/Subdomain";
 import { AuthenticationStorage, AccountResponse } from "../../constants/Model";
 import { AccountType, PageLink, SessionStorage, AccountTypeList, SubjectList } from "../../constants/Constant";
-import styles from "src/style-sheet/global.module.css";
+// import styles from "src/style-sheet/global.module.css";
 import { getUrl } from "../../utils/apiUtils";
 import axios from "axios";
 

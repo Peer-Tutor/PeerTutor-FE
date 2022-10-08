@@ -34,7 +34,6 @@ const SearchTutor = () => {
         });
     }, [])
 
-
     return (
         <div>
             <Card className="flex flex-column px-4 py-4 w-8">

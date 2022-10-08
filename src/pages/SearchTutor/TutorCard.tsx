@@ -3,13 +3,13 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PageLink } from "../../constants/Constant";
 
-type TutorCardProps =  { tutorId: string, subject: string, name: string, certs: string, intro: string }
+type TutorCardProps = { tutorId: string, subject: string, name: string, certs: string, intro: string }
 const TutorCard = (props: TutorCardProps) => {
     const { tutorId, subject, name, certs, intro } = props
     const navigate = useNavigate();
 
     const onClickHandler = (id: string) => {
-        // navigate(PageLink.DASHBOARD_STUDENT, {tutorId: tutorId});
+        navigate(PageLink.BOOK_TUITION, { state: { tutorId: tutorId } });
 
     }
     return (
