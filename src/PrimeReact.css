@@ -1,3 +1,4 @@
+.p-button.p-button-icon-only.p-button-rounded,
 .p-button, .p-button:enabled:hover {
     border-radius: 1rem;
     margin: 0.25rem;
@@ -26,6 +27,7 @@
 .p-button:enabled:focus, .p-button-primary:enabled:focus, .p-button-secondary:enabled:focus, .p-button-tertiary:enabled:focus{
     box-shadow: none !important;
 }
+
 
 .p-multiselect{
     border-radius: 1rem !important;

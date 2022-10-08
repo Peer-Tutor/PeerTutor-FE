@@ -17,7 +17,6 @@ const TutorDashboard = () => {
                                 subjects={'Chinese;English'}
                                 certificates={'Master;Bachelor'}
                 />
-                <DasboardActionCard tutorView={true}/>
             </div>
             <UpcomingActivities />
         </div>

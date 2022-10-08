@@ -29,7 +29,7 @@ const LoginDashboard = () => {
     const loginAccount = () => {
         const url = getUrl(Subdomain.ACCOUNT_MGR, '/account')
         axios.get<AccountResponse>(url, { params: { name: name, password: password } }).then(res => {
-            if (accountType == AccountType.STUDENT) {
+            if (res.data.usertype == AccountType.STUDENT) {
                 var sessionToken = { name: name, sessionToken: res.data.sessionToken, accountType: AccountType.STUDENT, homeLink: PageLink.DASHBOARD_STUDENT };
                 sessionStorage.setItem(SessionStorage.ACCOUNT, JSON.stringify(sessionToken));
                 navigate(PageLink.DASHBOARD_STUDENT);

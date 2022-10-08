@@ -32,10 +32,12 @@ export default function NavBar(props: BaseLayoutProps) {
                 accountName: token.name,
                 id: token.profileId ?? ''
             } }).then(res => {
-                token.displayName = res.data.displayName;
-                token.profileId = res.data.id;
-                sessionStorage.setItem(SessionStorage.ACCOUNT, JSON.stringify(token));
-                setSession(token);
+                if(res.data){
+                    token.displayName = res.data.displayName;
+                    token.profileId = res.data.id;
+                    sessionStorage.setItem(SessionStorage.ACCOUNT, JSON.stringify(token));
+                    setSession(token);
+                }
             }).catch(err => {
                 console.log('error!', err);
             });

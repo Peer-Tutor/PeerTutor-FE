@@ -43,12 +43,14 @@ const AccountManagement = () => {
                 accountName: token.name,
                 id: token.profileId ?? ''
             } }).then(res => {
-                token.displayName = res.data.displayName;
-                token.profileId = Number(res.data.displayName);
-                setName(res.data.displayName ?? token.name ?? '');
-                setIntro(res.data.introduction ?? '');
-                setSubject(res.data.subjects ? res.data.subjects.split(';') : []);
-                setCertificate(res.data.certificates ? res.data.certificates.split(';') : []);
+                if(res.data){
+                    token.displayName = res.data.displayName;
+                    token.profileId = Number(res.data.displayName);
+                    setName(res.data.displayName ?? token.name ?? '');
+                    setIntro(res.data.introduction ?? '');
+                    setSubject(res.data.subjects ? res.data.subjects.split(';') : []);
+                    setCertificate(res.data.certificates ? res.data.certificates.split(';') : []);
+                }
             }).catch(err => {
                 console.log('error!', err);
             });
