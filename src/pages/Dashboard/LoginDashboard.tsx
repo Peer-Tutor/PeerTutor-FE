@@ -90,7 +90,6 @@ const LoginDashboard = () => {
         return (
             <div className="global-component">
                 <Toast ref={toast} />
-
                 <div className="p-4 flex flex-column h-screen">
                     <Card className="col-12 my-auto py-8">
                         <div className="grid">
