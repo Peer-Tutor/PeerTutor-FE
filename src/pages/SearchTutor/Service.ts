@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Subdomain } from "../../constants/Subdomain";
 import { getSessionTokenValues, getUrl } from "../../utils/apiUtils";
+import { toast } from "../../utils/toastHooks";
 import { TutorOrdersResponse } from "./SearchTutor";
 
 
@@ -17,9 +18,11 @@ const searchTutor = (tutorName: string, setTutorList: React.Dispatch<React.SetSt
     }).then(res => {
         // console.log(res)
         setTutorList(res.data)
-    }).catch(err => {
-        console.log('error!', err);
-    });
+    })
+        .catch(err => {
+            //@ts-ignore
+            console.log('error!', err);
+        });
 }
 
-export {searchTutor}
+export { searchTutor }

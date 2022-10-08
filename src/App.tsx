@@ -4,7 +4,6 @@ import { BrowserRouter } from 'react-router-dom';
 import './Global.css';
 import './PrimeReact.css';
 
-import axiosInterceptor from './utils/axiosInterceptor';
 
 function App() {
   return (
