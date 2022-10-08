@@ -9,7 +9,7 @@ axios.interceptors.response.use(
   (res) => {
     if (res.status === 401) {
       toast?.current?.show({ severity: 'error', summary: 'Error', detail: 'Unauthorised!' });
-    } else if (res.status !== 200) {
+    } else if (res.status !== 200 && res.status !== 204 ) {
       toast?.current?.show({ severity: 'error', summary: 'Error', detail: 'An error has occured' });
     } else {
       return res;
