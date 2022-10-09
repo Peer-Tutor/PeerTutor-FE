@@ -5,6 +5,7 @@ import { ProfileCard } from './ProfileCard';
 import { DasboardActionCard } from './DasboardActionCard';
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
+import { BookmarkedTutorsList } from '../BookmarkedTutors/BookmarkedTutorsList';
 
 const TuteeDashboard = () => {
     return (
@@ -15,6 +16,7 @@ const TuteeDashboard = () => {
                 <DasboardActionCard tutorView={false}/>
             </div>
             <UpcomingActivities />
+            <BookmarkedTutorsList tutorView={false} />
         </div>
         <div className="field col-5">
             <PendingRequest />

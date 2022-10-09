@@ -30,8 +30,7 @@ const RequestListCard = (props: AccountInfo) => {
                     </div>
                 </div>
             </div>
-
-        )
+        );
     }
     else
     {

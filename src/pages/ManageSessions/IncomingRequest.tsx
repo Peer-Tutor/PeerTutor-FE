@@ -6,6 +6,8 @@ import { InputText } from 'primereact/inputtext';
 import { Calendar } from 'primereact/calendar';
 import { Panel } from 'primereact/panel';
 import { Badge } from 'primereact/badge';
+import { ScrollPanel } from 'primereact/scrollpanel';
+import { IncomingRequestCard } from './IncomingRequestCard';
 
 const IncomingRequest = () => {
     const [value1, setValue1] = useState('');
@@ -49,7 +51,15 @@ const IncomingRequest = () => {
                                   />
                     </div>
                 </div>
-            </Panel>
+                <div className="grid">
+                    <div className="col-12 md:col-4">
+                        <ScrollPanel style={{ width: '300%', height: '80%' }}>
+                             <IncomingRequestCard Name="Student1" Subject="Math" DateTime="21 Aug 2022 13:00"/>
+                             <IncomingRequestCard Name="Student2" Subject="English" DateTime="21 Aug 2022 14:00"/>
+                        </ScrollPanel>
+                    </div>
+                </div>
+           </Panel>
     )
 }
 export { IncomingRequest }
