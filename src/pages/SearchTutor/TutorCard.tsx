@@ -38,7 +38,7 @@ const TutorCard = (props: TutorCardProps) => {
                         <p className="m-0 mt-2"><span><b>Certifications: </b></span>{certs.replace(';', ' | ')}</p>
                     </div>
                 </div>
-                <Button id="BookmarkIcon" icon="pi pi-bookmark" className={bookmarked ? 'p-button-rounded p-button-secondary' : 'p-button-rounded p-button-outlined'} aria-label="Bookmark"
+                <Button id="BookmarkIcon" icon="pi pi-bookmark" className={bookmarked ? 'p-button-info' : 'p-button-info p-button-outlined'} aria-label="Bookmark"
                         onClick={() => changeBookmarkIcon(tutorId)}/>
                 <Button label="Schedule Tuition" onClick={() => { onClickHandler(tutorId) }} className="p-button-primary" />
             </div>

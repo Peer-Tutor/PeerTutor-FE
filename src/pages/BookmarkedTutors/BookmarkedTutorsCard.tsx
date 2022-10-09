@@ -32,7 +32,7 @@ const BookmarkedTutorsCard = (props: StudentInfo) => {
                         </div>
                      </div>
                      <div className="flex">
-                          <Button icon="pi pi-bookmark" className="p-button-rounded p-button-outlined"  onClick={() => deleteBookmark()}/>
+                          <Button icon="pi pi-bookmark" className="p-button-info"  onClick={() => deleteBookmark()}/>
                      </div>
                 </div>
            </Card>
