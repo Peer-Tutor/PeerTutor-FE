@@ -12,6 +12,11 @@ const TutorCard = (props: TutorCardProps) => {
         navigate(PageLink.BOOK_TUITION, { state: { tutorId: tutorId } });
 
     }
+    const onClickHandler1 = (id: string) => {
+        navigate(PageLink.TUTOR_REVIEW, { state: { tutorId: tutorId } });
+
+    }
+    
     return (
         <>
             <div className="flex flex-row align-items-center flex-grow-1 justify-content-between border-solid border-orange-500 border-round p-3 my-3" >
@@ -32,6 +37,7 @@ const TutorCard = (props: TutorCardProps) => {
                     <div className="flex">
                         <Button icon="fa-regular fa-bookmark" className="p-button-rounded p-button-tertiary" aria-label="Bookmark" />
                         <Button icon="fa-solid fa-calendar-check" className="p-button-rounded p-button-primary" aria-label="Schedule Tuition" onClick={() => { onClickHandler(tutorId) }}  />
+                        <Button icon="fa-solid fa-calendar-check" className="p-button-rounded p-button-primary" aria-label="Schedule Tuition" onClick={() => { onClickHandler1(tutorId) }}  />
                     </div>
                 </div>
             </div>

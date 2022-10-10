@@ -12,6 +12,7 @@ import { ManageSessions } from '../../pages/ManageSessions/ManageSessions';
 import { AccountManagement } from '../../pages/AccountManagement/AccountManagement';
 import { TuitionBooking } from '../../pages/TuitionBooking/TuitionBooking';
 import { TutorCalendar } from '../../pages/TutorCalendar/TutorCalendar';
+import { TutorReview } from '../../pages/TutorReview/TutorReview';
 import { PageNotFound } from "../../pages/PageNotFound/PageNotFound";
 import { SearchTutor } from "../../pages/SearchTutor/SearchTutor";
 
@@ -30,6 +31,7 @@ const RouteConfig = () => {
                 <Route path="manage-account" element={<AccountManagement />} />
                 <Route path="tuition-booking" element={<TuitionBooking />} />
                 <Route path="tuition-calendar" element={<TutorCalendar />} />
+                <Route path="tutor-review" element={<TutorReview />} />
                 <Route path="search-tutor" element={<SearchTutor />} />
                 <Route path="*" element={<PageNotFound />} />
             </Route>
