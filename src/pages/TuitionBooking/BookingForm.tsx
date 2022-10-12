@@ -39,11 +39,11 @@ const BookingForm = ({ tutorId, selectedDates, setBookingFormVisibility, removeS
                 </div>
                 <div className="flex flex-column gap-2">
                     <label className="text-orange text-sm font-semibold">Subjects</label>
-                    <p>{tutorDetails?.subjects.replace(';', ', ')}</p>
+                    <p>{tutorDetails?.subjects.replaceAll(';', ', ')}</p>
                 </div>
                 <div className="flex flex-column gap-2">
                     <label className="text-orange text-sm font-semibold">Certifications</label>
-                    <p>{tutorDetails?.certificates.replace(';', ', ')}</p>
+                    <p>{tutorDetails?.certificates.replaceAll(';', ', ')}</p>
                 </div>
                 <div className="flex flex-column gap-2">
                     <div className="flex flex-row align-items-center justify-content-between">

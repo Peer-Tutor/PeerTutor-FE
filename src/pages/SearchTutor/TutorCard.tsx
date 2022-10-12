@@ -32,8 +32,8 @@ const TutorCard = (props: TutorCardProps) => {
                     <div className="flex flex-column">
                         <h3 className="m-0">{name ? name : 'undefined'}</h3>
                         <i><p className="m-0 mt-1">{intro ? intro : 'undefined'}</p></i>
-                        <p className="m-0 mt-3"><span><b>Subject: </b></span>{subject ? subject.replace(';', ' | ') : 'undefined'}</p>
-                        <p className="m-0 mt-2"><span><b>Certifications: </b></span>{certs.replace(';', ' | ')}</p>
+                        <p className="m-0 mt-3"><span><b>Subject: </b></span>{subject ? subject.replaceAll(';', ' | ') : 'undefined'}</p>
+                        <p className="m-0 mt-2"><span><b>Certifications: </b></span>{certs.replaceAll(';', ' | ')}</p>
                     </div>
                 </div>
                 <Button id="BookmarkIcon" icon="pi pi-bookmark" className={bookmarked ? 'p-button-info' : 'p-button-info p-button-outlined'} aria-label="Bookmark"
