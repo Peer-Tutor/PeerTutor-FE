@@ -1,10 +1,10 @@
 import { Button } from 'primereact/button'
 import { InputText } from 'primereact/inputtext'
 import React, { Dispatch, SetStateAction, useState } from 'react'
-import { TutorOrdersResponse } from './SearchTutor'
+import { TutorResponse } from './SearchTutor'
 import { searchTutor } from './Service'
 
-const SearchBar = (props: { setTutorList: Dispatch<SetStateAction<TutorOrdersResponse[]>> }) => {
+const SearchBar = (props: { setTutorList: Dispatch<SetStateAction<TutorResponse[]>> }) => {
     const { setTutorList } = props
     const [searchStr, setSearchStr] = useState('')
 

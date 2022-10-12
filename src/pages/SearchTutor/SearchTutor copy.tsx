@@ -11,7 +11,6 @@ import { SearchBar } from "./SearchBar";
 
 import { Rating } from 'primereact/rating';
 import { Divider } from "primereact/divider";
-import { getTutorList } from "./Service";
 
 
 export type TutorResponse = {
@@ -23,14 +22,27 @@ export type TutorResponse = {
 }
 const SearchTutor = () => {
     const [tutorList, setTutorList] = useState<TutorResponse[]>([]) // todo type script
-    const [currentPage, setCurrentPage] = useState(1)
+    const [currentPage, setCurrentPage] = useState(0)
     const [totalRecords, setTotalRecords] = useState(0)
 
     const { name, sessionToken, profileId } = getSessionTokenValues()
     const url = getUrl(Subdomain.TUTOR_MGR, '/tutors');
     useEffect(() => {
-        getTutorList( setTotalRecords, setTutorList, currentPage)
-        
+        axios.get<TutorResponse[]>(url, {
+            params: {
+                name: name ?? '',
+                sessionToken: sessionToken ?? '',
+                page: currentPage,
+                size: TUTOR_RESULTS_PAGINATION_PAGE_SIZE
+            }
+        }).then(res => {
+            console.log(res)
+            const totalRecords = 5// res.headers["X-Total-Count"]
+            setTotalRecords(totalRecords)
+            setTutorList(res.data)
+        }).catch(err => {
+            console.log('error!', err);
+        });
     }, [])
 
     return (
@@ -50,17 +62,8 @@ const SearchTutor = () => {
                     <Paginator rows={TUTOR_RESULTS_PAGINATION_PAGE_SIZE}
                         totalRecords={totalRecords}
                         first={currentPage}
-                        onPageChange={(e) => {
+                        onPageChange={(e) => { 
                             setCurrentPage(e.first)
-                            console.log('e.first', e.first, 'e', e)
-                            // @ts-ignore
-                            if(TUTOR_RESULTS_PAGINATION_PAGE_SIZE != 0){
-                                const nextPageNum = e.first / TUTOR_RESULTS_PAGINATION_PAGE_SIZE 
-                                getTutorList( setTotalRecords, setTutorList, nextPageNum)
-
-                            } else {
-                                console.error('divide by 0 error!')
-                            }
                              }}>
                     </Paginator>
                 </Card>

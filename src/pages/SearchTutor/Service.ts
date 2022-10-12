@@ -1,15 +1,36 @@
 import axios from "axios";
+import { TUTOR_RESULTS_PAGINATION_PAGE_SIZE } from "../../constants/Constant";
 import { Subdomain } from "../../constants/Subdomain";
 import { getSessionTokenValues, getUrl } from "../../utils/apiUtils";
 import { toast } from "../../utils/toastHooks";
-import { TutorOrdersResponse } from "./SearchTutor";
+import { TutorResponse } from "./SearchTutor";
 
+const getTutorList = (setTotalRecords: any, setTutorList: any, currentPage: number) => {
+    const { name, sessionToken, profileId } = getSessionTokenValues()
+    const url = getUrl(Subdomain.TUTOR_MGR, '/tutors');
+    console.log('currentPage', currentPage)
+    axios.get<TutorResponse[]>(url, {
+        params: {
+            name: name ?? '',
+            sessionToken: sessionToken ?? '',
+            page: currentPage,
+            size: TUTOR_RESULTS_PAGINATION_PAGE_SIZE
+        }
+    }).then(res => {
+        console.log(res)
+        const totalRecords = 5// res.headers["X-Total-Count"]
+        setTotalRecords(totalRecords)
+        setTutorList(res.data)
+    }).catch(err => {
+        console.log('error!', err);
+    });
+}
 
-const searchTutor = (tutorName: string, setTutorList: React.Dispatch<React.SetStateAction<TutorOrdersResponse[]>>) => {
+const searchTutor = (tutorName: string, setTutorList: React.Dispatch<React.SetStateAction<TutorResponse[]>>) => {
     const url = getUrl(Subdomain.TUTOR_MGR, '/tutors');
     const { name, sessionToken, profileId } = getSessionTokenValues()
     // console.log('tutorName = ', tutorName)
-    axios.get<TutorOrdersResponse[]>(url, {
+    axios.get<TutorResponse[]>(url, {
         params: {
             name: name ?? '',
             sessionToken: sessionToken ?? '',
@@ -30,4 +51,4 @@ const searchTutor = (tutorName: string, setTutorList: React.Dispatch<React.SetSt
         });
 }
 
-export { searchTutor }
+export { searchTutor, getTutorList }

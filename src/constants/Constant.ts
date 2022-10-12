@@ -1,3 +1,5 @@
+export const TUTOR_RESULTS_PAGINATION_PAGE_SIZE = 2
+
 export enum AccountType {
     STUDENT = 'STUDENT',
     TUTOR = 'TUTOR'
