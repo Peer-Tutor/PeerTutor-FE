@@ -43,6 +43,8 @@ const TuitionBooking = () => {
             setSelectedDates(newSelectedDates)
         }
 
+        setShowDatePicker(false)
+
     }
     const removeSelectedDate = (date: string) => {
         const newSelectedDates = selectedDates.filter((elt) => elt !== date)

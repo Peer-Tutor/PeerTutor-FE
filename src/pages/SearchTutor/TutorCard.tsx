@@ -24,7 +24,7 @@ const TutorCard = (props: TutorCardProps) => {
     }
     return (
         <>
-            <div className="flex flex-row align-items-center flex-grow-1 justify-content-between border-solid border-orange-500 border-round px-5 py-3 mb-3" >
+            <div className="flex flex-row align-items-center flex-grow-1 justify-content-between surface-hover border-round px-5 py-3 mb-3" >
                 <div className="flex flex-row flex-grow-1 align-items-center"  >
                     <div className="mr-6">
                         <i className="fa-regular fa-user fa-3x"></i>
