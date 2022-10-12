@@ -17,10 +17,10 @@ type BookingFormProps = {
     tutorId: string,
     selectedDates: string[],
     setBookingFormVisibility: any,
-    removeSelectedDate: (d:string)=>void,
-    handleSubmit: ()=>void
+    removeSelectedDate: (d: string) => void,
+    handleSubmit: () => void
 }
-const BookingForm = ({ tutorId, selectedDates, setBookingFormVisibility, removeSelectedDate ,handleSubmit }: BookingFormProps) => {
+const BookingForm = ({ tutorId, selectedDates, setBookingFormVisibility, removeSelectedDate, handleSubmit }: BookingFormProps) => {
 
     const [tutorDetails, setTutorDetails] = useState<TutorDetail>()
     useEffect(() => {
@@ -53,11 +53,11 @@ const BookingForm = ({ tutorId, selectedDates, setBookingFormVisibility, removeS
 
                 </div>
                 <div className="flex gap-1 flex-wrap">
-                    {selectedDates.map((elt) => {
+                    {selectedDates.length > 0 ? (selectedDates.map((elt) => {
                         return (
-                            <Chip removable={true} label={elt} defaultValue={elt} key={elt} onRemove={()=> {removeSelectedDate(elt)}} />
+                            <Chip removable={true} label={elt} defaultValue={elt} key={elt} onRemove={() => { removeSelectedDate(elt) }} />
                         )
-                    })}
+                    })) : <p>No dates selected.</p>}
                 </div>
                 <div className="flex flex-grow-1 flex-row-reverse">
                     <Button label="Submit" className="p-button-primary" onClick={handleSubmit} />
@@ -67,4 +67,4 @@ const BookingForm = ({ tutorId, selectedDates, setBookingFormVisibility, removeS
     )
 }
 
-export {BookingForm}
+export { BookingForm }
