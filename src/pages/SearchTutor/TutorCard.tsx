@@ -4,23 +4,21 @@ import { useNavigate } from "react-router-dom";
 import { PageLink } from "../../constants/Constant";
 import { getSessionTokenValues, getUrl } from "../../utils/apiUtils";
 
-type TutorCardProps =  { tutorId: string, subject: string, name: string, certs: string, intro: string }
+type TutorCardProps = { tutorId: string, subject: string, name: string, certs: string, intro: string }
 const TutorCard = (props: TutorCardProps) => {
     const { tutorId, subject, name, certs, intro } = props
     const navigate = useNavigate();
 
     const [bookmarked, BookmarkTutor] = useState(false);
     const onClickHandler = (id: string) => {
-        // navigate(PageLink.DASHBOARD_STUDENT, {tutorId: tutorId});
+        navigate(PageLink.BOOK_TUITION, { state: { tutorId: tutorId } });
 
     }
-    const changeBookmarkIcon = (id: string)=> {
-        if(bookmarked == true)
-        {
+    const changeBookmarkIcon = (id: string) => {
+        if (bookmarked == true) {
             BookmarkTutor(false);
         }
-        else
-        {
+        else {
             BookmarkTutor(true);
         }
     }
@@ -39,7 +37,7 @@ const TutorCard = (props: TutorCardProps) => {
                     </div>
                 </div>
                 <Button id="BookmarkIcon" icon="pi pi-bookmark" className={bookmarked ? 'p-button-info' : 'p-button-info p-button-outlined'} aria-label="Bookmark"
-                        onClick={() => changeBookmarkIcon(tutorId)}/>
+                    onClick={() => changeBookmarkIcon(tutorId)} />
                 <Button label="Schedule Tuition" onClick={() => { onClickHandler(tutorId) }} className="p-button-primary" />
             </div>
         </>

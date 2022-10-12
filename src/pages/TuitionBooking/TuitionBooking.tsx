@@ -1,50 +1,59 @@
 import axios from "axios"
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { Subdomain } from "../../constants/Subdomain";
-import { AuthenticationStorage, AccountResponse } from "../../constants/Model";
-import { AccountType, PageLink, SessionStorage, AccountTypeList } from "../../constants/Constant";
+import {  AccountResponse } from "../../constants/Model";
+import { AccountType,  SessionStorage } from "../../constants/Constant";
 import { getUrl } from "../../utils/apiUtils"
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import styles from './PrimeReactSample.module.css'; //'./PrimeReactSample.module.css'
+import { useLocation,} from "react-router-dom";
 import { Button } from 'primereact/button';
-import { Dropdown } from 'primereact/dropdown';
 import { Dialog } from 'primereact/dialog';
 import { Calendar } from 'primereact/calendar';
 import { RequestListCard } from './RequestListCard';
-import { Card } from 'primereact/card';
+import {  submitForm } from "./Service";
+import { convertDateToYYYYMMDD } from "../../utils/DateUtils";
+import { BookingForm } from "./BookingForm";
+
 interface CustomizedState {
     tutorId: string
 }
 
 const TuitionBooking = () => {
-    const [state, setState] = useState() // todo type script
-    const [selectedCity1, setSelectedCity1] = useState<any>(null);
-    const [valueBookingForm, setValueBookingForm] = useState('');
-    const [visibilityBookingForm, setBookingFormVisibility] = useState(false);
+    const [showDatePicker, setShowDatePicker] = useState(false);
     const [date, setDate] = useState(new Date());
-    const [selectedTime, setTime] = useState<any>(null);
-    const [selectedSubject, setSubject] = useState<any>(null);
     const [isTutorView, setTutorView] = useState('');
-
+    const [selectedDates, setSelectedDates] = useState<string[]>([])
 
     const location = useLocation();
     const data = location.state as CustomizedState; // Type Casting, then you can get the params passed via router
-    const { tutorId } = data;
 
-    useEffect(() => {
-        // alert('tutorId = ' + tutorId)
-        console.log('tutorId',tutorId)
-    }, [])
-    function closeBookingForm() {
-        setBookingFormVisibility(false);
+    const handleSubmit = () => {
+        if (data?.tutorId) {
+            submitForm(data.tutorId, selectedDates)
+        } else {
+            console.log('tutorId is undefined!')
+        }
+    }
+    const handleSelectDate = () => {
+
+        const newDate = convertDateToYYYYMMDD(date)
+        const newSelectedDates = []
+        if (!selectedDates.includes(newDate)) {
+            newSelectedDates.push(...selectedDates)
+            newSelectedDates.push(newDate)
+            setSelectedDates(newSelectedDates)
+        }
+
+    }
+    const removeSelectedDate = (date: string) => {
+        const newSelectedDates = selectedDates.filter((elt) => elt !== date)
+        setSelectedDates(newSelectedDates)
     }
 
-    const showBookingForm = (e: { value: any }) => {
+    const handleDateChange = (e: { value: any }) => {
         const newDate = e.value;
+        console.log(newDate)
         setDate(newDate);
-        console.log(newDate);
-        setBookingFormVisibility(true);
-
+        setShowDatePicker(true);
     }
 
     const renderBookingFormFooter = () => {
@@ -53,13 +62,13 @@ const TuitionBooking = () => {
                 <Button
                     label="Cancel"
                     icon="pi pi-times"
-                    onClick={() => setBookingFormVisibility(false)}
+                    onClick={() => setShowDatePicker(false)}
                     className="p-button-text"
                 />
                 <Button
-                    label="Book"
+                    label="Select Date"
                     icon="pi pi-check"
-                    onClick={() => setBookingFormVisibility(false)}
+                    onClick={handleSelectDate}
                     autoFocus
                 />
             </div>
@@ -90,85 +99,42 @@ const TuitionBooking = () => {
                     id: ''
                 }
             }).then(res => {
-                setSubject(res.data.subjects ?? '');
+                // setSubject(res.data.subjects ?? '');
             }).catch(err => {
                 console.log('error!', err);
             });
         };
     }, []);
-    // console.log('page one rendered')
 
-    const onCityChange = (e: { value: any }) => {
-        setSelectedCity1(e.value);
-    }
 
-    const onTimeChange = (e: { value: any }) => {
-        setTime(e.value);
-    }
-
-    const onSubjectChange = (e: { value: any }) => {
-        setSubject(e.value);
-    }
-
-    const time = [
-        { name: '1PM', code: '1PM' },
-        { name: '2PM', code: '2PM' },
-        { name: '3PM', code: '3PM' },
-        { name: '4PM', code: '4PM' },
-        { name: '5PM', code: '5PM' }
-    ];
-
-    const subjects = [
-        { name: 'English', code: 'English' },
-        { name: 'History', code: 'History' },
-        { name: 'Math', code: 'Math' },
-        { name: 'Science', code: 'Science' },
-        { name: 'Social Studies', code: 'Social Studies' }
-    ];
     return (
         <div>
             <div className="global-card">
-                <label className="text-3xl text-orange">Tuition Booking</label>
+                <label className="text-3xl text-orange">Booking Details</label>
             </div>
             <div>
-                <Calendar id="TuitionCalendar" inline value={date} onChange={showBookingForm}></Calendar>
-            </div>
-            <div>
+                <BookingForm
+                    handleSubmit={handleSubmit}
+                    removeSelectedDate={removeSelectedDate}
+                    setBookingFormVisibility={setShowDatePicker}
+                    selectedDates={selectedDates}
+                    tutorId={data?.tutorId} />
                 <Dialog
                     header='Booking Form'
-                    visible={visibilityBookingForm}
-                    onHide={closeBookingForm}
+                    visible={showDatePicker}
+                    onHide={() => { setShowDatePicker(false) }}
                     modal={true}
                     footer={renderBookingFormFooter()}
                     maximizable={true}>
-                    <div>
-                        <table>
-                            <colgroup>
-                                <col width="50%" text-align="left" />
-                                <col width="50%" />
-                            </colgroup>
-                            <tr>
-                                <td><label className="flex my-2 text-lg">Date</label></td>
-                                <td><label id="Date" className="flex my-2 text-lg">{date?.toLocaleDateString()}</label></td>
-                            </tr>
-                            <tr>
-                                <td><label className="flex my-2 text-lg">Time</label></td>
-                                <Dropdown optionLabel="name" value={selectedTime} options={time}
-                                    onChange={onTimeChange} />
-                            </tr>
-                            <tr>
-                                <td><label className="flex my-2 text-lg">Subject</label></td>
-                                <Dropdown optionLabel="name" value={selectedSubject} options={subjects}
-                                    onChange={onSubjectChange} />
-                            </tr>
-                        </table>
-                    </div>
+                    <Calendar minDate={new Date()} id="TuitionCalendar" inline value={date} onChange={handleDateChange}></Calendar>
                 </Dialog>
-            </div><br />
+            </div>
             <div>
                 <RequestListCard tutorView={isTutorView} />
             </div>
         </div>
     )
 }
+
+
 export { TuitionBooking }

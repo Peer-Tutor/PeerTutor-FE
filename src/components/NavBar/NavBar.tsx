@@ -89,11 +89,7 @@ export default function NavBar(props: BaseLayoutProps) {
                                 <img src={require('../../resources/TutorPeer.png')} width={200} height={60} alt=""/>
                             </li>
                         </Link>
-                        <li className="flex align-items-center mr-5">
-                            <Link to={PageLink.TUITION_BOOKING}>
-                                <i className="text-xl mr-3 fa-solid fa-id-card"></i>Tuition Booking
-                            </Link>
-                        </li>
+
                         <li className="flex align-items-center mr-5">
                             <Link to={PageLink.MANAGE_ACCOUNT}>
                                 <i className="text-xl mr-3 fa-solid fa-id-card"></i>Account Management

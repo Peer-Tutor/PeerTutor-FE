@@ -30,7 +30,7 @@ axios.interceptors.response.use(
                     <label className="flex text-lg text-orange font-bold">Error enountered</label>
                     <label className="text-xs text-white font-normal">Unexpected error encountered!</label>
                 </div>
-            </div>), closable: false, life: 5000 });
+            </div>),  closable: true, life: 5000 });
     } else {
       return res;
     }
@@ -48,7 +48,7 @@ axios.interceptors.response.use(
                     <label className="flex text-lg text-orange font-bold">Error enountered</label>
                     <label className="text-xs text-white font-normal">Service call unauthorised!</label>
                 </div>
-            </div>), closable: false, life: 5000 });
+            </div>), closable: true, life: 5000 });
     } else if(err.response.status === 409){
       toast?.current?.show({ severity: 'error',
         content: (
@@ -60,7 +60,7 @@ axios.interceptors.response.use(
                     <label className="flex text-lg text-orange font-bold">Error enountered</label>
                     <label className="text-xs text-white font-normal">Record already exist!</label>
                 </div>
-            </div>), closable: false, life: 5000 });
+            </div>), closable: true, life: 5000 });
     }
     else {
       toast?.current?.show({ severity: 'error',
@@ -73,7 +73,7 @@ axios.interceptors.response.use(
                     <label className="flex text-lg text-orange font-bold">Error enountered</label>
                     <label className="text-xs text-white font-normal">Unexpected error encountered!</label>
                 </div>
-            </div>), closable: false, life: 5000 });
+            </div>), closable: true, life: 5000 });
 
     }
     return Promise.reject(err);

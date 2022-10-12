@@ -18,6 +18,11 @@ const searchTutor = (tutorName: string, setTutorList: React.Dispatch<React.SetSt
     }).then(res => {
         // console.log(res)
         setTutorList(res.data)
+
+        // toast?.current?.show({
+        //     severity: 'success',
+        //     content: 'Successfully made order', closable: false, life: 5000
+        // });
     })
         .catch(err => {
             //@ts-ignore
