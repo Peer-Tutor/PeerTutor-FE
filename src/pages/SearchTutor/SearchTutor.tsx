@@ -43,7 +43,7 @@ const SearchTutor = () => {
                         return (
                             <>
                                 <TutorCard key={idx} intro={tutor.introduction} certs={tutor.certificates} tutorId={tutor.id} subject={tutor.subjects} name={tutor.displayName} />
-                                <Divider />
+                                <Divider key={idx+1}/>
                             </>
                         )
                     }) : <p className="text-center">No tutors found.</p>}

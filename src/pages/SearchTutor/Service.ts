@@ -8,7 +8,6 @@ import { TutorResponse } from "./SearchTutor";
 const getTutorList = (setTotalRecords: any, setTutorList: any, currentPage: number) => {
     const { name, sessionToken, profileId } = getSessionTokenValues()
     const url = getUrl(Subdomain.TUTOR_MGR, '/tutors');
-    console.log('currentPage', currentPage)
     axios.get<TutorResponse[]>(url, {
         params: {
             name: name ?? '',
@@ -17,8 +16,8 @@ const getTutorList = (setTotalRecords: any, setTutorList: any, currentPage: numb
             size: TUTOR_RESULTS_PAGINATION_PAGE_SIZE
         }
     }).then(res => {
-        console.log(res)
-        const totalRecords = 5// res.headers["X-Total-Count"]
+        // console.log(res.headers['x-total-count'])
+        const totalRecords = res.headers["x-total-count"]
         setTotalRecords(totalRecords)
         setTutorList(res.data)
     }).catch(err => {

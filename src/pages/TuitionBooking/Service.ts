@@ -45,7 +45,6 @@ const getSelectedTutorDetails = (tutorId: string, setTutorDetails: React.Dispatc
     })
         .then(res => {
             // res.data
-            console.log(res.data)
             setTutorDetails(res.data)
         }).catch(err => {
             console.log(err)
