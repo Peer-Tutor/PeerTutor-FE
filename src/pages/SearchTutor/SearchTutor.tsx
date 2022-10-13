@@ -12,6 +12,9 @@ import { SearchBar } from "./SearchBar";
 import { Rating } from 'primereact/rating';
 import { Divider } from "primereact/divider";
 import { getTutorList } from "./Service";
+import { Badge } from "primereact/badge";
+import { Panel } from "primereact/panel";
+import { HeaderTemplate } from "../../components/Shared/HeaderTemplate";
 
 
 export type TutorResponse = {
@@ -29,21 +32,21 @@ const SearchTutor = () => {
     const { name, sessionToken, profileId } = getSessionTokenValues()
     const url = getUrl(Subdomain.TUTOR_MGR, '/tutors');
     useEffect(() => {
-        getTutorList( setTotalRecords, setTutorList, currentPage)
-        
+        getTutorList(setTotalRecords, setTutorList, currentPage)
+
     }, [])
 
     return (
         <div className="grid col-12">
             <div className="field col-7 ">
-                <Card className="flex flex-column px-4 py-4 w-full">
+                <Panel header={HeaderTemplate({ title: 'Search Tutors', totalCount: totalRecords})} className="flex flex-column px-4 py-4 w-full">
                     <SearchBar setTutorList={setTutorList} />
                     {tutorList && tutorList?.length > 0 ? tutorList?.map((tutor, idx) => {
                         // console.log(tutor.introduction)
                         return (
                             <>
                                 <TutorCard key={idx} intro={tutor.introduction} certs={tutor.certificates} tutorId={tutor.id} subject={tutor.subjects} name={tutor.displayName} />
-                                <Divider key={idx+1}/>
+                                <Divider key={idx + 1} />
                             </>
                         )
                     }) : <p className="text-center">No tutors found.</p>}
@@ -54,28 +57,26 @@ const SearchTutor = () => {
                             setCurrentPage(e.first)
                             console.log('e.first', e.first, 'e', e)
                             // @ts-ignore
-                            if(TUTOR_RESULTS_PAGINATION_PAGE_SIZE != 0){
-                                const nextPageNum = e.first / TUTOR_RESULTS_PAGINATION_PAGE_SIZE 
-                                getTutorList( setTotalRecords, setTutorList, nextPageNum)
+                            if (TUTOR_RESULTS_PAGINATION_PAGE_SIZE != 0) {
+                                const nextPageNum = e.first / TUTOR_RESULTS_PAGINATION_PAGE_SIZE
+                                getTutorList(setTotalRecords, setTutorList, nextPageNum)
 
                             } else {
                                 console.error('divide by 0 error!')
                             }
-                             }}>
+                        }}>
                     </Paginator>
-                </Card>
+                </Panel>
             </div>
             <div className="field col-5 ">
-                <Card header={<h4>Recommendation</h4>} className="flex flex-column w-full px-4 py-4">
+                <Panel header={HeaderTemplate({ title: 'Recommended Tutors' , totalCount: 3})} className="flex flex-column w-full px-4 py-4">
                     <RecommendationList />
-                </Card>
-
+                </Panel>
             </div>
-
-
         </div>
     )
 }
+
 
 const RecommendationList = () => {
     return (
