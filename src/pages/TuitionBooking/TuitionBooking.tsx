@@ -131,7 +131,7 @@ const TuitionBooking = () => {
                 </Dialog>
             </div>
             <div>
-                <RequestListCard tutorView={isTutorView} />
+                <RequestListCard tutorView={"true"} />
             </div>
         </div>
     );

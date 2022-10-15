@@ -1,4 +1,8 @@
+import axios from "axios"
 import React, { useEffect, useState } from "react";
+import { Subdomain } from "../../constants/Subdomain";
+import { AuthenticationStorage } from "../../constants/Model";
+import { getSessionTokenValues, getUrl } from "../../utils/apiUtils";
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 import { Dropdown } from 'primereact/dropdown';
@@ -11,15 +15,21 @@ import { IncomingRequestCard } from './IncomingRequestCard';
 import { Divider } from "primereact/divider";
 import { Paginator } from 'primereact/paginator';
 import { PageLink, TUTOR_RESULTS_PAGINATION_PAGE_SIZE, SessionStorage, SubjectList } from "../../constants/Constant";
-
+import { IncomingRequestSearchBar } from './IncomingRequestSearchBar';
 
 export type RequestResponse = {
     id: string,
+    studentName: string,
+    tutorId:number,
+    tutorName: string,
     displayName: string,
     introduction: string,
     subjects: string,
     certificates: string,
-};
+    startTime: string,
+    status: string
+}
+
 const IncomingRequest = () => {
     const [value1, setValue1] = useState('');
     const [subject, setSubject] = useState<any>(null);
@@ -44,14 +54,27 @@ const IncomingRequest = () => {
         );
     };
 
+        const [tuitionOrderList, setTuitionOrderList] = useState<RequestResponse[]>([]) // todo type script
+        const { name, sessionToken, profileId } = getSessionTokenValues()
+        const url = getUrl(Subdomain.TUITION_ORDER_MGR, '/detailedTuitionOrders');
+        useEffect(() => {
+            axios.get<RequestResponse[]>(url, {
+                params: {
+                    name: name ?? '',
+                    sessionToken: sessionToken ?? '',
+                }
+            }).then(res => {
+                const filteredList = res.data?.filter(record => (record.tutorId == profileId && record.status == '1'));
+                setTuitionOrderList(filteredList);
+            }).catch(err => {
+                console.log('error!', err);
+            });
+        }, [])
     return (
            <Panel headerTemplate={template} className="singlePanel">
                 <div className="flex flex-row align-items-center gap-2 mb-3">
                     <div className="flex">
-                        <span className="p-input-icon-left">
-                            <i className="fa-solid fa-magnifying-glass"></i>
-                            <InputText value={value1} onChange={(e) => setValue1(e.target.value)} placeholder="Requester Name"/>
-                        </span>
+                        <IncomingRequestSearchBar setTuitionOrderList={setTuitionOrderList} />
                     </div>
                     <div className="flex">
                         <Dropdown optionLabel="name" value={subject} options={subjectList}
@@ -70,7 +93,7 @@ const IncomingRequest = () => {
                                 console.log('e.first', e.first, 'e', e)
                                 if (totalRecords != 0) {
                                     const nextPageNum = Math.floor(e.first / TUTOR_RESULTS_PAGINATION_PAGE_SIZE);
-                                    //setRequestList(setTotalRecords, setRequestList, nextPageNum)
+                                   // setRequestList(setTotalRecords, setRequestList, nextPageNum)
                                 } else {
                                     console.error('divide by 0 error!')
                                 }
@@ -78,11 +101,13 @@ const IncomingRequest = () => {
                         </Paginator>
                     </div>
                 </div>
-                <div className="flex">
-                    <div className="flex-1">
-                        <IncomingRequestCard Name="Student1" Subject="Math" DateTime="21 Aug 2022 13:00"/>
-                        <Divider key="1"/>
-                        <IncomingRequestCard Name="Student2" Subject="English" DateTime="21 Aug 2022 14:00"/>
+                <div className="grid">
+                    <div className="col-12 md:col-4">
+                        <ScrollPanel style={{ width: '300%', height: '80%' }}>
+                            {tuitionOrderList && tuitionOrderList?.length > 0  ? tuitionOrderList?.map((filteredRecord, idx) => {
+                                    return <IncomingRequestCard key={idx} StudentName={filteredRecord.studentName} TutorName={filteredRecord.tutorName} DateTime={filteredRecord.startTime} />
+                            }) : <p className="text-center">No students found.</p>}
+                        </ScrollPanel>
                     </div>
                 </div>
            </Panel>

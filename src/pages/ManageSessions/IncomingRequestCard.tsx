@@ -4,12 +4,14 @@ import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { Panel } from 'primereact/panel';
 
-type StudentInfo = {
-    Name?: string;
+type TuitionOrderInfo = {
+    StudentName?: string;
+    TutorName?: string;
     Subject?: string;
     DateTime?: string;
-};
-const IncomingRequestCard = (props: StudentInfo) => {
+}
+
+const IncomingRequestCard = (props: TuitionOrderInfo) => {
     const [studentName, setStudentName] = useState('');
     const [subject, setSubject] = useState('');
     const [time, setDateTime] = useState<any>(null);
@@ -21,8 +23,8 @@ const IncomingRequestCard = (props: StudentInfo) => {
             </div>
             <div className="flex flex-1">
                 <div className="flex-column">
-                    <label id="Name" className="flex my-2 text-base text-black font-semibold">{props.Name}</label>
-                    <label id="DateTime" className="flex my-2 text-sm text-black font-bold">{props.DateTime}</label>
+                    <label id="Name" className="flex my-2 text-base text-black font-semibold">{props.StudentName}</label>
+                    <label id="DateTime" className="flex my-2 text-sm text-black font-bold">{props.TutorName}</label>
                     <label id="Subject" className="flex my-2 text-xs font-italic">{props.Subject}</label>
                 </div>
             </div>

@@ -1,23 +1,44 @@
+import axios from "axios";
 import { Button } from "primereact/button";
 import React, { useEffect, useState } from "react";
+import { Subdomain } from "../../constants/Subdomain";
 import { useNavigate } from "react-router-dom";
 import { PageLink } from "../../constants/Constant";
 import { TutorCardProps } from "../../constants/Model";
 import { getSessionTokenValues, getUrl } from "../../utils/apiUtils";
+import { BookmarkResponse } from "../../pages/BookmarkedTutors/BookmarkedServices";
 
 const TutorCard = (props: TutorCardProps) => {
     const { tutorId, subject, name, certs, intro } = props
     const navigate = useNavigate();
 
-    const [bookmarked, BookmarkTutor] = useState(false);
     const onClickHandler = (id: string) => {
         navigate(PageLink.BOOK_TUITION, { state: { tutorId: tutorId } });
     }
 
-    const changeBookmarkIcon = (id: string) => {
-        if (bookmarked == true) {
+    const { sessionToken, profileId } = getSessionTokenValues();
+    const [bookmarked, BookmarkTutor] = useState(false);
+    const bookmarkUrl = getUrl(Subdomain.BOOKMARK_MGR, '/bookmark');
+    const handleBookmarkSubmit = (id: string)=> {
+        if(bookmarked == true)
+        {
             BookmarkTutor(false);
-        }else {
+        }
+        else
+        {
+            // add bookmark
+            const BookmarkData = {
+              tutorId: id,
+              studentId: profileId
+            };
+            // add bookmark
+            axios.post<BookmarkResponse>(bookmarkUrl, BookmarkData)
+            .then(res =>{
+                console.log(res);
+            })
+            .catch(err => {
+                console.log('error!', err);
+            });
             BookmarkTutor(true);
         }
     }
@@ -40,7 +61,7 @@ const TutorCard = (props: TutorCardProps) => {
                         </div>
                     </div>
                     <div className="flex">
-                        <Button icon={bookmarked ? 'fa-solid fa-bookmark': 'fa-regular fa-bookmark'} className="p-button-primary-outlined" aria-label="Bookmark" onClick={()=>{changeBookmarkIcon(tutorId ?? '')} }/>
+                        <Button icon={bookmarked ? 'fa-solid fa-bookmark': 'fa-regular fa-bookmark'} className="p-button-primary-outlined" aria-label="Bookmark" onClick={()=>{handleBookmarkSubmit(tutorId ?? '')} }/>
                         <Button icon="fa-solid fa-calendar-check" className="p-button-rounded p-button-secondary" aria-label="Schedule Tuition" onClick={() => { onClickHandler(tutorId ?? '') }}  />
                     </div>
                 </div>
