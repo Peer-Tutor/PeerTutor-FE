@@ -14,7 +14,9 @@ export enum PageLink {
     TUITION_BOOKING = '/dashboard/tuition-booking',
     TUITION_CALENDAR = '/dashboard/tuition-calendar',
     SEARCH_TUTOR = '/dashboard/search-tutor',
-    BOOK_TUITION= '/dashboard/tuition-booking'
+    BOOK_TUITION= '/dashboard/tuition-booking',
+    TUTOR_REVIEW= '/dashboard/tutor-review',
+    ADD_TUTOR_REVIEW= '/dashboard/add-tutor-review'
 }
 
 export enum SessionStorage {

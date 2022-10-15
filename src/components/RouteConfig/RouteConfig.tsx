@@ -13,6 +13,7 @@ import { AccountManagement } from '../../pages/AccountManagement/AccountManageme
 import { TuitionBooking } from '../../pages/TuitionBooking/TuitionBooking';
 import { TutorCalendar } from '../../pages/TutorCalendar/TutorCalendar';
 import { TutorReview } from '../../pages/TutorReview/TutorReview';
+import { AddTutorReview } from '../../pages/TutorReview/AddTutorReview';
 import { PageNotFound } from "../../pages/PageNotFound/PageNotFound";
 import { SearchTutor } from "../../pages/SearchTutor/SearchTutor";
 
@@ -32,6 +33,7 @@ const RouteConfig = () => {
                 <Route path="tuition-booking" element={<TuitionBooking />} />
                 <Route path="tuition-calendar" element={<TutorCalendar />} />
                 <Route path="tutor-review" element={<TutorReview />} />
+                <Route path="add-tutor-review" element={<AddTutorReview />} />
                 <Route path="search-tutor" element={<SearchTutor />} />
                 <Route path="*" element={<PageNotFound />} />
             </Route>
