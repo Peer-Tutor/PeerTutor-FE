@@ -8,18 +8,28 @@ import { Panel } from 'primereact/panel';
 import { Badge } from 'primereact/badge';
 import { ScrollPanel } from 'primereact/scrollpanel';
 import { IncomingRequestCard } from './IncomingRequestCard';
+import { Divider } from "primereact/divider";
+import { Paginator } from 'primereact/paginator';
+import { PageLink, TUTOR_RESULTS_PAGINATION_PAGE_SIZE, SessionStorage, SubjectList } from "../../constants/Constant";
 
+
+export type RequestResponse = {
+    id: string,
+    displayName: string,
+    introduction: string,
+    subjects: string,
+    certificates: string,
+};
 const IncomingRequest = () => {
     const [value1, setValue1] = useState('');
     const [selectedCity1, setSelectedCity1] = useState<any>(null);
     const [date, setDate] = useState<any>(null);
-    const cities = [
-            { name: 'English', code: 'English' },
-            { name: 'History', code: 'History' },
-            { name: 'Math', code: 'Math' },
-            { name: 'Science', code: 'Science' },
-            { name: 'Social Studies', code: 'Social Studies' }
-        ];
+    const [currentPage, setCurrentPage] = useState(0);
+    const [totalRecords, setTotalRecords] = useState(0);
+    const [requestList, setRequestList] = useState<RequestResponse[]>([]) // todo type script
+    
+    const cities = SubjectList;
+
     const template = (options:any) => {
         const className = `${options.className} justify-content-start`;
         const titleClassName = `Incoming Requests`;
@@ -37,7 +47,7 @@ const IncomingRequest = () => {
 
     return (
            <Panel headerTemplate={template} className="singlePanel">
-                <div className="flex flex-row align-items-center gap-2">
+                <div className="flex flex-row align-items-center gap-2 mb-3">
                     <div className="flex">
                         <span className="p-input-icon-left">
                             <i className="fa-solid fa-magnifying-glass"></i>
@@ -47,19 +57,37 @@ const IncomingRequest = () => {
                     <div className="flex">
                         <Dropdown optionLabel="name" value={selectedCity1} options={cities}
                                   onChange={(e) => setSelectedCity1(e.target.value)}
-                                  placeholder="Requested Subject" showClear
+                                  placeholder="Subject" showClear
                                   />
                     </div>
+                    <div className="flex-1 flex">
+                        <Paginator
+                            className="flex"
+                            rows={TUTOR_RESULTS_PAGINATION_PAGE_SIZE}
+                            totalRecords={2}
+                            first={currentPage}
+                            template="PrevPageLink CurrentPageReport NextPageLink"
+                            onPageChange={(e) => {
+                                setCurrentPage(e.first)
+                                console.log('e.first', e.first, 'e', e)
+                                if (totalRecords != 0) {
+                                    const nextPageNum = Math.floor(e.first / TUTOR_RESULTS_PAGINATION_PAGE_SIZE);
+                                    //setRequestList(setTotalRecords, setRequestList, nextPageNum)
+                                } else {
+                                    console.error('divide by 0 error!')
+                                }
+                            }}>
+                        </Paginator>
+                    </div>
                 </div>
-                <div className="grid">
-                    <div className="col-12 md:col-4">
-                        <ScrollPanel style={{ width: '300%', height: '80%' }}>
-                             <IncomingRequestCard Name="Student1" Subject="Math" DateTime="21 Aug 2022 13:00"/>
-                             <IncomingRequestCard Name="Student2" Subject="English" DateTime="21 Aug 2022 14:00"/>
-                        </ScrollPanel>
+                <div className="flex">
+                    <div className="flex-1">
+                        <IncomingRequestCard Name="Student1" Subject="Math" DateTime="21 Aug 2022 13:00"/>
+                        <Divider key="1"/>
+                        <IncomingRequestCard Name="Student2" Subject="English" DateTime="21 Aug 2022 14:00"/>
                     </div>
                 </div>
            </Panel>
     )
-}
+};
 export { IncomingRequest }

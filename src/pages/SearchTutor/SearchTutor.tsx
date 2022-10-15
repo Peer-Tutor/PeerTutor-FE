@@ -23,24 +23,43 @@ export type TutorResponse = {
     introduction: string,
     subjects: string,
     certificates: string,
-}
+};
 const SearchTutor = () => {
     const [tutorList, setTutorList] = useState<TutorResponse[]>([]) // todo type script
-    const [currentPage, setCurrentPage] = useState(1)
-    const [totalRecords, setTotalRecords] = useState(0)
+    const [currentPage, setCurrentPage] = useState(0);
+    const [totalRecords, setTotalRecords] = useState(0);
 
-    const { name, sessionToken, profileId } = getSessionTokenValues()
+    const { name, sessionToken, profileId } = getSessionTokenValues();
     const url = getUrl(Subdomain.TUTOR_MGR, '/tutors');
     useEffect(() => {
         getTutorList(setTotalRecords, setTutorList, currentPage)
 
-    }, [])
+    }, []);
 
     return (
         <div className="grid col-12">
             <div className="field col-7 ">
                 <Panel header={HeaderTemplate({ title: 'Search Tutors', totalCount: totalRecords})} className="flex flex-column px-4 py-4 w-full">
-                    <SearchBar setTutorList={setTutorList} />
+                    <div className="ml-3 flex flex-row">
+                        <SearchBar setTutorList={setTutorList} />
+                        <Paginator
+                            className="flex"
+                            rows={TUTOR_RESULTS_PAGINATION_PAGE_SIZE}
+                            totalRecords={totalRecords}
+                            first={currentPage}
+                            template="PrevPageLink CurrentPageReport NextPageLink"
+                            onPageChange={(e) => {
+                                setCurrentPage(e.first)
+                                console.log('e.first', e.first, 'e', e)
+                                if (totalRecords != 0) {
+                                    const nextPageNum = Math.floor(e.first / TUTOR_RESULTS_PAGINATION_PAGE_SIZE);
+                                    getTutorList(setTotalRecords, setTutorList, nextPageNum)
+                                } else {
+                                    console.error('divide by 0 error!')
+                                }
+                            }}>
+                        </Paginator>
+                    </div>
                     {tutorList && tutorList?.length > 0 ? tutorList?.map((tutor, idx) => {
                         // console.log(tutor.introduction)
                         return (
@@ -50,22 +69,7 @@ const SearchTutor = () => {
                             </>
                         )
                     }) : <p className="text-center">No tutors found.</p>}
-                    <Paginator rows={TUTOR_RESULTS_PAGINATION_PAGE_SIZE}
-                        totalRecords={totalRecords}
-                        first={currentPage}
-                        onPageChange={(e) => {
-                            setCurrentPage(e.first)
-                            console.log('e.first', e.first, 'e', e)
-                            // @ts-ignore
-                            if (TUTOR_RESULTS_PAGINATION_PAGE_SIZE != 0) {
-                                const nextPageNum = e.first / TUTOR_RESULTS_PAGINATION_PAGE_SIZE
-                                getTutorList(setTotalRecords, setTutorList, nextPageNum)
 
-                            } else {
-                                console.error('divide by 0 error!')
-                            }
-                        }}>
-                    </Paginator>
                 </Panel>
             </div>
             <div className="field col-5 ">
@@ -92,10 +96,9 @@ const RecommendationCard = () => {
     return (
         <div className="surface-ground py-4 px-4 border-round">
             <div className="flex flex-row  justify-content-center align-items-center">
-                <i className="fa-regular fa-user fa-2x"></i>
-
+                <i className="text-5xl text-orange fa-regular fa-circle-user"></i>
                 <div className=" flex flex-column ml-3">
-                    <b><p className="m-0 mb-2">Tutor one</p></b>
+                    <label className="text-black font-semibold m-0 mb-2">Tutor one</label>
                     <Rating value={3} stars={5} cancel={false} readOnly />
                 </div>
             </div>
