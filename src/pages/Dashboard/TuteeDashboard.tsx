@@ -9,19 +9,21 @@ import { BookmarkedTutorsList } from '../BookmarkedTutors/BookmarkedTutorsList';
 
 const TuteeDashboard = () => {
     return (
-    <div className="grid col-12">
-        <div className="field col-7">
-            <div className="flex gap-4">
-                <ProfileCard />
-                <DasboardActionCard tutorView={false}/>
+        <div className="grid col-12">
+            <div className="field col-7">
+                <div className="flex gap-4">
+                    <ProfileCard />
+                    <DasboardActionCard tutorView={false}/>
+                </div>
+                <UpcomingActivities />
             </div>
-            <UpcomingActivities />
-            <BookmarkedTutorsList tutorView={false} />
+            <div className="field col-5">
+                <PendingRequest />
+            </div>
+            <div className="field col-12">
+                <BookmarkedTutorsList tutorView={false} />
+            </div>
         </div>
-        <div className="field col-5">
-            <PendingRequest />
-        </div>
-    </div>
-    )
-}
-export { TuteeDashboard }
+    );
+};
+export { TuteeDashboard };

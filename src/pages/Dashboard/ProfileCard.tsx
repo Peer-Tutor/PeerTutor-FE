@@ -99,5 +99,5 @@ const ProfileCard = (props: AccountInfo) => {
             </Card>
         );
     }
-}
-export { ProfileCard }
+};
+export { ProfileCard };

@@ -16,6 +16,11 @@
 }
 
 .p-button-primary {  background-color: #F66B0E !important; }
+.p-button-primary-outlined {
+    color: #F66B0E !important;
+    background-color: #ffffff !important;
+    border: none !important;
+ }
 .p-button-secondary { background-color: #205375 !important; }
 .p-button-tertiary, .p-button-tertiary:enabled:hover{
     color: #205375 !important;
@@ -28,6 +33,9 @@
     box-shadow: none !important;
 }
 
+.p-paginator .p-paginator-first, .p-paginator .p-paginator-prev, .p-paginator .p-paginator-next, .p-paginator .p-paginator-last{
+    border-radius: 1rem;
+}
 
 .p-multiselect{
     border-radius: 1rem !important;
@@ -95,3 +103,4 @@ input.p-inputtext{ height: fit-content !important; padding-left: 1rem !important
     border: solid #112B3C !important;
 }
 
+.p-rating .p-rating-item .p-rating-icon { color: #F66B0E !important; font-size: 1rem !important;}

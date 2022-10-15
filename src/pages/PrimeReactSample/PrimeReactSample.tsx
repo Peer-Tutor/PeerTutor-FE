@@ -32,7 +32,7 @@ const PrimeReactSample = () => {
 
     const onCityChange = (e: { value: any }) => {
         setSelectedCity1(e.value);
-    }
+    };
 
     const cities = [
         { name: 'New York', code: 'NY' },

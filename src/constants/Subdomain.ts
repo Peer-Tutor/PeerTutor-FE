@@ -8,4 +8,4 @@ export enum Subdomain {
     TUITION_ORDER_MGR = '/tuition-order-mgr',
     ACCOUNT_MGR = '/account-mgr',
     TUTOR_CALENDAR_MGR = '/tutor-calendar-mgr'
-}
+};

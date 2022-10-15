@@ -8,8 +8,18 @@ import { ScrollPanel } from 'primereact/scrollpanel';
 import { BookmarkedTutorsCard } from './BookmarkedTutorsCard';
 
 type AccountInfo = { tutorView?: boolean; };
+export type BookmarkTutorResponse = {
+    TutorId: string;
+    StudentId: string,
+    Name: string,
+}
 
-const BookmarkedTutorsList = (props: AccountInfo) => {
+const BookmarkedTutorsList = (props: AccountInfo, props2: BookmarkTutorResponse) => {
+    const [bookmarkedTutorList, setBookmarkedTutorList] = useState<BookmarkTutorResponse[]>([]) // todo type script
+    const navigate = useNavigate();
+    const onClickHandler = (id: string) => {
+        // navigate(PageLink.DASHBOARD_TUTOR, {tutorId: tutorId});
+    }
 
     const template = (options:any) => {
         const className = `${options.className} justify-content-start`;
@@ -25,26 +35,22 @@ const BookmarkedTutorsList = (props: AccountInfo) => {
     };
 
     if(props.tutorView){
-    return(
-        <div>
-        </div>
-    );
+        return(
+            <div>
+            </div>
+        );
     }else{
         return(
-            <div className="card">
-                <div className="global-card">
-                <label className="text-xl">Bookmarked Tutors List</label>
-                </div>
-                <div className="grid">
-                    <div className="col-12 md:col-4">
-                        <ScrollPanel style={{ width: '310%', height: '80%' }}>
-                             <BookmarkedTutorsCard Name="Tutor1" Subject="Math" DateTime="21 Aug 2022 13:00"/>
-                             <BookmarkedTutorsCard Name="Tutor2" Subject="English" DateTime="21 Aug 2022 14:00"/>
-                        </ScrollPanel>
+            <Card>
+                <label className="flex text-xl font-semibold text-black ml-2 mb-3">Bookmarked Tutors List</label>
+                <div className="flex">
+                    <div className="flex flex-row">
+                        <BookmarkedTutorsCard Name="Tutor1" />
+                        <BookmarkedTutorsCard Name="Tutor2" />
                     </div>
                 </div>
-            </div>
-        )
+            </Card>
+        );
     }
-}
-export { BookmarkedTutorsList }
+};
+export { BookmarkedTutorsList };
