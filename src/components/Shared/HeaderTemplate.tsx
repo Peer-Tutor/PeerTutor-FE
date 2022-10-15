@@ -10,9 +10,10 @@ const HeaderTemplate = (options: any): React.ReactNode => {
             <label className="text-base font-semibold text-dark-blue mr-1">
                 {titleClassName}
             </label>
-            <Badge value={totalCount} severity="info"></Badge>
+            {options.hideBadge === true? <></>: <Badge value={totalCount} severity="info"></Badge> }
+
         </div>
     )
 };
 
-export {HeaderTemplate}
+export { HeaderTemplate }

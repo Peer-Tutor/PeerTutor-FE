@@ -4,6 +4,11 @@ import { Chip } from 'primereact/chip'
 import React, { useEffect, useState } from 'react'
 import { getSelectedTutorDetails } from './Service'
 
+import { Chips } from 'primereact/chips';
+import { MultiSelect } from 'primereact/multiselect'
+import { Panel } from 'primereact/panel'
+import { HeaderTemplate } from '../../components/Shared/HeaderTemplate'
+
 
 export type TutorDetail = {
     id: string,
@@ -16,18 +21,21 @@ export type TutorDetail = {
 type BookingFormProps = {
     tutorId: string,
     selectedDates: string[],
-    setBookingFormVisibility: any,
-    removeSelectedDate: (d: string) => void,
-    handleSubmit: () => void
+    handleSubmit: () => void,
+    setSelectedDates: any,
+    selectedDateDetails: {
+        name: string;
+        code: string;
+    }[],
 };
-const BookingForm = ({ tutorId, selectedDates, setBookingFormVisibility, removeSelectedDate, handleSubmit }: BookingFormProps) => {
+const BookingForm = ({ tutorId, selectedDates, handleSubmit, setSelectedDates, selectedDateDetails }: BookingFormProps) => {
 
     const [tutorDetails, setTutorDetails] = useState<TutorDetail>();
     useEffect(() => {
         getSelectedTutorDetails(tutorId, setTutorDetails)
     }, []);
     return (
-        <Card className="flex flex-column py-4 w-full">
+        <Panel header={HeaderTemplate({ title: 'Book Tuition', hideBadge: true })} className="flex flex-column">
             <div className="flex flex-column mx-auto gap-2 col-6">
                 <div className="flex flex-column gap-2">
                     <label className="text-orange text-sm font-semibold">Tutor Name</label>
@@ -46,24 +54,23 @@ const BookingForm = ({ tutorId, selectedDates, setBookingFormVisibility, removeS
                     <p>{tutorDetails?.certificates.replaceAll(';', ', ')}</p>
                 </div>
                 <div className="flex flex-column gap-2">
-                    <div className="flex flex-row align-items-center justify-content-between">
-                        <label className="text-orange text-sm font-semibold">Selected Dates</label>
-                        <Button icon='fa-regular fa-calendar' onClick={() => { setBookingFormVisibility(true) }}></Button>
-                    </div>
+                    <label className="text-orange text-sm font-semibold">Selected Dates</label>
+                    {selectedDateDetails.length > 0 ?
+                        <MultiSelect display="chip" className="col-12"
+                            value={selectedDates}
+                            options={selectedDateDetails}
+                            optionLabel="code"
+                            optionValue="code"
+                            onChange={(e) => setSelectedDates(e.value)}
+                        /> :
+                        <><p>No dates available</p></>}
 
-                </div>
-                <div className="flex gap-1 flex-wrap">
-                    {selectedDates.length > 0 ? (selectedDates.map((elt) => {
-                        return (
-                            <Chip removable={true} label={elt} defaultValue={elt} key={elt} onRemove={() => { removeSelectedDate(elt) }} />
-                        )
-                    })) : <p>No dates selected.</p>}
                 </div>
                 <div className="flex flex-grow-1 flex-row-reverse">
                     <Button label="Submit" className="p-button-primary" onClick={handleSubmit} />
                 </div>
             </div>
-        </Card>
+        </Panel>
     );
 };
 
