@@ -22,13 +22,13 @@ export type RequestResponse = {
 };
 const IncomingRequest = () => {
     const [value1, setValue1] = useState('');
-    const [selectedCity1, setSelectedCity1] = useState<any>(null);
+    const [subject, setSubject] = useState<any>(null);
     const [date, setDate] = useState<any>(null);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalRecords, setTotalRecords] = useState(0);
-    const [requestList, setRequestList] = useState<RequestResponse[]>([]) // todo type script
+    const [requestList, setRequestList] = useState<RequestResponse[]>([]); // todo type script
     
-    const cities = SubjectList;
+    const subjectList = SubjectList;
 
     const template = (options:any) => {
         const className = `${options.className} justify-content-start`;
@@ -41,9 +41,8 @@ const IncomingRequest = () => {
                 </label>
                 <Badge value="4" severity="info"></Badge>
             </div>
-        )
+        );
     };
-
 
     return (
            <Panel headerTemplate={template} className="singlePanel">
@@ -55,10 +54,9 @@ const IncomingRequest = () => {
                         </span>
                     </div>
                     <div className="flex">
-                        <Dropdown optionLabel="name" value={selectedCity1} options={cities}
-                                  onChange={(e) => setSelectedCity1(e.target.value)}
-                                  placeholder="Subject" showClear
-                                  />
+                        <Dropdown optionLabel="name" value={subject} options={subjectList}
+                                  onChange={(e) => setSubject(e.target.value)}
+                                  placeholder="Subject" showClear/>
                     </div>
                     <div className="flex-1 flex">
                         <Paginator
@@ -88,6 +86,6 @@ const IncomingRequest = () => {
                     </div>
                 </div>
            </Panel>
-    )
+    );
 };
-export { IncomingRequest }
+export { IncomingRequest };

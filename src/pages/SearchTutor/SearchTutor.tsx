@@ -33,7 +33,6 @@ const SearchTutor = () => {
     const url = getUrl(Subdomain.TUTOR_MGR, '/tutors');
     useEffect(() => {
         getTutorList(setTotalRecords, setTutorList, currentPage)
-
     }, []);
 
     return (
@@ -78,8 +77,8 @@ const SearchTutor = () => {
                 </Panel>
             </div>
         </div>
-    )
-}
+    );
+};
 
 
 const RecommendationList = () => {
@@ -89,8 +88,8 @@ const RecommendationList = () => {
             <RecommendationCard />
             <RecommendationCard />
         </div>
-    )
-}
+    );
+};
 
 const RecommendationCard = () => {
     return (
@@ -104,7 +103,7 @@ const RecommendationCard = () => {
             </div>
             <i><p className="m-0 mt-2">Good tutor</p></i>
         </div>
-    )
-}
+    );
+};
 
-export { SearchTutor }
+export { SearchTutor };

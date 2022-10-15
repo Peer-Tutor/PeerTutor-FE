@@ -68,6 +68,6 @@ const TutorCalendar = () => {
     
                             </table>
         </div>
-    )
-}
-export { TutorCalendar }
+    );
+};
+export { TutorCalendar };

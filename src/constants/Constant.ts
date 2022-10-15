@@ -3,7 +3,7 @@ export const TUTOR_RESULTS_PAGINATION_PAGE_SIZE = 3;
 export enum AccountType {
     STUDENT = 'STUDENT',
     TUTOR = 'TUTOR'
-}
+};
 
 export enum PageLink {
     DEFAULT = "/",
@@ -17,11 +17,11 @@ export enum PageLink {
     TUITION_CALENDAR = '/dashboard/tuition-calendar',
     SEARCH_TUTOR = '/dashboard/search-tutor',
     BOOK_TUITION= '/dashboard/tuition-booking'
-}
+};
 
 export enum SessionStorage {
     ACCOUNT = "account"
-}
+};
 
 export enum Subject {
     BIOLOGY = "Biology",
@@ -34,7 +34,7 @@ export enum Subject {
     MATH = "Math",
     PHYSICS = "Physics",
     TAMIL = "Tamil"
-}
+};
 
 export enum Certificate {
     OLEVEL = "O-Level",
@@ -43,7 +43,7 @@ export enum Certificate {
     BACHELOR = "Bachelor",
     MASTER = "Master",
     DOCTORATE = "Doctorate"
-}
+};
 
 export const AccountTypeList = [ { name: 'Student', code: AccountType.STUDENT }, { name: 'Tutor', code: AccountType.TUTOR } ];
 

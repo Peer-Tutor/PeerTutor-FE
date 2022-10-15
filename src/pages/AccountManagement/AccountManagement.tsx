@@ -163,5 +163,5 @@ const AccountManagement = () => {
            </Card>
         );
     }
-}
-export { AccountManagement }
+};
+export { AccountManagement };

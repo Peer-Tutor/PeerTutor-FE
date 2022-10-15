@@ -15,13 +15,13 @@ import { BookingForm } from "./BookingForm";
 
 interface CustomizedState {
     tutorId: string
-}
+};
 
 const TuitionBooking = () => {
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [date, setDate] = useState(new Date());
     const [isTutorView, setTutorView] = useState('');
-    const [selectedDates, setSelectedDates] = useState<string[]>([])
+    const [selectedDates, setSelectedDates] = useState<string[]>([]);
 
     const location = useLocation();
     const data = location.state as CustomizedState; // Type Casting, then you can get the params passed via router
@@ -32,28 +32,27 @@ const TuitionBooking = () => {
         } else {
             console.log('tutorId is undefined!')
         }
-    }
+    };
+
     const handleSelectDate = () => {
 
         const newDate = convertDateToYYYYMMDD(date)
         const newSelectedDates = []
         if (!selectedDates.includes(newDate)) {
-            newSelectedDates.push(...selectedDates)
-            newSelectedDates.push(newDate)
-            setSelectedDates(newSelectedDates)
+            newSelectedDates.push(...selectedDates);
+            newSelectedDates.push(newDate);
+            setSelectedDates(newSelectedDates);
         }
-
-        setShowDatePicker(false)
-
+        setShowDatePicker(false);
     }
     const removeSelectedDate = (date: string) => {
-        const newSelectedDates = selectedDates.filter((elt) => elt !== date)
-        setSelectedDates(newSelectedDates)
+        const newSelectedDates = selectedDates.filter((elt) => elt !== date);
+        setSelectedDates(newSelectedDates);
     }
 
     const handleDateChange = (e: { value: any }) => {
         const newDate = e.value;
-        console.log(newDate)
+        console.log(newDate);
         setDate(newDate);
         setShowDatePicker(true);
     }
@@ -135,8 +134,8 @@ const TuitionBooking = () => {
                 <RequestListCard tutorView={isTutorView} />
             </div>
         </div>
-    )
-}
+    );
+};
 
 
-export { TuitionBooking }
+export { TuitionBooking };

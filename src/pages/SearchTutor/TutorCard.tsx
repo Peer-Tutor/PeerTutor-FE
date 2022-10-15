@@ -12,16 +12,16 @@ const TutorCard = (props: TutorCardProps) => {
     const [bookmarked, BookmarkTutor] = useState(false);
     const onClickHandler = (id: string) => {
         navigate(PageLink.BOOK_TUITION, { state: { tutorId: tutorId } });
-
     }
+
     const changeBookmarkIcon = (id: string) => {
         if (bookmarked == true) {
             BookmarkTutor(false);
-        }
-        else {
+        }else {
             BookmarkTutor(true);
         }
     }
+
     return (
         <>
             <div className="flex flex-row align-items-center flex-grow-1 justify-content-between p-3 my-3" >
@@ -46,7 +46,7 @@ const TutorCard = (props: TutorCardProps) => {
                 </div>
             </div>
         </>
-    )
-}
+    );
+};
 
-export { TutorCard }
+export { TutorCard };

@@ -9,11 +9,10 @@ import { ScrollPanel } from 'primereact/scrollpanel';
 
 type AccountInfo = {
     tutorView?: string;
-}
+};
 
 const RequestListCard = (props: AccountInfo) => {
     const [value1, setValue1] = useState('');
-
 
     if(props.tutorView == "true"){
         return(
@@ -31,14 +30,12 @@ const RequestListCard = (props: AccountInfo) => {
                 </div>
             </div>
         );
-    }
-    else
-    {
+    } else {
         return(
             <div>
             </div>
-        )
+        );
     }
-}
+};
 
-export { RequestListCard }
+export { RequestListCard };

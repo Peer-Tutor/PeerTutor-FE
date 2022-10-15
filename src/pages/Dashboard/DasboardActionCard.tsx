@@ -15,7 +15,7 @@ const DasboardActionCard = (props: DasboardActionCardInput) => {
 
     const onClickHandler = ()=>{
         navigate(PageLink.SEARCH_TUTOR)
-    }
+    };
     if(props.tutorView){
         return (
             <Card className="flex align-items-center">
@@ -39,5 +39,5 @@ const DasboardActionCard = (props: DasboardActionCardInput) => {
             </Card>
         );
     }
-}
-export { DasboardActionCard }
+};
+export { DasboardActionCard };

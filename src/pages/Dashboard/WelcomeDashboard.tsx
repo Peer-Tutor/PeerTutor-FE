@@ -36,7 +36,7 @@ const WelcomeDashboard = () => {
                     <label className="col-12 text-center font-base text-xs text-black">View upcoming tuition session</label>
                 </div>
              </div>
-             </Card>
-        );
-}
-export { WelcomeDashboard }
+        </Card>
+    );
+};
+export { WelcomeDashboard };

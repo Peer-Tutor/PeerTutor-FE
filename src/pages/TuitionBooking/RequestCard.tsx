@@ -8,7 +8,7 @@ type StudentInfo = {
     Name?: string;
     Subject?: string;
     DateTime?: string;
-}
+};
 const RequestCard = (props: StudentInfo) => {
     const [studentName, setStudentName] = useState('');
     const [subject, setSubject] = useState('');
@@ -33,6 +33,6 @@ const RequestCard = (props: StudentInfo) => {
                      </div>
                 </div>
            </Card>
-    )
-}
-export { RequestCard }
+    );
+};
+export { RequestCard };

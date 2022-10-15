@@ -26,10 +26,8 @@ const submitForm = (tutorId: string, selectedDates: string[]) => {
         }).catch(err => {
             console.log(err)
             // toast?.current?.show({ severity: 'error',content: 'failure', closable: false, life: 5000 });
-
         })
     }
-
 }
 
 const getSelectedTutorDetails = (tutorId: string, setTutorDetails: React.Dispatch<React.SetStateAction<TutorDetail | undefined>>) => {
@@ -42,14 +40,13 @@ const getSelectedTutorDetails = (tutorId: string, setTutorDetails: React.Dispatc
             sessionToken: sessionToken,
             id: tutorId,
         }
-    })
-        .then(res => {
-            // res.data
-            setTutorDetails(res.data)
-        }).catch(err => {
-            console.log(err)
-        })
-}
+    }).then(res => {
+        // res.data
+        setTutorDetails(res.data)
+    }).catch(err => {
+        console.log(err)
+    });
+};
 
 
-export { submitForm, getSelectedTutorDetails }
+export { submitForm, getSelectedTutorDetails };

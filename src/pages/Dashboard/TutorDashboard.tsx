@@ -9,21 +9,21 @@ import { Button } from 'primereact/button';
 const TutorDashboard = () => {
     const viewObject = { tutorView: true };
     return (
-    <div className="grid col-12">
-        <div className="field col-7">
-            <div className="flex gap-4">
-                <ProfileCard    tutorView={true}
-                                introduction={'Hi I\'m a tutor under tutor scheme'}
-                                subjects={'Chinese;English'}
-                                certificates={'Master;Bachelor'}
-                />
+        <div className="grid col-12">
+            <div className="field col-7">
+                <div className="flex gap-4">
+                    <ProfileCard    tutorView={true}
+                                    introduction={'Hi I\'m a tutor under tutor scheme'}
+                                    subjects={'Chinese;English'}
+                                    certificates={'Master;Bachelor'}/>
+                </div>
+                <UpcomingActivities />
             </div>
-            <UpcomingActivities />
+            <div className="field col-5">
+                <IncomingRequest />
+            </div>
         </div>
-        <div className="field col-5">
-            <IncomingRequest />
-        </div>
-    </div>
-    )
-}
-export { TutorDashboard }
+    );
+};
+
+export { TutorDashboard };

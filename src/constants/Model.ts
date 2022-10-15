@@ -19,7 +19,7 @@ export type AccountResponse = {
     introduction?: string;
     subjects?: string;
     certificates?: string;
-}
+};
 
 export type AccountInfo = {
     id?: number;
@@ -28,4 +28,4 @@ export type AccountInfo = {
     introduction?: string;
     subjects?: string;
     certificates?: string;
-}
+};

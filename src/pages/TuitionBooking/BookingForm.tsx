@@ -11,7 +11,7 @@ export type TutorDetail = {
     introduction: string,
     subjects: string,
     certificates: string
-}
+};
 
 type BookingFormProps = {
     tutorId: string,
@@ -19,13 +19,13 @@ type BookingFormProps = {
     setBookingFormVisibility: any,
     removeSelectedDate: (d: string) => void,
     handleSubmit: () => void
-}
+};
 const BookingForm = ({ tutorId, selectedDates, setBookingFormVisibility, removeSelectedDate, handleSubmit }: BookingFormProps) => {
 
-    const [tutorDetails, setTutorDetails] = useState<TutorDetail>()
+    const [tutorDetails, setTutorDetails] = useState<TutorDetail>();
     useEffect(() => {
         getSelectedTutorDetails(tutorId, setTutorDetails)
-    }, [])
+    }, []);
     return (
         <Card className="flex flex-column py-4 w-full">
             <div className="flex flex-column mx-auto gap-2 col-6">
@@ -64,7 +64,7 @@ const BookingForm = ({ tutorId, selectedDates, setBookingFormVisibility, removeS
                 </div>
             </div>
         </Card>
-    )
-}
+    );
+};
 
-export { BookingForm }
+export { BookingForm };

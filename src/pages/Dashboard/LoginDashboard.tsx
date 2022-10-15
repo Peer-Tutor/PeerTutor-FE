@@ -115,5 +115,5 @@ const LoginDashboard = () => {
             </div>
         );
     }
-}
-export { LoginDashboard }
+};
+export { LoginDashboard };

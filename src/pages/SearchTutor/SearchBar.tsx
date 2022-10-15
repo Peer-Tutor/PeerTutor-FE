@@ -8,7 +8,6 @@ const SearchBar = (props: { setTutorList: Dispatch<SetStateAction<TutorResponse[
     const { setTutorList } = props
     const [searchStr, setSearchStr] = useState('')
 
-
     const onChangeHandler = (e: any) => {
         setSearchStr(e.target.value)
         searchTutor(searchStr, setTutorList);
@@ -25,7 +24,6 @@ const SearchBar = (props: { setTutorList: Dispatch<SetStateAction<TutorResponse[
                 </div>
             </div>
         </>
-    )
-}
-
-export { SearchBar }
+    );
+};
+export { SearchBar };

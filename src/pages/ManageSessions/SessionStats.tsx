@@ -48,6 +48,6 @@ const SessionStats = () => {
                    </Card>
                </div>
             </Card>
-    )
-}
-export { SessionStats }
+    );
+};
+export { SessionStats };

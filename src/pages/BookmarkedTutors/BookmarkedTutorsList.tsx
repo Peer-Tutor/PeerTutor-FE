@@ -21,14 +21,14 @@ const BookmarkedTutorsList = (props: AccountInfo) => {
                     {titleClassName}
                 </label>
             </div>
-        )
+        );
     };
 
     if(props.tutorView){
-    return(
-        <div>
-        </div>
-    );
+        return(
+            <div>
+            </div>
+        );
     }else{
         return(
             <div className="card">
@@ -44,7 +44,7 @@ const BookmarkedTutorsList = (props: AccountInfo) => {
                     </div>
                 </div>
             </div>
-        )
+        );
     }
-}
-export { BookmarkedTutorsList }
+};
+export { BookmarkedTutorsList };

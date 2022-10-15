@@ -23,7 +23,7 @@ const getTutorList = (setTotalRecords: any, setTutorList: any, currentPage: numb
     }).catch(err => {
         console.log('error!', err);
     });
-}
+};
 
 const searchTutor = (tutorName: string, setTutorList: React.Dispatch<React.SetStateAction<TutorResponse[]>>) => {
     const url = getUrl(Subdomain.TUTOR_MGR, '/tutors');
@@ -43,11 +43,10 @@ const searchTutor = (tutorName: string, setTutorList: React.Dispatch<React.SetSt
         //     severity: 'success',
         //     content: 'Successfully made order', closable: false, life: 5000
         // });
-    })
-        .catch(err => {
-            //@ts-ignore
-            console.log('error!', err);
-        });
-}
+    }).catch(err => {
+        //@ts-ignore
+        console.log('error!', err);
+    });
+};
 
-export { searchTutor, getTutorList }
+export { searchTutor, getTutorList };
