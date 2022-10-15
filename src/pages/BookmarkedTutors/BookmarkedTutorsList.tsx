@@ -11,19 +11,6 @@ type AccountInfo = { tutorView?: boolean; };
 
 const BookmarkedTutorsList = (props: AccountInfo) => {
 
-    const template = (options:any) => {
-        const className = `${options.className} justify-content-start`;
-        const titleClassName = `Bookmarked Tutors List`;
-
-        return (
-            <div className={className}>
-                <label className="text-base font-semibold text-dark-blue mr-1">
-                    {titleClassName}
-                </label>
-            </div>
-        );
-    };
-
     if(props.tutorView){
         return(
             <div>
@@ -31,19 +18,15 @@ const BookmarkedTutorsList = (props: AccountInfo) => {
         );
     }else{
         return(
-            <div className="card">
-                <div className="global-card">
-                <label className="text-xl">Bookmarked Tutors List</label>
-                </div>
-                <div className="grid">
-                    <div className="col-12 md:col-4">
-                        <ScrollPanel style={{ width: '310%', height: '80%' }}>
-                             <BookmarkedTutorsCard Name="Tutor1" Subject="Math" DateTime="21 Aug 2022 13:00"/>
-                             <BookmarkedTutorsCard Name="Tutor2" Subject="English" DateTime="21 Aug 2022 14:00"/>
-                        </ScrollPanel>
+            <Card>
+                <label className="flex text-xl font-semibold text-black ml-2 mb-3">Bookmarked Tutors List</label>
+                <div className="flex">
+                    <div className="flex flex-row">
+                        <BookmarkedTutorsCard name="Tutor1" intro="" subject="Math" certs="O-Level;Chemistry"/>
+                        <BookmarkedTutorsCard name="Tutor2" intro="" subject="English" certs="O-Level;Chemistry"/>
                     </div>
                 </div>
-            </div>
+            </Card>
         );
     }
 };

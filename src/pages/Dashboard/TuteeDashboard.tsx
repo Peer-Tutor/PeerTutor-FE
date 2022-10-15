@@ -16,10 +16,12 @@ const TuteeDashboard = () => {
                     <DasboardActionCard tutorView={false}/>
                 </div>
                 <UpcomingActivities />
-                <BookmarkedTutorsList tutorView={false} />
             </div>
             <div className="field col-5">
                 <PendingRequest />
+            </div>
+            <div className="field col-12">
+                <BookmarkedTutorsList tutorView={false} />
             </div>
         </div>
     );

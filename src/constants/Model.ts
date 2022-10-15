@@ -29,3 +29,11 @@ export type AccountInfo = {
     subjects?: string;
     certificates?: string;
 };
+
+export type TutorCardProps = {
+    tutorId?: string;
+    subject?: string;
+    name?: string;
+    certs?: string;
+    intro?: string;
+};

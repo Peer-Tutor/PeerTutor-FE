@@ -19,7 +19,7 @@
 .p-button-primary-outlined {
     color: #F66B0E !important;
     background-color: #ffffff !important;
-    border: 0.125rem solid #F66B0E !important;
+    border: none !important;
  }
 .p-button-secondary { background-color: #205375 !important; }
 .p-button-tertiary, .p-button-tertiary:enabled:hover{
@@ -103,6 +103,4 @@ input.p-inputtext{ height: fit-content !important; padding-left: 1rem !important
     border: solid #112B3C !important;
 }
 
-.p-rating .p-rating-item.p-rating-item-active .p-rating-icon, .p-rating-icon .pi .pi-star-fill{
-    color: #F66B0E !important;
-}
+.p-rating .p-rating-item .p-rating-icon { color: #F66B0E !important; font-size: 1rem !important;}

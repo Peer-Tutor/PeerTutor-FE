@@ -38,7 +38,7 @@ const SearchTutor = () => {
     return (
         <div className="grid col-12">
             <div className="field col-7 ">
-                <Panel header={HeaderTemplate({ title: 'Search Tutors', totalCount: totalRecords})} className="flex flex-column px-4 py-4 w-full">
+                <Panel header={HeaderTemplate({ title: 'Search Tutors', totalCount: totalRecords})} className="flex flex-column">
                     <div className="ml-3 flex flex-row">
                         <SearchBar setTutorList={setTutorList} />
                         <Paginator
@@ -72,7 +72,7 @@ const SearchTutor = () => {
                 </Panel>
             </div>
             <div className="field col-5 ">
-                <Panel header={HeaderTemplate({ title: 'Recommended Tutors' , totalCount: 3})} className="flex flex-column w-full px-4 py-4">
+                <Panel header={HeaderTemplate({ title: 'Recommended Tutors' , totalCount: 3})} className="flex flex-column">
                     <RecommendationList />
                 </Panel>
             </div>
@@ -83,7 +83,7 @@ const SearchTutor = () => {
 
 const RecommendationList = () => {
     return (
-        <div className="flex gap-3 flex-wrap">
+        <div className="flex flex-row flex-wrap justify-content-evenly">
             <RecommendationCard />
             <RecommendationCard />
             <RecommendationCard />
@@ -93,15 +93,13 @@ const RecommendationList = () => {
 
 const RecommendationCard = () => {
     return (
-        <div className="surface-ground py-4 px-4 border-round">
-            <div className="flex flex-row  justify-content-center align-items-center">
+        <div className="surface-ground py-2 px-4 border-round">
+            <div className="flex flex-column justify-content-center align-items-center gap-3">
                 <i className="text-5xl text-orange fa-regular fa-circle-user"></i>
-                <div className=" flex flex-column ml-3">
-                    <label className="text-black font-semibold m-0 mb-2">Tutor one</label>
-                    <Rating value={3} stars={5} cancel={false} readOnly />
-                </div>
+                <label className="flex text-xl text-black font-bold">Tutor one</label>
+                <label className="flex flex-1 text-xs text-black">{'Math;English'.replace(';',', ')}</label>
+                <Rating className="text-xs" value={3} stars={5} cancel={false} readOnly />
             </div>
-            <i><p className="m-0 mt-2">Good tutor</p></i>
         </div>
     );
 };

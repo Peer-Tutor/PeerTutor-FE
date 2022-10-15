@@ -2,9 +2,9 @@ import { Button } from "primereact/button";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PageLink } from "../../constants/Constant";
+import { TutorCardProps } from "../../constants/Model";
 import { getSessionTokenValues, getUrl } from "../../utils/apiUtils";
 
-type TutorCardProps = { tutorId: string, subject: string, name: string, certs: string, intro: string }
 const TutorCard = (props: TutorCardProps) => {
     const { tutorId, subject, name, certs, intro } = props
     const navigate = useNavigate();
@@ -30,18 +30,18 @@ const TutorCard = (props: TutorCardProps) => {
                         <i className="text-6xl text-orange fa-regular fa-circle-user mx-3"></i>
                     </div>
                     <div className="flex flex-column flex-1">
-                        <label className="flex text-xl text-black font-bold m-0">{name ? name : 'undefined'}</label>
-                        <label className="flex text-xs font-italic m-0 mt-1">{intro ? intro : 'undefined'}</label>
+                        <label className="flex text-xl text-black font-bold m-0">{name ? name : '-'}</label>
+                        <label className="flex text-xs font-italic m-0 mt-1">{intro ? intro : '-'}</label>
                         <div className="flex flex-row mt-3">
                             <label className="flex text-xs text-black font-semibold mr-2">Subject:</label>
-                            <label className="flex flex-1 text-xs text-black">{subject ? subject.replace(';', ', ') : 'undefined'}</label>
-                            <label className="flex text-sm text-black font-semibold mr-2">Certifications:</label>
-                            <label className="flex flex-1 text-xs text-black">{certs.replace(';', ', ')}</label>
+                            <label className="flex flex-1 text-xs text-black">{subject ? subject.replace(';', ', ') : '-'}</label>
+                            <label className="flex text-xs text-black font-semibold mr-2">Certifications:</label>
+                            <label className="flex flex-1 text-xs text-black">{certs ? certs.replace(';', ', ') : '-'}</label>
                         </div>
                     </div>
                     <div className="flex">
-                        <Button icon="fa-regular fa-bookmark" className={bookmarked ? 'p-button-rounded p-button-primary' : 'p-button-primary-outlined' } aria-label="Bookmark" onClick={()=>{changeBookmarkIcon(tutorId)} }/>
-                        <Button icon="fa-solid fa-calendar-check" className="p-button-rounded p-button-secondary" aria-label="Schedule Tuition" onClick={() => { onClickHandler(tutorId) }}  />
+                        <Button icon={bookmarked ? 'fa-solid fa-bookmark': 'fa-regular fa-bookmark'} className="p-button-primary-outlined" aria-label="Bookmark" onClick={()=>{changeBookmarkIcon(tutorId ?? '')} }/>
+                        <Button icon="fa-solid fa-calendar-check" className="p-button-rounded p-button-secondary" aria-label="Schedule Tuition" onClick={() => { onClickHandler(tutorId ?? '') }}  />
                     </div>
                 </div>
             </div>
