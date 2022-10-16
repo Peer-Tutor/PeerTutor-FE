@@ -57,11 +57,6 @@ export default function NavBar(props: BaseLayoutProps) {
                             </li>
                         </Link>
                         <li className="flex align-items-center mr-5">
-                            <Link to={PageLink.MANAGE_SESSION}>
-                                <i className="text-xl mr-3 fa-regular fa-calendar-check"></i>Manage Sessions
-                            </Link>
-                        </li>
-                        <li className="flex align-items-center mr-5">
                             <Link to={PageLink.MANAGE_ACCOUNT}>
                                 <i className="text-xl mr-3 fa-solid fa-id-card"></i>Account Management
                             </Link>

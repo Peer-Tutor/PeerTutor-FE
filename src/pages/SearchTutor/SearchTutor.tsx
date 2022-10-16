@@ -93,9 +93,9 @@ const RecommendationList = () => {
 
 const RecommendationCard = () => {
     return (
-        <div className="surface-ground py-2 px-4 border-round">
+        <div className="surface-ground p-4 border-round">
             <div className="flex flex-column justify-content-center align-items-center gap-3">
-                <i className="text-5xl text-orange fa-regular fa-circle-user"></i>
+                <i className="text-5xl text-orange fa-solid fa-chalkboard-user"></i>
                 <label className="flex text-xl text-black font-bold">Tutor one</label>
                 <label className="flex flex-1 text-xs text-black">{'Math;English'.replace(';',', ')}</label>
                 <Rating className="text-xs" value={3} stars={5} cancel={false} readOnly />

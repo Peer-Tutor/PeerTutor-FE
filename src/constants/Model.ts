@@ -37,3 +37,14 @@ export type TutorCardProps = {
     certs?: string;
     intro?: string;
 };
+
+export type UpcomingActivitiesResponse = {
+    id?: number;
+    studentId?: number;
+    tutorView?: number;
+    selectedDates?: string;
+    status?: number;
+    studentName?: string;
+    tutorName?: string;
+    subject?:string;
+};

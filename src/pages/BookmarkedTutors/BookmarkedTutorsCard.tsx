@@ -27,7 +27,7 @@ const BookmarkedTutorsCard = (props: BookmarkInfo) => {
         <Card className="mx-3 flex border-solid">
             <div className="flex flex-row align-items-center gap-2">
                 <div className="flex">
-                    <i className="text-6xl text-orange fa-regular fa-circle-user mx-3"></i>
+                    <i className="text-5xl text-orange fa-regular fa-circle-user mx-3"></i>
                 </div>
                 <div className="flex flex-column flex-1">
                     <label className="flex text-xl text-black font-bold m-0">{props.Name ? props.Name : '-'}</label>

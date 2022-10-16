@@ -48,7 +48,7 @@ const ProfileCard = (props: AccountInfo) => {
                 <div className="flex align-items-center">
                     <Link to={ PageLink.MANAGE_ACCOUNT }>
                         <div className="flex flex-column align-items-center gap-3">
-                            <i className="text-6xl text-orange fa-regular fa-circle-user"></i>
+                            <i className="text-5xl text-orange fa-regular fa-circle-user"></i>
                             <label className="text-base font-bold text-dark-blue">Profile Overview</label>
                         </div>
                     </Link>
@@ -76,7 +76,7 @@ const ProfileCard = (props: AccountInfo) => {
                 <div className="flex align-items-center">
                     <Link to={ PageLink.MANAGE_ACCOUNT }>
                         <div className="flex flex-column align-items-center gap-3">
-                            <i className="text-6xl text-orange fa-regular fa-circle-user"></i>
+                            <i className="text-5xl text-orange fa-regular fa-circle-user"></i>
                             <label className="text-base font-bold text-dark-blue">Profile Overview</label>
                         </div>
                     </Link>

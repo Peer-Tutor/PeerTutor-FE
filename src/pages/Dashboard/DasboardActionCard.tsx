@@ -21,7 +21,7 @@ const DasboardActionCard = (props: DasboardActionCardInput) => {
             <Card className="flex align-items-center">
                 <div className="flex">
                     <div className="flex flex-column align-items-center gap-2 p-4">
-                        <i className="text-6xl text-orange fa-regular fa-calendar-plus"></i>
+                        <i className="text-5xl text-orange fa-regular fa-calendar-plus"></i>
                         <label className="text-base font-bold text-dark-blue">Create Session</label>
                     </div>
                 </div>
@@ -32,7 +32,7 @@ const DasboardActionCard = (props: DasboardActionCardInput) => {
             <Card className="flex align-items-center">
                 <div className="flex">
                     <div onClick={onClickHandler} className="flex flex-column align-items-center gap-2 p-4">
-                        <i className="text-6xl text-orange fa-solid fa-people-group"></i>
+                        <i className="text-5xl text-orange fa-solid fa-people-group"></i>
                         <label className="text-base font-bold text-dark-blue">Search Tutor</label>
                     </div>
                 </div>

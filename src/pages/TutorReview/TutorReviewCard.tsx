@@ -21,7 +21,7 @@ const TutorReviewCard = (props: TutorReviewCardProps) => {
             <div className="flex flex-row align-items-center flex-grow-1 justify-content-between border-solid border-orange-500 border-round p-3 my-3" >
                 <div className="flex flex-row flex-grow-1 align-items-center gap-3">
                     <div className="flex">
-                        <i className="text-6xl text-orange fa-regular fa-circle-user mx-3"></i>
+                        <i className="text-5xl text-orange fa-regular fa-circle-user mx-3"></i>
                     </div>
                     <div className="flex flex-column flex-1">
                         <div className="flex flex-row mt-3">
