@@ -22,6 +22,11 @@
     border: none !important;
  }
 .p-button-secondary { background-color: #205375 !important; }
+.p-button-secondary-outlined {
+    color: #205375 !important;
+    background-color: #ffffff !important;
+    border: none !important;
+}
 .p-button-tertiary, .p-button-tertiary:enabled:hover{
     color: #205375 !important;
     background-color: #ffffff !important;
@@ -104,3 +109,8 @@ input.p-inputtext{ height: fit-content !important; padding-left: 1rem !important
 }
 
 .p-rating .p-rating-item .p-rating-icon { color: #F66B0E !important; font-size: 1rem !important;}
+
+.p-tooltip{
+    font-size: 0.6rem !important;
+    padding: 0.1rem !important;
+}

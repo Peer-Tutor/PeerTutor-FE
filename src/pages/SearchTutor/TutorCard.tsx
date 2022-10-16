@@ -7,6 +7,7 @@ import { PageLink } from "../../constants/Constant";
 import { TutorCardProps } from "../../constants/Model";
 import { getSessionTokenValues, getUrl } from "../../utils/apiUtils";
 import { BookmarkResponse } from "../../pages/BookmarkedTutors/BookmarkedServices";
+import { Tooltip } from 'primereact/tooltip';
 
 const TutorCard = (props: TutorCardProps) => {
     const { tutorId, subject, name, certs, intro } = props
@@ -17,8 +18,8 @@ const TutorCard = (props: TutorCardProps) => {
     }
     const onClickHandler1 = (id: string) => {
         navigate(PageLink.TUTOR_REVIEW, { state: { tutorId: tutorId } });
-
     }
+
     const { sessionToken, profileId } = getSessionTokenValues();
     const [bookmarked, BookmarkTutor] = useState(false);
     const bookmarkUrl = getUrl(Subdomain.BOOKMARK_MGR, '/bookmark');
@@ -63,10 +64,13 @@ const TutorCard = (props: TutorCardProps) => {
                             <label className="flex flex-1 text-xs text-black">{certs ? certs.replace(';', ', ') : '-'}</label>
                         </div>
                     </div>
-                    <div className="flex">
-                        <Button icon={bookmarked ? 'fa-solid fa-bookmark': 'fa-regular fa-bookmark'} className="p-button-primary-outlined" aria-label="Bookmark" onClick={()=>{handleBookmarkSubmit(tutorId ?? '')} }/>
-                        <Button icon="fa-solid fa-calendar-check" className="p-button-rounded p-button-secondary" aria-label="Schedule Tuition" onClick={() => { onClickHandler(tutorId ?? '') }}  />
-                        <Button icon="fa-solid fa-calendar-check" className="p-button-rounded p-button-primary" aria-label="Schedule Tuition" onClick={() => { onClickHandler1(tutorId ?? '') }}  />
+                    <div className="flex align-items-evenly">
+                        <Button icon={bookmarked ? 'fa-solid fa-bookmark': 'fa-regular fa-bookmark'} className="p-button-primary-outlined" aria-label="Bookmark" onClick={()=>{handleBookmarkSubmit(tutorId ?? '')} }
+                            tooltip={bookmarked ? "Remove Bookmark" : "Bookmark"} tooltipOptions={{position: 'top'}}/>
+                        <Button icon="fa-solid fa-calendar-check" className="p-button-secondary" aria-label="Schedule" onClick={() => { onClickHandler1(tutorId ?? '') }}
+                            tooltip="Schedule Session" tooltipOptions={{position: 'top'}}/>
+                        <Button icon="fa-solid fa-star-half-stroke" className="p-button-primary" aria-label="Review" onClick={() => { onClickHandler(tutorId ?? '') }}
+                            tooltip="Review" tooltipOptions={{position: 'top'}}/>
                     </div>
                 </div>
             </div>
