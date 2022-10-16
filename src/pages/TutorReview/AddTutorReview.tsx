@@ -11,20 +11,22 @@ import { Rating } from "primereact/rating";
 import { InputTextarea } from "primereact/inputtextarea";
 import { PageLink, SessionStorage } from "../../constants/Constant";
 import axios from "axios";
-import { getUrl } from "../../utils/apiUtils";
 import { Subdomain } from "../../constants/Subdomain";
+import { getSessionTokenValues, getUrl } from "../../utils/apiUtils";
 
 
 const AddTutorReview = () => {
     const [toast] = useToastHook()
     const navigate = useNavigate();
+    const [tutorId, setTutorId] = useState<any>(null);
     const [rating, setRating] = useState<any>(null);
     const [comment, setComment] = useState('');
     const [route, setRoute] = useState(PageLink.TUTOR_REVIEW);
 
     const addReview = () => {
         const url = getUrl(Subdomain.REVIEW_MGR, '/reviews');
-        axios.post(url, { rating: rating, comment: comment }).then(res => {
+        const { name, sessionToken, profileId } = getSessionTokenValues()
+        axios.post(url, { rating: rating, comment: comment, tutorId: profileId}).then(res => {
             navigate(PageLink.MANAGE_ACCOUNT);
         }).catch(err => {
             console.log('error!', err);
@@ -32,7 +34,7 @@ const AddTutorReview = () => {
     };
 
     return (
-        <div className="card">
+        <div className="global-component">
             <Toast ref={toast} />
             <Card className="col-12 my-auto py-8" title="Review">
                 <label className="text-base font-bold text-dark-blue" style={{ lineHeight: '3' }}>Rating:</label>

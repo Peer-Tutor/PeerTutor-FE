@@ -16,15 +16,11 @@ export enum PageLink {
     TUITION_BOOKING = '/dashboard/tuition-booking',
     TUITION_CALENDAR = '/dashboard/tuition-calendar',
     SEARCH_TUTOR = '/dashboard/search-tutor',
-<<<<<<< HEAD
     BOOK_TUITION= '/dashboard/tuition-booking',
     TUTOR_REVIEW= '/dashboard/tutor-review',
     ADD_TUTOR_REVIEW= '/dashboard/add-tutor-review'
-}
-=======
-    BOOK_TUITION= '/dashboard/tuition-booking'
 };
->>>>>>> 359e2a4f2edf80732d9c95ef832eb2ff4ee414f9
+
 
 export enum SessionStorage {
     ACCOUNT = "account"
