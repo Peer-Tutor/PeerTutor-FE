@@ -48,11 +48,10 @@ const UpcomingActivities = (props: DasboardActionCardInput) => {
                     {activityList?.map((activity, idx)=>{
                         if(activity.selectedDates == date){
                             return(
-                                <UpcomingActivitiesCard tutorView={props.tutorView ?? true}
+                                <UpcomingActivitiesCard
                                     studentName={activity.studentName}
                                     tutorName={activity.tutorName}
-                                    date={activity.selectedDates}
-                                    subject={activity.subject}/>
+                                    date={activity.selectedDates}/>
                             )
                         }
                     })

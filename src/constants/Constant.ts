@@ -75,3 +75,9 @@ export const CertificateList = [
     { name: Subject.PHYSICS, code: Subject.PHYSICS },
     { name: Subject.TAMIL, code: Subject.TAMIL }
 ];
+
+export const RequestStatus = {
+    PENDING: 0,
+    ACCEPTED: 1,
+    REJECTED: 2
+}

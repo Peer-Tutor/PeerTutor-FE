@@ -114,3 +114,5 @@ input.p-inputtext{ height: fit-content !important; padding-left: 1rem !important
     font-size: 0.6rem !important;
     padding: 0.1rem !important;
 }
+
+.p-scrollpanel .p-scrollpanel-bar{ background: #F66B0E !important;}
