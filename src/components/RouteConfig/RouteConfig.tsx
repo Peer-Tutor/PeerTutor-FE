@@ -22,13 +22,13 @@ const RouteConfig = () => {
         <Routes>
             <Route path="/" element={<BaseLayout authenticated={false}/>}>
                 <Route path="" element={<WelcomeDashboard />} />
-                <Route path="library" element={<PrimeReactSample />} />
+               {/*  <Route path="library" element={<PrimeReactSample />} /> */}
                 <Route path="*" element={<PageNotFound />} />
             </Route>
             <Route path="/dashboard" element={<BaseLayout authenticated={true}/>}>
                 <Route path="tutor" element={<TutorDashboard />} />
                 <Route path="student" element={<TuteeDashboard />} />
-                <Route path="manage-session" element={<ManageSessions />} />
+                {/* <Route path="manage-session" element={<ManageSessions />} /> */}
                 <Route path="manage-account" element={<AccountManagement />} />
                 <Route path="tuition-booking" element={<TuitionBooking />} />
                 <Route path="tuition-calendar" element={<TutorCalendar />} />
