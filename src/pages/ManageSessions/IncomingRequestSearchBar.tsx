@@ -32,15 +32,15 @@ const IncomingRequestSearchBar = (props: { setTuitionOrderList: Dispatch<SetStat
 
     const onChangeHandler = (e: any) => {
         setSearchStr(e.target.value)
-
     }
+
     const onClickHandler = () => {
         searchTuitionOrder(searchStr, setTuitionOrderList)
     }
 
     return (
         <>
-            <div className="flex flex-row align-items-center gap-2 mb-3">
+            <div className="flex flex-row align-items-center">
                 <div className="flex ">
                     <span className="p-input-icon-left">
                         <i className="fa-solid fa-magnifying-glass"></i>
@@ -50,12 +50,6 @@ const IncomingRequestSearchBar = (props: { setTuitionOrderList: Dispatch<SetStat
                             }
                         }} className="w-12" value={searchStr} onChange={onChangeHandler} placeholder="Student Name" />
                     </span>
-                </div>
-                <div className="flex flex-column align-items-center gap-3">
-                    <span >
-                        <Button onClick={onClickHandler}  className="fa-solid fa-magnifying-glass" />
-                    </span>
-
                 </div>
             </div>
         </>

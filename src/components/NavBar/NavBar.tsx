@@ -71,11 +71,6 @@ export default function NavBar(props: BaseLayoutProps) {
                                 <i className="text-xl mr-3 fa-solid fa-id-card"></i>Tutor Calendar
                             </Link>
                         </li>
-                        <li className="flex flex-grow-1 align-items-center mr-5">
-                            <Link to={PageLink.TUTOR_REVIEW}>
-                                <i className="text-xl mr-3 fa-solid fa-id-card"></i>Reviews
-                            </Link>
-                        </li>
                         <li className="flex flex-grow-1 align-items-center text-right mx-3 text-4xl flex-row-reverse" >|</li>
                         <li className="flex align-items-center mx-2"><i className="text-3xl fa-regular fa-circle-user"></i></li>
                         <li className="flex align-self-center mx-3 flex-column">
@@ -111,6 +106,11 @@ export default function NavBar(props: BaseLayoutProps) {
                         <li className="flex align-self-center mx-3 flex-column">
                             <label className="text-base font-semibold">{session.displayName ?? session.name}</label>
                             <label className="text-sm font-normal">{session.accountType}</label>
+                        </li>
+                        <li className="flex flex-grow-1 align-items-center mr-5">
+                            <Link to={PageLink.TUTOR_REVIEW}>
+                                <i className="text-xl mr-3 fa-solid fa-id-card"></i>Reviews
+                            </Link>
                         </li>
                         <li className="flex align-items-center ml-5 mr-2">
                             <Link to="/" onClick={clearSession}>
