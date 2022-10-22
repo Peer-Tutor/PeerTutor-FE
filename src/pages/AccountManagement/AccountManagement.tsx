@@ -141,7 +141,7 @@ const AccountManagement = () => {
                                      value={subject} options={subjectList} onChange={(e) => setSubject(e.value)} />
                         </div>
                         <div className="flex flex-column gap-2">
-                            <label className="text-orange text-sm font-semibold">Subjects</label>
+                            <label className="text-orange text-sm font-semibold">Certificates</label>
                             <MultiSelect display="chip" className="col-12"  optionLabel="name" optionValue="code"
                                      value={certificate} options={certificateList} onChange={(e) => setCertificate(e.value)} />
                         </div>
