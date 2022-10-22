@@ -16,6 +16,7 @@ import { Badge } from "primereact/badge";
 import { Panel } from "primereact/panel";
 import { HeaderTemplate } from "../../components/Shared/HeaderTemplate";
 import { BookmarkedTutorResponse, getBookmarkedTutorOfStudent } from "../../pages/BookmarkedTutors/BookmarkedServices";
+import { useNavigate } from "react-router-dom";
 
 export type TutorRecommendationResponse = {
     id: string,
@@ -100,7 +101,7 @@ const RecommendationList = ({ recommendationList }: { recommendationList: TutorR
             {recommendationList.length > 0 ?
                 recommendationList.map(elt => {
                     return (
-                        <RecommendationCard tutorName={elt.displayName} subjectList={elt.subjects} />
+                        <RecommendationCard tutorName={elt.displayName} subjectList={elt.subjects} tutorId={elt.id} />
 
                     )
                 })
@@ -110,9 +111,10 @@ const RecommendationList = ({ recommendationList }: { recommendationList: TutorR
     );
 };
 
-const RecommendationCard = ({ tutorName, subjectList }: { tutorName: string, subjectList: string }) => {
+const RecommendationCard = ({ tutorName, subjectList, tutorId }: { tutorName: string, subjectList: string, tutorId: string }) => {
+    const navigate = useNavigate()
     return (
-        <div className="surface-ground p-4 border-round w-5">
+        <div onClick={()=> { navigate(PageLink.TUITION_BOOKING, {state: {tutorId: tutorId}})}} className="surface-ground p-4 border-round w-5">
             <div className="flex flex-column justify-content-center align-items-center gap-3">
                 <i className="text-5xl text-orange fa-solid fa-chalkboard-user"></i>
                 <label className="flex text-xl text-black font-bold">{tutorName}</label>
