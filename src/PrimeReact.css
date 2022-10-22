@@ -88,7 +88,7 @@ input.p-inputtext{ height: fit-content !important; padding-left: 1rem !important
 .statCard .p-card-body .p-card-content{ padding: 0.5rem !important; }
 
 .p-panel .p-panel-header{ padding: 1rem !important; color: #112B3C !important;}
-.p-panel .p-panel-content{ min-height: 55vh !important;}
+.p-panel .p-panel-content{ min-height: 0 !important;}
 .singlePanel .p-panel-content{ min-height: 74.5vh !important;}
 
 .p-badge.p-badge-info, .p-badge.p-badge-dot { background-color: #112B3C !important; }

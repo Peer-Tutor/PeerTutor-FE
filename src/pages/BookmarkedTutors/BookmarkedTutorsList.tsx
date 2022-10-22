@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { PageLink } from "../../constants/Constant";
 import { ScrollPanel } from 'primereact/scrollpanel';
 import { BookmarkedTutorsCard } from './BookmarkedTutorsCard';
+import { Panel } from "primereact/panel";
+import { HeaderTemplate } from "../../components/Shared/HeaderTemplate";
 
 type AccountInfo = { tutorView?: boolean; };
 export type BookmarkTutorResponse = {
@@ -21,35 +23,20 @@ const BookmarkedTutorsList = (props: AccountInfo, props2: BookmarkTutorResponse)
         // navigate(PageLink.DASHBOARD_TUTOR, {tutorId: tutorId});
     }
 
-    const template = (options:any) => {
-        const className = `${options.className} justify-content-start`;
-        const titleClassName = `Bookmarked Tutors List`;
 
+    if (props.tutorView) {
         return (
-            <div className={className}>
-                <label className="text-base font-semibold text-dark-blue mr-1">
-                    {titleClassName}
-                </label>
-            </div>
-        )
-    };
-
-    if(props.tutorView){
-        return(
             <div>
             </div>
         );
-    }else{
-        return(
-            <Card>
-                <label className="flex text-xl font-semibold text-black ml-2 mb-3">Bookmarked Tutors List</label>
-                <div className="flex">
-                    <div className="flex flex-row">
-                        <BookmarkedTutorsCard Name="Tutor1" />
-                        <BookmarkedTutorsCard Name="Tutor2" />
-                    </div>
+    } else {
+        return (
+            <Panel header={HeaderTemplate({ title: 'Bookmarked Tutors', hideBadge: true })}>
+                <div className="flex flex-row flex-wrap gap-3">
+                    <BookmarkedTutorsCard Name="Tutor1" />
+                    <BookmarkedTutorsCard Name="Tutor2" />
                 </div>
-            </Card>
+            </Panel>
         );
     }
 };
