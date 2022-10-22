@@ -15,6 +15,7 @@ import { getRecommendationsForMyself, getTutorList } from "./Service";
 import { Badge } from "primereact/badge";
 import { Panel } from "primereact/panel";
 import { HeaderTemplate } from "../../components/Shared/HeaderTemplate";
+import { BookmarkedTutorResponse, getBookmarkedTutorOfStudent } from "../../pages/BookmarkedTutors/BookmarkedServices";
 
 export type TutorRecommendationResponse = {
     id: string,
@@ -41,10 +42,15 @@ const SearchTutor = () => {
 
     const { name, sessionToken, profileId } = getSessionTokenValues();
     const url = getUrl(Subdomain.TUTOR_MGR, '/tutors');
-    useEffect(() => {
-        getTutorList(setTotalRecords, setTutorList, currentPage)
-        getRecommendationsForMyself(setRecommendationList)
-    }, []);
+        useEffect(() => {
+           getTutorList(setTotalRecords, setTutorList, currentPage)
+           getRecommendationsForMyself(setRecommendationList)
+        }, []);
+
+        const [bookmarkedTutorList, setBookmarkedTutorList] = useState<BookmarkedTutorResponse[]>([])
+        useEffect(() => {
+            getBookmarkedTutorOfStudent(setBookmarkedTutorList)
+        }, []);
 
     return (
         <div className="grid col-12">

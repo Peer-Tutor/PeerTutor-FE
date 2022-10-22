@@ -1,3 +1,5 @@
+import {BookmarkedTutorResponse} from "../pages/BookmarkedTutors/BookmarkedServices";
+
 export type AuthenticationStorage = {
     name?: string;
     displayName?: string;
@@ -36,6 +38,11 @@ export type TutorCardProps = {
     name?: string;
     certs?: string;
     intro?: string;
+    getTutorList?: any;
+    setTotalRecords?: any;
+    setTutorList?: any;
+    currentPage?: any;
+    bookmarkedTutorList?: BookmarkedTutorResponse[];
 };
 
 export type UpcomingActivitiesResponse = {
