@@ -14,10 +14,10 @@ const TutorCard = (props: TutorCardProps) => {
     const navigate = useNavigate();
 
     const onClickHandler = (id: string) => {
-        navigate(PageLink.BOOK_TUITION, { state: { tutorId: tutorId } });
+        navigate(PageLink.TUTOR_REVIEW, { state: { tutorId: tutorId } });
     }
     const onClickHandler1 = (id: string) => {
-        navigate(PageLink.TUTOR_REVIEW, { state: { tutorId: tutorId } });
+        navigate(PageLink.BOOK_TUITION, { state: { tutorId: tutorId } });
     }
 
     const { sessionToken, profileId } = getSessionTokenValues();
@@ -59,9 +59,9 @@ const TutorCard = (props: TutorCardProps) => {
                         <label className="flex text-xs font-italic m-0 mt-1">{intro ? intro : '-'}</label>
                         <div className="flex flex-row mt-3">
                             <label className="flex text-xs text-black font-semibold mr-2">Subject:</label>
-                            <label className="flex flex-1 text-xs text-black">{subject ? subject.replace(';', ', ') : '-'}</label>
+                            <label className="flex flex-1 text-xs text-black">{subject ? subject.replaceAll(';', ', ') : '-'}</label>
                             <label className="flex text-xs text-black font-semibold mr-2">Certifications:</label>
-                            <label className="flex flex-1 text-xs text-black">{certs ? certs.replace(';', ', ') : '-'}</label>
+                            <label className="flex flex-1 text-xs text-black">{certs ? certs.replaceAll(';', ', ') : '-'}</label>
                         </div>
                     </div>
                     <div className="flex align-items-evenly">
