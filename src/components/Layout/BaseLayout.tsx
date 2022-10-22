@@ -7,12 +7,13 @@ import { useToastHook } from "../../utils/toastHooks";
 // import {useInterceptorHook} from '../../utils/axiosInterceptor'
 type BaseLayoutProps = {
     authenticated: boolean;
+    forceRefresh: any
 };
 const BaseLayout = (props:BaseLayoutProps) => {
     const [toast] = useToastHook()
     return (
         <div className="global-component">
-            <NavBar authenticated={props.authenticated}/>
+            <NavBar forceRefresh={props.forceRefresh} authenticated={props.authenticated}/>
             <Toast ref={toast} />
             <div className="px-4 pt-4">
                 <Outlet />

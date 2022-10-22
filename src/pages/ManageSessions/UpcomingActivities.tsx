@@ -13,7 +13,7 @@ import { UpcomingActivitiesCard } from './UpcomingActivitiesCard';
 import { getUpcomingActivities } from './Services';
 import { ScrollPanel } from 'primereact/scrollpanel';
 
-type DasboardActionCardInput = { tutorView?: boolean; };
+type DasboardActionCardInput = { tutorView?: boolean; refresh: number };
 const UpcomingActivities = (props: DasboardActionCardInput) => {
     const [value, setValue] = useState(0);
     const [activityList, setActivities] = useState<UpcomingActivitiesResponse[]>();
@@ -35,7 +35,7 @@ const UpcomingActivities = (props: DasboardActionCardInput) => {
 
     useEffect(() => {
         getUpcomingActivities(setActivities, setDates, setValue);
-    } , []);
+    } , [props.refresh]);
 
     return (
         <Panel headerTemplate={template} className="my-3">

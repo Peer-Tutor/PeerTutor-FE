@@ -7,7 +7,7 @@ import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 import { BookmarkedTutorsList } from '../BookmarkedTutors/BookmarkedTutorsList';
 
-const TuteeDashboard = () => {
+const TuteeDashboard = ({refresh}: {refresh:number}) => {
     return (
         <div className="grid col-12">
             <div className="field col-7">
@@ -15,10 +15,10 @@ const TuteeDashboard = () => {
                     <ProfileCard />
                     <DasboardActionCard tutorView={false}/>
                 </div>
-                <UpcomingActivities />
+                <UpcomingActivities refresh={refresh} />
             </div>
             <div className="field col-5">
-                <PendingRequest />
+                <PendingRequest refresh={refresh} />
             </div>
             <div className="field col-12">
                 <BookmarkedTutorsList tutorView={false} />

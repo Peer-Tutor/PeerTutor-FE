@@ -9,6 +9,7 @@ import axios from "axios";
 
 type BaseLayoutProps = {
     authenticated: boolean;
+    forceRefresh: any;
 };
 export default function NavBar(props: BaseLayoutProps) {
     const [session, setSession] = useState<AuthenticationStorage>({});
@@ -37,6 +38,8 @@ export default function NavBar(props: BaseLayoutProps) {
                     token.profileId = res.data.id;
                     sessionStorage.setItem(SessionStorage.ACCOUNT, JSON.stringify(token));
                     setSession(token);
+                    console.log('setting force refresh')
+                    props.forceRefresh()
                 }
             }).catch(err => {
                 console.log('error!', err);

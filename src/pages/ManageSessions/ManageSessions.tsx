@@ -5,15 +5,15 @@ import { SessionStats } from './SessionStats';
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 
-const ManageSessions = () => {
+const ManageSessions = ({refresh}: {refresh: number}) => {
     return (
         <div className="grid col-12">
             <div className="field col-7">
                <SessionStats />
-               <UpcomingActivities />
+               <UpcomingActivities refresh={refresh}/>
             </div>
             <div className="field col-5">
-                <IncomingRequest />
+                <IncomingRequest refresh={refresh}/>
             </div>
         </div>
     );

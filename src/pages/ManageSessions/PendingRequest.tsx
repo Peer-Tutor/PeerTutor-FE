@@ -12,7 +12,7 @@ import { getPendingRequest } from './Services';
 import { ScrollPanel } from 'primereact/scrollpanel';
 import { UpcomingActivitiesResponse } from "../../constants/Model";
 
-const PendingRequest = () => {
+const PendingRequest = ({refresh}: {refresh: number}) => {
     const [value, setValue] = useState(0);
     const [activityList, setActivities] = useState<UpcomingActivitiesResponse[]>();
     const [dateList, setDates] = useState<string[]>();
@@ -33,7 +33,7 @@ const PendingRequest = () => {
 
     useEffect(() => {
         getPendingRequest(setActivities, setDates, setValue);
-    } , []);
+    } , [refresh]);
 
     return (
         <Panel headerTemplate={template} className="singlePanel">

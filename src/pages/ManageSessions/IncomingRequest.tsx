@@ -20,7 +20,7 @@ import { GetRequestResponse } from './IncomingRequestCard';
 import { getTuitionOrderList } from './IncomingRequestService';
 import { useForceUpdate } from '../../utils/HookUtils';
 
-const IncomingRequest = () => {
+const IncomingRequest = ({refresh}: {refresh:number}) => {
     const [subject, setSubject] = useState<any>(null);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalRecords, setTotalRecords] = useState(0);
@@ -46,7 +46,7 @@ const IncomingRequest = () => {
         const [onForceUpdate, forceUpdate] = useForceUpdate();
         useEffect(() => {
             getTuitionOrderList(setTotalRecords, setTuitionOrderList)
-        }, [])
+        }, [refresh])
 
        useEffect(() => {
             if (onForceUpdate > 0) {

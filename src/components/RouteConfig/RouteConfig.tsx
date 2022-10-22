@@ -16,18 +16,20 @@ import { TutorReview } from '../../pages/TutorReview/TutorReview';
 import { AddTutorReview } from '../../pages/TutorReview/AddTutorReview';
 import { PageNotFound } from "../../pages/PageNotFound/PageNotFound";
 import { SearchTutor } from "../../pages/SearchTutor/SearchTutor";
+import { useForceUpdate } from "../../utils/HookUtils";
 
 const RouteConfig = () => {
+    const [refresh, onRefresh] = useForceUpdate()
     return (
         <Routes>
-            <Route path="/" element={<BaseLayout authenticated={false}/>}>
+            <Route path="/" element={<BaseLayout forceRefresh={onRefresh} authenticated={false}/>}>
                 <Route path="" element={<WelcomeDashboard />} />
                {/*  <Route path="library" element={<PrimeReactSample />} /> */}
                 <Route path="*" element={<PageNotFound />} />
             </Route>
-            <Route path="/dashboard" element={<BaseLayout authenticated={true}/>}>
-                <Route path="tutor" element={<TutorDashboard />} />
-                <Route path="student" element={<TuteeDashboard />} />
+            <Route path="/dashboard" element={<BaseLayout forceRefresh={onRefresh} authenticated={true}/>}>
+                <Route path="tutor" element={<TutorDashboard refresh={refresh}/>} />
+                <Route path="student" element={<TuteeDashboard refresh={refresh}/>} />
                 {/* <Route path="manage-session" element={<ManageSessions />} /> */}
                 <Route path="manage-account" element={<AccountManagement />} />
                 <Route path="tuition-booking" element={<TuitionBooking />} />
