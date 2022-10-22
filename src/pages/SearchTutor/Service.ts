@@ -3,8 +3,24 @@ import { TUTOR_RESULTS_PAGINATION_PAGE_SIZE } from "../../constants/Constant";
 import { Subdomain } from "../../constants/Subdomain";
 import { getSessionTokenValues, getUrl } from "../../utils/apiUtils";
 import { toast } from "../../utils/toastHooks";
-import { TutorResponse } from "./SearchTutor";
+import { TutorRecommendationResponse, TutorResponse } from "./SearchTutor";
 
+const getRecommendationsForMyself = (setRecommendationList: React.Dispatch<React.SetStateAction<TutorRecommendationResponse>>) => {
+    const { name, sessionToken, profileId } = getSessionTokenValues()
+    const url = getUrl(Subdomain.TUTOR_MGR, '/tutors');
+    axios.get<TutorRecommendationResponse>(url, {
+        params: {
+            name: name ?? '',
+            sessionToken: sessionToken ?? '',
+            id: profileId
+        }
+    }).then(res => {
+        console.log(res)
+        setRecommendationList(res.data)
+    }).catch(err => {
+        console.log('error!', err);
+    });
+}
 const getTutorList = (setTotalRecords: any, setTutorList: any, currentPage: number) => {
     const { name, sessionToken, profileId } = getSessionTokenValues()
     const url = getUrl(Subdomain.TUTOR_MGR, '/tutors');
@@ -49,4 +65,4 @@ const searchTutor = (tutorName: string, setTutorList: React.Dispatch<React.SetSt
     });
 };
 
-export { searchTutor, getTutorList };
+export { searchTutor, getTutorList , getRecommendationsForMyself};
