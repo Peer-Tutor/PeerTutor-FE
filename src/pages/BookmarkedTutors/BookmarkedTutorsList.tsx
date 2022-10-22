@@ -12,16 +12,15 @@ import { ScrollPanel } from 'primereact/scrollpanel';
 import { BookmarkedTutorsCard } from './BookmarkedTutorsCard';
 import { BookmarkedTutorResponse, getBookmarkedTutorOfStudent } from './BookmarkedServices';
 
-type AccountInfo = { tutorView?: boolean; };
+type AccountInfo = { tutorView?: boolean; refresh: number};
 
 const BookmarkedTutorsList = (props: AccountInfo, props2: BookmarkedTutorResponse) => {
     const [bookmarkedTutorList, setBookmarkedTutorList] = useState<BookmarkedTutorResponse[]>([]) // todo type script
     const { name, sessionToken, profileId } = getSessionTokenValues();
 
     useEffect(() => {
-        console.log('get bookmark');
         getBookmarkedTutorOfStudent(setBookmarkedTutorList)
-    }, [])
+    }, [props.refresh])
     const template = (options:any) => {
         const className = `${options.className} justify-content-start`;
         const titleClassName = `Bookmarked Tutors List`;

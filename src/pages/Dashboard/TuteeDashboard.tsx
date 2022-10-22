@@ -21,7 +21,7 @@ const TuteeDashboard = ({refresh}: {refresh:number}) => {
                 <PendingRequest refresh={refresh} />
             </div>
             <div className="field col-12">
-                <BookmarkedTutorsList tutorView={false} />
+                <BookmarkedTutorsList refresh={refresh}  tutorView={false} />
             </div>
         </div>
     );

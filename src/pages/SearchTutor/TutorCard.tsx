@@ -11,6 +11,8 @@ import { Tooltip } from 'primereact/tooltip';
 
 const TutorCard = (props: TutorCardProps) => {
     const { tutorId, subject, name, certs, intro } = props
+    const [bookmarked, BookmarkTutor] = useState(false);
+
     const navigate = useNavigate();
 
     const onClickHandler = (id: string) => {
@@ -20,37 +22,35 @@ const TutorCard = (props: TutorCardProps) => {
         navigate(PageLink.BOOK_TUITION, { state: { tutorId: tutorId } });
     }
 
-    const { sessionToken, profileId } = getSessionTokenValues();
-    const [bookmarked, BookmarkTutor] = useState(false);
-    const bookmarkUrl = getUrl(Subdomain.BOOKMARK_MGR, '/bookmark');
     useEffect(() => {
         setBookmarkValue()
-    }, []);
+    }, [ tutorId]);
 
-    const setBookmarkValue = ()=> {
+    const setBookmarkValue = () => {
         let result = props.bookmarkedTutorList;
         result = result?.filter((record) => {
+            // console.log('record.tutorID === tutorId', record.tutorID === tutorId)
+            if (record.tutorID === tutorId) {
+                console.log('record.tutorID', record.tutorID, 'tutorId', tutorId)
+
+            }
             return record.tutorID === tutorId;
         });
 
-        if(result !== undefined && result?.length > 0)
-        {
+        if (result !== undefined && result?.length > 0) {
             BookmarkTutor(true);
         }
-        else
-        {
+        else {
             BookmarkTutor(false);
         }
     }
 
-    const handleBookmarkSubmit = ()=> {
-        if(bookmarked == true)
-        {
+    const handleBookmarkSubmit = () => {
+        if (bookmarked == true) {
             BookmarkTutor(false);
         }
-        else
-        {
-            addBookmarkTutorCard(tutorId?? '');
+        else {
+            addBookmarkTutorCard(tutorId ?? '');
             BookmarkTutor(true);
         }
     }
@@ -73,12 +73,12 @@ const TutorCard = (props: TutorCardProps) => {
                         </div>
                     </div>
                     <div className="flex align-items-evenly">
-                        <Button icon={bookmarked ? 'fa-solid fa-bookmark': 'fa-regular fa-bookmark'} className="p-button-primary-outlined" aria-label="Bookmark" onClick={()=>{handleBookmarkSubmit()} }
-                            tooltip={bookmarked ? "Remove Bookmark" : "Bookmark"} tooltipOptions={{position: 'top'}}/>
+                        <Button icon={bookmarked ? 'fa-solid fa-bookmark' : 'fa-regular fa-bookmark'} className="p-button-primary-outlined" aria-label="Bookmark" onClick={() => { handleBookmarkSubmit() }}
+                            tooltip={bookmarked ? "Remove Bookmark" : "Bookmark"} tooltipOptions={{ position: 'top' }} />
                         <Button icon="fa-solid fa-calendar-check" className="p-button-secondary" aria-label="Schedule" onClick={() => { onClickHandler1(tutorId ?? '') }}
-                            tooltip="Schedule Session" tooltipOptions={{position: 'top'}}/>
+                            tooltip="Schedule Session" tooltipOptions={{ position: 'top' }} />
                         <Button icon="fa-solid fa-star-half-stroke" className="p-button-primary" aria-label="Review" onClick={() => { onClickHandler(tutorId ?? '') }}
-                            tooltip="Review" tooltipOptions={{position: 'top'}}/>
+                            tooltip="Review" tooltipOptions={{ position: 'top' }} />
                     </div>
                 </div>
             </div>

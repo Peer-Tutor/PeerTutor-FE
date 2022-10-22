@@ -39,18 +39,14 @@ const SearchTutor = () => {
     const [currentPage, setCurrentPage] = useState(0);
     const [totalRecords, setTotalRecords] = useState(0);
     const [recommendationList, setRecommendationList] = useState<TutorRecommendationResponse>([]);
+    const [bookmarkedTutorList, setBookmarkedTutorList] = useState<BookmarkedTutorResponse[]>([])
 
-    const { name, sessionToken, profileId } = getSessionTokenValues();
-    const url = getUrl(Subdomain.TUTOR_MGR, '/tutors');
-        useEffect(() => {
-           getTutorList(setTotalRecords, setTutorList, currentPage)
-           getRecommendationsForMyself(setRecommendationList)
-        }, []);
+    useEffect(() => {
+        getTutorList(setTotalRecords, setTutorList, currentPage)
+        getRecommendationsForMyself(setRecommendationList)
+        getBookmarkedTutorOfStudent(setBookmarkedTutorList)
 
-        const [bookmarkedTutorList, setBookmarkedTutorList] = useState<BookmarkedTutorResponse[]>([])
-        useEffect(() => {
-            getBookmarkedTutorOfStudent(setBookmarkedTutorList)
-        }, []);
+    }, []);
 
     return (
         <div className="grid col-12">
@@ -80,7 +76,7 @@ const SearchTutor = () => {
                         // console.log(tutor.introduction)
                         return (
                             <>
-                                <TutorCard key={idx} intro={tutor.introduction} certs={tutor.certificates} tutorId={tutor.id} subject={tutor.subjects} name={tutor.displayName} getTutorList={getTutorList} setTotalRecords={setTotalRecords} setTutorList={setTutorList} currentPage={currentPage} bookmarkedTutorList={bookmarkedTutorList}/>
+                                <TutorCard key={idx} intro={tutor.introduction} certs={tutor.certificates} tutorId={tutor.id} subject={tutor.subjects} name={tutor.displayName} getTutorList={getTutorList} setTotalRecords={setTotalRecords} setTutorList={setTutorList} currentPage={currentPage} bookmarkedTutorList={bookmarkedTutorList} />
                                 <Divider key={idx + 1} />
                             </>
                         )

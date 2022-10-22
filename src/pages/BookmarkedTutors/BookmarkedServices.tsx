@@ -44,7 +44,6 @@ const getBookmarkedTutorOfStudent = (setBookmarkedTutorList: React.Dispatch<Reac
             studentId: profileId?.toString(),
         }
     }).then(res => {
-        console.log(name, sessionToken, profileId);
         setBookmarkedTutorList(res.data)
     }).catch(err => {
         console.log('error!', err);
