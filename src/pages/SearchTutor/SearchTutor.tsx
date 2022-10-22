@@ -80,7 +80,7 @@ const SearchTutor = () => {
                         // console.log(tutor.introduction)
                         return (
                             <>
-                                <TutorCard key={idx} intro={tutor.introduction} certs={tutor.certificates} tutorId={tutor.id} subject={tutor.subjects} name={tutor.displayName} />
+                                <TutorCard key={idx} intro={tutor.introduction} certs={tutor.certificates} tutorId={tutor.id} subject={tutor.subjects} name={tutor.displayName} getTutorList={getTutorList} setTotalRecords={setTotalRecords} setTutorList={setTutorList} currentPage={currentPage} bookmarkedTutorList={bookmarkedTutorList}/>
                                 <Divider key={idx + 1} />
                             </>
                         )

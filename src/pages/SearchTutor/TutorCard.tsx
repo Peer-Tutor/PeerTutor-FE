@@ -30,7 +30,6 @@ const TutorCard = (props: TutorCardProps) => {
     const setBookmarkValue = ()=> {
         let result = props.bookmarkedTutorList;
         result = result?.filter((record) => {
-            console.log(tutorId);
             return record.tutorID === tutorId;
         });
 
