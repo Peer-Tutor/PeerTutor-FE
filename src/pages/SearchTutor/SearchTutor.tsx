@@ -80,7 +80,7 @@ const SearchTutor = () => {
                         // console.log(tutor.introduction)
                         return (
                             <>
-                                <TutorCard key={idx} intro={tutor.introduction} certs={tutor.certificates} tutorId={tutor.id} subject={tutor.subjects} name={tutor.displayName} getTutorList={getTutorList} setTotalRecords={setTotalRecords} setTutorList={setTutorList} currentPage={currentPage} bookmarkedTutorList={bookmarkedTutorList} forceUpdate={forceUpdate}/>
+                                <TutorCard key={idx} intro={tutor.introduction} certs={tutor.certificates} tutorId={tutor.id} subject={tutor.subjects} name={tutor.displayName} getTutorList={getTutorList} setTotalRecords={setTotalRecords} setTutorList={setTutorList} currentPage={currentPage} bookmarkedTutorList={bookmarkedTutorList} forceUpdate={forceUpdate} />
                                 <Divider key={idx + 1} />
                             </>
                         )
@@ -102,11 +102,11 @@ const RecommendationList = ({ recommendationList }: { recommendationList: TutorR
     return (
         <div className="flex flex-row flex-wrap justify-content-center gap-3 ">
             {recommendationList.length > 0 ?
-                recommendationList.map(elt => {
-                    return (
-                        <RecommendationCard tutorName={elt.displayName} subjectList={elt.subjects} tutorId={elt.id} />
-
-                    )
+                recommendationList.map((elt, idx) => {
+                    if (idx < 3)
+                        return (
+                            <RecommendationCard tutorName={elt.displayName} subjectList={elt.subjects} tutorId={elt.id} />
+                        )
                 })
 
                 : <p className="text-center">No recommendations found.</p>}
@@ -117,7 +117,7 @@ const RecommendationList = ({ recommendationList }: { recommendationList: TutorR
 const RecommendationCard = ({ tutorName, subjectList, tutorId }: { tutorName: string, subjectList: string, tutorId: string }) => {
     const navigate = useNavigate()
     return (
-        <div onClick={()=> { navigate(PageLink.TUITION_BOOKING, {state: {tutorId: tutorId}})}} className="surface-ground p-4 border-round w-5">
+        <div onClick={() => { navigate(PageLink.TUITION_BOOKING, { state: { tutorId: tutorId } }) }} className="surface-ground p-4 border-round w-5">
             <div className="flex flex-column justify-content-center align-items-center gap-3">
                 <i className="text-5xl text-orange fa-solid fa-chalkboard-user"></i>
                 <label className="flex text-xl text-black font-bold">{tutorName}</label>
