@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { PageLink } from "../../constants/Constant";
 import { TutorCardProps } from "../../constants/Model";
 import { getSessionTokenValues, getUrl } from "../../utils/apiUtils";
-import { BookmarkResponse, addBookmarkTutorCard } from "../../pages/BookmarkedTutors/BookmarkedServices";
+import { BookmarkResponse, addBookmarkTutorCard, deleteBookmarkTutorCard } from "../../pages/BookmarkedTutors/BookmarkedServices";
 import { Tooltip } from 'primereact/tooltip';
 
 const TutorCard = (props: TutorCardProps) => {
@@ -24,16 +24,11 @@ const TutorCard = (props: TutorCardProps) => {
 
     useEffect(() => {
         setBookmarkValue()
-    }, [ tutorId]);
+    }, [tutorId]);
 
     const setBookmarkValue = () => {
         let result = props.bookmarkedTutorList;
         result = result?.filter((record) => {
-            // console.log('record.tutorID === tutorId', record.tutorID === tutorId)
-            if (record.tutorID === tutorId) {
-                console.log('record.tutorID', record.tutorID, 'tutorId', tutorId)
-
-            }
             return record.tutorID === tutorId;
         });
 
@@ -47,10 +42,11 @@ const TutorCard = (props: TutorCardProps) => {
 
     const handleBookmarkSubmit = () => {
         if (bookmarked == true) {
+            deleteBookmarkTutorCard(tutorId, props.forceUpdate);
             BookmarkTutor(false);
         }
         else {
-            addBookmarkTutorCard(tutorId ?? '');
+            addBookmarkTutorCard(tutorId ?? '', props.forceUpdate);
             BookmarkTutor(true);
         }
     }

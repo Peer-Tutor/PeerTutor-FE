@@ -18,8 +18,24 @@ export type BookmarkedTutorResponse = {
     tutor?: TutorResponse,
 }
 
+const getBookmarkedTutorOfStudentTutorCard = (setBookmarkedTutorList: React.Dispatch<React.SetStateAction<BookmarkedTutorResponse[]>>) => {
+    const { name, sessionToken, profileId } = getSessionTokenValues();
+    const url = getUrl(Subdomain.BOOKMARK_MGR, '/bookmark');
+    axios.get<BookmarkedTutorResponse[]>(url, {
+        params: {
+            name: name ?? '',
+            sessionToken: sessionToken ?? '',
+            studentId: profileId?.toString(),
+        }
+    }).then(res => {
+        setBookmarkedTutorList(res.data)
+    }).catch(err => {
+        console.log('error!', err);
+    });
+};
+
 // for tutor card to add bookmark
-const addBookmarkTutorCard = (tutorID: string) =>{
+const addBookmarkTutorCard = (tutorID: string, onForceUpdate: any) =>{
     const url = getUrl(Subdomain.BOOKMARK_MGR, '/bookmark');
     const { name, sessionToken, profileId } = getSessionTokenValues();
 
@@ -29,6 +45,24 @@ const addBookmarkTutorCard = (tutorID: string) =>{
             studentID: profileId?.toString(),
             tutorID: tutorID?.toString()
     }).then(res => {
+        onForceUpdate();
+    }).catch(err => {
+        console.log('error!', err);
+    });
+}
+
+const deleteBookmarkTutorCard = (tutorId: any, onForceUpdate: any)=> {
+    const url = getUrl(Subdomain.BOOKMARK_MGR, '/bookmark');
+    const { name, sessionToken, profileId } = getSessionTokenValues();
+    axios.delete<BookmarkResponse>(url, {
+        params:{
+            name: name ?? '',
+            sessionToken: sessionToken ?? '',
+            studentId: profileId?? '',
+            tutorId: tutorId?? ''
+        }
+    }).then(res => {
+        onForceUpdate();
     }).catch(err => {
         console.log('error!', err);
     });
@@ -50,7 +84,7 @@ const getBookmarkedTutorOfStudent = (setBookmarkedTutorList: React.Dispatch<Reac
     });
 };
 
-const addBookmark = (id: string, tutorId: string, tutorName: string, setBookmarkTutor: React.Dispatch<React.SetStateAction<BookmarkResponse[]>>, onForceUpdate: any) => {
+const addBookmark = (id: string, tutorId: string, tutorName: string, setBookmarkTutor: React.Dispatch<React.SetStateAction<BookmarkResponse[]>>) => {
     const url = getUrl(Subdomain.BOOKMARK_MGR, '/bookmark');
     const { name, sessionToken, profileId } = getSessionTokenValues();
     axios.post<BookmarkResponse[]>(url, {
@@ -60,30 +94,27 @@ const addBookmark = (id: string, tutorId: string, tutorName: string, setBookmark
             tutorID: tutorId?? '',
             id: id?? ''
     }).then(res => {
-        onForceUpdate();
     }).catch(err => {
-        onForceUpdate();
         console.log('error!', err);
     });
 }
 
-const deleteBookmark = (tutorId: any)=> {
+const deleteBookmark = (tutorId: any, onForceUpdate: any)=> {
     const url = getUrl(Subdomain.BOOKMARK_MGR, '/bookmark');
     const { name, sessionToken, profileId } = getSessionTokenValues();
     axios.delete<BookmarkResponse>(url, {
-        data:{
+        params:{
             name: name ?? '',
             sessionToken: sessionToken ?? '',
-            studentID: profileId?? '',
-            tutorID: tutorId?? ''
+            studentId: profileId?? '',
+            tutorId: tutorId?? ''
         }
     }).then(res => {
         console.log('delete successful');
+        onForceUpdate();
     }).catch(err => {
         console.log('error!', err);
     });
 }
 
-
-
-export { addBookmarkTutorCard, getBookmarkedTutorOfStudent, addBookmark, deleteBookmark }
+export { addBookmarkTutorCard, getBookmarkedTutorOfStudent, getBookmarkedTutorOfStudentTutorCard, addBookmark, deleteBookmark, deleteBookmarkTutorCard }

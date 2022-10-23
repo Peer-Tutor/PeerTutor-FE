@@ -43,6 +43,7 @@ export type TutorCardProps = {
     setTutorList?: any;
     currentPage?: any;
     bookmarkedTutorList?: BookmarkedTutorResponse[];
+    forceUpdate?: any;
 };
 
 export type UpcomingActivitiesResponse = {

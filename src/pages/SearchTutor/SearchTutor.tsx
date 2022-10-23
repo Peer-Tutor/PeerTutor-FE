@@ -15,8 +15,9 @@ import { getRecommendationsForMyself, getTutorList } from "./Service";
 import { Badge } from "primereact/badge";
 import { Panel } from "primereact/panel";
 import { HeaderTemplate } from "../../components/Shared/HeaderTemplate";
-import { BookmarkedTutorResponse, getBookmarkedTutorOfStudent } from "../../pages/BookmarkedTutors/BookmarkedServices";
+import { BookmarkedTutorResponse, getBookmarkedTutorOfStudentTutorCard } from "../../pages/BookmarkedTutors/BookmarkedServices";
 import { useNavigate } from "react-router-dom";
+import { useForceUpdate } from '../../utils/HookUtils';
 
 export type TutorRecommendationResponse = {
     id: string,
@@ -41,13 +42,16 @@ const SearchTutor = () => {
     const [totalRecords, setTotalRecords] = useState(0);
     const [recommendationList, setRecommendationList] = useState<TutorRecommendationResponse>([]);
     const [bookmarkedTutorList, setBookmarkedTutorList] = useState<BookmarkedTutorResponse[]>([])
+    const [onForceUpdate, forceUpdate] = useForceUpdate();
 
     useEffect(() => {
         getTutorList(setTotalRecords, setTutorList, currentPage)
         getRecommendationsForMyself(setRecommendationList)
-        getBookmarkedTutorOfStudent(setBookmarkedTutorList)
-
     }, []);
+
+    useEffect(() => {
+        getBookmarkedTutorOfStudentTutorCard(setBookmarkedTutorList)
+    }, [onForceUpdate]);
 
     return (
         <div className="grid col-12">
@@ -63,7 +67,6 @@ const SearchTutor = () => {
                             template="PrevPageLink CurrentPageReport NextPageLink"
                             onPageChange={(e) => {
                                 setCurrentPage(e.first)
-                                console.log('e.first', e.first, 'e', e)
                                 if (totalRecords != 0) {
                                     const nextPageNum = Math.floor(e.first / TUTOR_RESULTS_PAGINATION_PAGE_SIZE);
                                     getTutorList(setTotalRecords, setTutorList, nextPageNum)
@@ -77,7 +80,7 @@ const SearchTutor = () => {
                         // console.log(tutor.introduction)
                         return (
                             <>
-                                <TutorCard key={idx} intro={tutor.introduction} certs={tutor.certificates} tutorId={tutor.id} subject={tutor.subjects} name={tutor.displayName} getTutorList={getTutorList} setTotalRecords={setTotalRecords} setTutorList={setTutorList} currentPage={currentPage} bookmarkedTutorList={bookmarkedTutorList} />
+                                <TutorCard key={idx} intro={tutor.introduction} certs={tutor.certificates} tutorId={tutor.id} subject={tutor.subjects} name={tutor.displayName} getTutorList={getTutorList} setTotalRecords={setTotalRecords} setTutorList={setTutorList} currentPage={currentPage} bookmarkedTutorList={bookmarkedTutorList} forceUpdate={forceUpdate}/>
                                 <Divider key={idx + 1} />
                             </>
                         )

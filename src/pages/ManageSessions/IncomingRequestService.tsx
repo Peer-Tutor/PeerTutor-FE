@@ -52,7 +52,6 @@ const searchStudent = (setTotalRecords: any, studentName: string, setTuitionOrde
         }
     }).then(res => {
         var name = studentName.toLowerCase();
-        console.log(studentName);
         const filteredList = res.data?.filter(record => ( record.status == '0' && record.studentName?.toLowerCase().includes(name) && record.tutorId == profileId));
         setTuitionOrderList(filteredList);
         setTotalRecords(filteredList.length);

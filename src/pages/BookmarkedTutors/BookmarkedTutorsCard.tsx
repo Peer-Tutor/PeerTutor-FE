@@ -19,6 +19,7 @@ type BookmarkInfo = {
     StudentId?: string;
     Id?: number;
     Tutor?: TutorResponse;
+    forceUpdate?: any;
 }
 
 const BookmarkedTutorsCard = (props: BookmarkInfo) => {
@@ -28,7 +29,6 @@ const BookmarkedTutorsCard = (props: BookmarkInfo) => {
     const [bookmarked, BookmarkTutor] = useState(false);
     const bookmarkUrl = getUrl(Subdomain.BOOKMARK_MGR, '/bookmark');
     const { sessionToken, profileId } = getSessionTokenValues();
-    const [onForceUpdate, forceUpdate] = useForceUpdate();
 
     const navigate = useNavigate();
     const onClickHandler = (id: string) => {
@@ -43,8 +43,7 @@ const BookmarkedTutorsCard = (props: BookmarkInfo) => {
 
     const handleBookmarkSubmit = (id: string)=> {
         // delete bookmark
-        console.log(id);
-        deleteBookmark(id);
+        deleteBookmark(id, props.forceUpdate);
         BookmarkTutor(false);
     }
 
@@ -72,23 +71,6 @@ const BookmarkedTutorsCard = (props: BookmarkInfo) => {
                 <Button icon="fa-solid fa-calendar-check" className="p-button-secondary" aria-label="Schedule" onClick={() => { onClickHandler(tutorId ?? '') }}
                     tooltip="Schedule Session" tooltipOptions={{position: 'top'}}/>
         </div>
-
-              // <Card className="mx-3 flex border-solid">
-              //     <div className="flex flex-row align-items-center gap-2">
-              //         <div className="flex">
-              //             <i className="text-5xl text-orange fa-regular fa-circle-user mx-3"></i>
-              //         </div>
-              //         <div className="flex flex-column flex-1">
-              //             <label className="flex text-xl text-black font-bold m-0">{TutorDisplayName ? TutorDisplayName : '-'}</label>
-              //         </div>
-              //         <div className="align-items-evenly">
-              //             <Button icon={bookmarked ? 'fa-solid fa-bookmark': 'fa-regular fa-bookmark'} className="p-button-primary-outlined" aria-label="Bookmark" onClick={()=>{handleBookmarkSubmit(props.TutorId ?? '')} }
-              //                 tooltip={bookmarked ? "Remove Bookmark" : "Bookmark"} tooltipOptions={{position: 'top'}}/>
-              //             <Button icon="fa-solid fa-calendar-check" className="p-button-secondary" aria-label="Schedule" onClick={() => { onClickHandler(tutorId ?? '') }}
-              //                 tooltip="Schedule Session" tooltipOptions={{position: 'top'}}/>
-              //         </div>
-              //     </div>
-              // </Card>
     );
 };
 export { BookmarkedTutorsCard };

@@ -11,16 +11,18 @@ import { PageLink } from "../../constants/Constant";
 import { ScrollPanel } from 'primereact/scrollpanel';
 import { BookmarkedTutorsCard } from './BookmarkedTutorsCard';
 import { BookmarkedTutorResponse, getBookmarkedTutorOfStudent } from './BookmarkedServices';
+import { useForceUpdate } from '../../utils/HookUtils';
 
 type AccountInfo = { tutorView?: boolean; refresh: number};
 
 const BookmarkedTutorsList = (props: AccountInfo, props2: BookmarkedTutorResponse) => {
     const [bookmarkedTutorList, setBookmarkedTutorList] = useState<BookmarkedTutorResponse[]>([]) // todo type script
     const { name, sessionToken, profileId } = getSessionTokenValues();
+    const [onForceUpdate, forceUpdate] = useForceUpdate();
 
     useEffect(() => {
         getBookmarkedTutorOfStudent(setBookmarkedTutorList)
-    }, [props.refresh])
+    }, [props.refresh, onForceUpdate])
     const template = (options:any) => {
         const className = `${options.className} justify-content-start`;
         const titleClassName = `Bookmarked Tutors List`;
@@ -46,7 +48,7 @@ const BookmarkedTutorsList = (props: AccountInfo, props2: BookmarkedTutorRespons
                     <div className="flex flex-row">
                     <ScrollPanel style={{ width: '300%', height: '100%' }}>
                         {bookmarkedTutorList && bookmarkedTutorList?.length > 0  ? bookmarkedTutorList?.map((record, idx) => {
-                                return <BookmarkedTutorsCard key={idx} Id={record.id} Tutor={record.tutor} TutorId={record.tutorID} StudentId={record.studentID} />
+                                return <BookmarkedTutorsCard key={idx} Id={record.id} Tutor={record.tutor} TutorId={record.tutorID} StudentId={record.studentID} forceUpdate={forceUpdate}/>
                         }) : <p className="text-center">No students found.</p>}
                     </ScrollPanel>
 
