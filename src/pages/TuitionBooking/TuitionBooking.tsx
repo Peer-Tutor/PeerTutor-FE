@@ -40,35 +40,8 @@ const TuitionBooking = () => {
 
     useEffect(() => {
         getATutorAvailableDates(data?.tutorId, setSelectedDateDetails)
-
-        // temporary, can remove
-        // setTutorView("true");
-
-        // if (sessionToken != null) {
-        //     const token = JSON.parse(sessionToken);
-        //     let url = '';
-        //     if (token.accountType == AccountType.STUDENT) {
-        //         url = getUrl(Subdomain.STUDENT_MGR, '/student');
-        //         setTutorView("false");
-        //     } else {
-        //         url = getUrl(Subdomain.TUTOR_MGR, '/tutor');
-        //         setTutorView("true");
-        //     }
-
-        //     axios.get<AccountResponse>(url, {
-        //         params: {
-        //             name: token.name ?? '',
-        //             sessionToken: token.sessionToken ?? '',
-        //             accountName: token.name,
-        //             id: ''
-        //         }
-        //     }).then(res => {
-        //         // setSubject(res.data.subjects ?? '');
-        //     }).catch(err => {
-        //         console.log('error!', err);
-        //     });
-        // };
-
+        
+        
     }, []);
 
 
