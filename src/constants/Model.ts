@@ -49,6 +49,7 @@ export type TutorCardProps = {
 export type UpcomingActivitiesResponse = {
     id?: number;
     studentId?: number;
+    tutorId?: number;
     tutorView?: number;
     selectedDates?: string;
     status?: number;

@@ -89,7 +89,7 @@ const SearchTutor = () => {
                 </Panel>
             </div>
             <div className="field col-5 ">
-                <Panel header={HeaderTemplate({ title: 'Recommended Tutors', totalCount: recommendationList.length })} className="flex flex-column ">
+                <Panel header={HeaderTemplate({ title: 'Recommended Tutors', totalCount: 3 })} className="flex flex-column ">
                     <RecommendationList recommendationList={recommendationList} />
                 </Panel>
             </div>
