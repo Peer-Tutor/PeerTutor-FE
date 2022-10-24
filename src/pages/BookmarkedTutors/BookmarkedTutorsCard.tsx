@@ -57,18 +57,16 @@ const BookmarkedTutorsCard = (props: BookmarkInfo) => {
         //         <Rating className="text-xs" value={5} stars={5} cancel={false} readOnly />
         //     </div>
         // </div>
-        <div className="flex surface-ground p-4 border-round w-3 justify-content-between align-items-center">
+        <div className="flex surface-ground p-4 border-round border-solid justify-content-between align-items-center">
             <div className="flex">
-                {/* <i className="text-5xl text-orange fa-regular fa-circle-user mx-3"></i> */}
                  <i className="text-5xl text-orange fa-solid fa-chalkboard-user mx-3"></i>
-
             </div>
             <div className="flex flex-column flex-1">
                 <label className="flex text-xl text-black font-bold m-0">{TutorDisplayName ? TutorDisplayName : '-'}</label>
             </div>
                 <Button icon="fa-solid fa-bookmark" style={{backgroundColor: "pink"}} className="p-button-primary-outlined" aria-label="Bookmark" onClick={() => handleBookmarkSubmit(props.TutorId ?? '')}
                     tooltip={bookmarked ? "Remove Bookmark" : "Bookmark"} tooltipOptions={{position: 'top'}}/>
-                <Button icon="fa-solid fa-calendar-check" className="p-button-secondary" aria-label="Schedule" onClick={() => { onClickHandler(tutorId ?? '') }}
+                <Button icon="fa-solid fa-calendar-check" className="p-button-secondary" aria-label="Schedule" onClick={() => { onClickHandler(props.TutorId ?? '') }}
                     tooltip="Schedule Session" tooltipOptions={{position: 'top'}}/>
         </div>
     );

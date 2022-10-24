@@ -49,7 +49,7 @@ const BookmarkedTutorsList = (props: AccountInfo, props2: BookmarkedTutorRespons
                     <ScrollPanel style={{ width: '300%', height: '100%' }}>
                         {bookmarkedTutorList && bookmarkedTutorList?.length > 0  ? bookmarkedTutorList?.map((record, idx) => {
                                 return <BookmarkedTutorsCard key={idx} Id={record.id} Tutor={record.tutor} TutorId={record.tutorID} StudentId={record.studentID} forceUpdate={forceUpdate}/>
-                        }) : <p className="text-center">No students found.</p>}
+                        }) : <p className="text-center">No tutors found.</p>}
                     </ScrollPanel>
 
                     </div>
