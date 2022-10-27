@@ -1,0 +1,18 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - npm install
+
+  build:
+    commands:
+      # run build script
+      - npm run build
+
+artifacts:
+  # include all files required to run application
+  # we include only the static build files
+  files:
+    - '**/*'
+  base-directory: 'build'

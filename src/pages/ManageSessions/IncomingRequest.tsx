@@ -20,13 +20,13 @@ import { GetRequestResponse } from './IncomingRequestCard';
 import { getTuitionOrderList } from './IncomingRequestService';
 import { useForceUpdate } from '../../utils/HookUtils';
 
-const IncomingRequest = ({refresh}: {refresh:number}) => {
+const IncomingRequest = ({ refresh }: { refresh: number }) => {
     const [subject, setSubject] = useState<any>(null);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalRecords, setTotalRecords] = useState(0);
     const subjectList = SubjectList;
 
-    const template = (options:any) => {
+    const template = (options: any) => {
         const className = `${options.className} justify-content-start`;
         const titleClassName = `Incoming Requests`;
 
@@ -40,47 +40,47 @@ const IncomingRequest = ({refresh}: {refresh:number}) => {
         );
     };
 
-        const [tuitionOrderList, setTuitionOrderList] = useState<GetRequestResponse[]>([]) // todo type script
-        const { name, sessionToken, profileId } = getSessionTokenValues();
-        const url = getUrl(Subdomain.TUITION_ORDER_MGR, '/detailedTuitionOrders');
-        const [onForceUpdate, forceUpdate] = useForceUpdate();
-        useEffect(() => {
+    const [tuitionOrderList, setTuitionOrderList] = useState<GetRequestResponse[]>([]) // todo type script
+    const { name, sessionToken, profileId } = getSessionTokenValues();
+    const url = getUrl(Subdomain.TUITION_ORDER_MGR, '/detailedTuitionOrders');
+    const [onForceUpdate, forceUpdate] = useForceUpdate();
+    useEffect(() => {
+        getTuitionOrderList(setTotalRecords, setTuitionOrderList)
+    }, [refresh])
+
+    useEffect(() => {
+        if (onForceUpdate > 0) {
             getTuitionOrderList(setTotalRecords, setTuitionOrderList)
-        }, [refresh])
-
-       useEffect(() => {
-            if (onForceUpdate > 0) {
-              getTuitionOrderList(setTotalRecords, setTuitionOrderList)
-            }
-          }, [onForceUpdate])
-
-
-        const splitString = (dates: string) => {
-            dates = dates.replace('[', '');
-            dates = dates.replace(']', '');
-            var datesSplit = dates.split(', ');
-            return datesSplit;
         }
+    }, [onForceUpdate])
+
+
+    const splitString = (dates: string) => {
+        dates = dates.replace('[', '');
+        dates = dates.replace(']', '');
+        var datesSplit = dates.split(', ');
+        return datesSplit;
+    }
 
     return (
-           <Panel headerTemplate={template} className="singlePanel" >
-                <div className="flex flex-row align-items-center gap-2 mb-3">
-                    <div className="flex-1 flex">
-                        <IncomingRequestSearchBar setTotalRecords={setTotalRecords} setTuitionOrderList={setTuitionOrderList} />
-                    </div>
+        <Panel headerTemplate={template} className="singlePanel" >
+            <div className="flex flex-row align-items-center gap-2 mb-3">
+                <div className="flex-1 flex">
+                    <IncomingRequestSearchBar setTotalRecords={setTotalRecords} setTuitionOrderList={setTuitionOrderList} />
                 </div>
-                <div className="grid">
-                    <div className="col-12 md:col-4">
-                        <ScrollPanel style={{ width: '300%', height: '100%' }}>
-                            {tuitionOrderList && tuitionOrderList?.length > 0  ? tuitionOrderList?.map((filteredRecord, idx) => {
-                                    return (
-                                        <IncomingRequestCard key={idx} ID={filteredRecord.id} StudentID={filteredRecord.studentId} TutorID={filteredRecord.tutorId} StudentName={filteredRecord.studentName} TutorName={filteredRecord.tutorName} DateTime={splitString(filteredRecord.selectedDates)} Status={filteredRecord.status} OnForceUpdate={forceUpdate}  />
-                                    )
-                            }) : <p className="text-center">No students found.</p>}
-                        </ScrollPanel>
-                    </div>
+            </div>
+            <div className="grid">
+                <div className="col-12 md:col-4">
+                    <ScrollPanel style={{ width: '300%', height: '100%' }}>
+                        {tuitionOrderList && tuitionOrderList?.length > 0 ? tuitionOrderList?.map((filteredRecord, idx) => {
+                            return (
+                                <IncomingRequestCard key={idx} ID={filteredRecord.id} StudentID={filteredRecord.studentId} TutorID={String(profileId)} StudentName={filteredRecord.studentName} TutorName={filteredRecord.tutorName} DateTime={splitString(filteredRecord.selectedDates)} Status={filteredRecord.status} OnForceUpdate={forceUpdate} />
+                            )
+                        }) : <p className="text-center">No students found.</p>}
+                    </ScrollPanel>
                 </div>
-           </Panel>
+            </div>
+        </Panel>
     );
 };
 export { IncomingRequest };

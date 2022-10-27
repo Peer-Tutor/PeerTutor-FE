@@ -11,7 +11,7 @@ export const getUpcomingActivities = (setActivities: React.Dispatch<React.SetSta
 ) => {
     const url = getUrl(Subdomain.TUITION_ORDER_MGR, '/detailedTuitionOrders');
     const { name, sessionToken, profileId, accountType } = getSessionTokenValues()
-    
+    console.log('profileId', profileId, 'name', name)
     axios.get<UpcomingActivitiesResponse[]>(url, {
         params: {
             name: name,
