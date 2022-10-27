@@ -1,10 +1,13 @@
 version: 0.2
 
 phases:
+  install:
+    runtime-versions:
+      nodejs: 12
   pre_build:
     commands:
       - npm install
-
+      - npm install eslint-config-react-app
   build:
     commands:
       # run build script
