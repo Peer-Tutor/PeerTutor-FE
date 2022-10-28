@@ -61,7 +61,7 @@ export default function NavBar(props: BaseLayoutProps) {
                         </Link>
                         <li className="flex align-items-center mr-5">
                             <Link to={PageLink.MANAGE_ACCOUNT}>
-                                <i className="text-xl mr-3 fa-solid fa-id-card"></i>Account Management
+                                <i className="text-xl mr-3 fa-solid fa-id-card"></i>Account Managementt
                             </Link>
                         </li>
                         <li className="flex align-items-center mr-5">
