@@ -27,31 +27,35 @@ const AddTutorReview = () => {
         const url = getUrl(Subdomain.REVIEW_MGR, '/reviews');
         const { name, sessionToken, profileId } = getSessionTokenValues()
         axios.post(url, { rating: rating, comment: comment, tutorId: profileId}).then(res => {
-            navigate(PageLink.MANAGE_ACCOUNT);
+            navigate(PageLink.TUTOR_REVIEW);
         }).catch(err => {
             console.log('error!', err);
         });
     };
 
+    const cancelReview = () => { navigate(PageLink.TUTOR_REVIEW); };
+
     return (
         <div className="global-component">
             <Toast ref={toast} />
-            <Card className="col-12 my-auto py-8" title="Review">
-                <label className="text-base font-bold text-dark-blue" style={{ lineHeight: '3' }}>Rating:</label>
-                <Rating value={rating} cancel={false} onChange={(e) => setRating(e.target.value)} />
-                <div className="content-section implementation">
-                    <div className="card">
-                        <h5 className="text-base font-bold text-dark-blue">Comment:</h5>
-                        <InputTextarea className="comment" value={comment} autoResize onChange={(e) => setComment(e.target.value)} />
-                        <Link to={route} onClick={addReview}>
-                            <Button label="Add Review" className="p-button-primary flex"  />
-                        </Link>
-                    </div>
+            <Card className="flex flex-column p-3 gap-3">
+                <label className="flex flex-1 text-xl font-bold text-orange">New Review</label>
+                <div className="flex flex-row flex-wrap justify-content-between">
+                    <label className="flex text-base font-bold text-dark-blue" style={{ lineHeight: '3' }}>Rating:</label>
+                    <Rating value={rating} cancel={false} onChange={(e) => setRating(e.target.value)} />
                 </div>
-
-
+                <div className="flex flex-column">
+                    <InputTextarea className="comment" value={comment} onChange={(e) => setComment(e.target.value)} autoResize />
+                </div>
+                <div className="flex flex-1 justify-content-end mt-4">
+                    <Link to={route} onClick={addReview}>
+                        <Button label="Cancel" className="p-button-secondary flex"  />
+                    </Link>
+                    <Link to={route} onClick={addReview}>
+                        <Button icon="pi pi-send" label="Submit" className="p-button-primary flex"  />
+                    </Link>
+                </div>
             </Card>
-
         </div>
     )
 }

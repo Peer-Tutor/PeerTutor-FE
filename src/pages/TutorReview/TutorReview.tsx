@@ -28,22 +28,16 @@ const TutorReview = () => {
     
     return (
         <div>
-            <Card className="flex flex-column px-4 py-4 w-8">
-            <div className="grid">
-                    <div className="col-12 md:col-4">
-                    <label className="flex text-xl font-semibold text-black ml-2 mb-3">Tutor Reviews</label>
-                    <div className="flex">
-                    <div className="flex flex-column">
+            <Card className="flex flex-column flex-1 p-2">
+                <div className="flex flex-column">
+                    <label className="flex flex-1 text-xl font-semibold text-black ml-2 mb-3">Tutor Reviews</label>
+                    <div className="flex flex-1 flex-row flex-wrap">
                         <TutorReviewCard tutorId="" rating= {3} comment="Tutor reviews"/>
                         <TutorReviewCard tutorId="2" rating= {4} comment="Tutor reviews"/>
                         <TutorReviewCard tutorId="2" rating= {4} comment="Tutor reviews"/>
-                        
                     </div>
-                </div>
-                                   
-                    <button onClick={onClickHandler} className="flex flex-column align-items-center gap-2 p-4">
-                        <label className="text-base font-bold text-dark-blue">Add new Review</label>
-                    </button>
+                    <div className="flex flex-row justify-content-end mt-4">
+                        <Button onClick={onClickHandler} className="p-button-secondary text-sm" icon="pi pi-send" label="Review"></Button>
                     </div>
                 </div>
                 

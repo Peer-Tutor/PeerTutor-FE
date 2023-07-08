@@ -68,7 +68,7 @@ const IncomingRequestCard = (props: TuitionOrderInfo) => {
                          return (
                              <Chip label={elt} defaultValue={elt} key={elt}  />
                          )
-                     })) : <p>No dates selected.</p>}
+                     })) : <p className="text-sm text-center text-black font-semibold">No dates selected.</p>}
                 </div>
             </div>
             <div className="flex">

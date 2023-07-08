@@ -54,13 +54,13 @@ const SearchTutor = () => {
     }, [onForceUpdate]);
 
     return (
-        <div className="grid col-12">
-            <div className="field col-7 ">
-                <Panel header={HeaderTemplate({ title: 'Search Tutors', totalCount: totalRecords })} className="flex flex-column">
-                    <div className="ml-3 flex flex-row">
+        <div className="flex flex-row flex-wrap flex-1 gap-3">
+            <div className="flex flex-grow-1">
+                <Panel header={HeaderTemplate({ title: 'Search Tutors', totalCount: totalRecords })} className="flex flex-column flex-1">
+                    <div className="ml-3 flex flex-row mb-3">
                         <SearchBar setTutorList={setTutorList} />
-                        <Paginator
-                            className="flex"
+                        { totalRecords > TUTOR_RESULTS_PAGINATION_PAGE_SIZE ? <Paginator
+                            className="flex text-sm"
                             rows={TUTOR_RESULTS_PAGINATION_PAGE_SIZE}
                             totalRecords={totalRecords}
                             first={currentPage}
@@ -74,8 +74,9 @@ const SearchTutor = () => {
                                     console.error('divide by 0 error!')
                                 }
                             }}>
-                        </Paginator>
+                        </Paginator> : <div></div> }
                     </div>
+                    <div className="flex flex-column flex-1">
                     {tutorList && tutorList?.length > 0 ? tutorList?.map((tutor, idx) => {
                         // console.log(tutor.introduction)
                         return (
@@ -84,12 +85,13 @@ const SearchTutor = () => {
                                 <Divider key={idx + 1} />
                             </>
                         )
-                    }) : <p className="text-center">No tutors found.</p>}
+                    }) : <p className="text-sm text-center text-black font-semibold">No tutors found.</p>}
+                    </div>
 
                 </Panel>
             </div>
-            <div className="field col-5 ">
-                <Panel header={HeaderTemplate({ title: 'Recommended Tutors', totalCount: 3 })} className="flex flex-column ">
+            <div className="flex flex-grow-1">
+                <Panel header={HeaderTemplate({ title: 'Recommended Tutors', totalCount: recommendationList.length  })} className="flex flex-column flex-1">
                     <RecommendationList recommendationList={recommendationList} />
                 </Panel>
             </div>
@@ -109,7 +111,7 @@ const RecommendationList = ({ recommendationList }: { recommendationList: TutorR
                         )
                 })
 
-                : <p className="text-center">No recommendations found.</p>}
+                : <p className="text-sm text-center text-black font-semibold">No recommendations found.</p>}
         </div>
     );
 };

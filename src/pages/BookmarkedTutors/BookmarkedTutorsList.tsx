@@ -42,17 +42,17 @@ const BookmarkedTutorsList = (props: AccountInfo, props2: BookmarkedTutorRespons
         );
     }else{
         return(
-            <Card>
-                <label className="flex text-xl font-semibold text-black ml-2 mb-3">Bookmarked Tutors List</label>
+            <Card className="flex flex-1">
+                <label className="flex text-xl font-semibold text-black mb-3 ml-1">Bookmarked Tutors List</label>
                 <div className="flex">
                     <div className="flex flex-row">
-                    <ScrollPanel style={{ width: '300%', height: '100%' }}>
-                        {bookmarkedTutorList && bookmarkedTutorList?.length > 0  ? bookmarkedTutorList?.map((record, idx) => {
-                                return <BookmarkedTutorsCard key={idx} Id={record.id} Tutor={record.tutor} TutorId={record.tutorID} StudentId={record.studentID} forceUpdate={forceUpdate}/>
-                        }) : <p className="text-center">No tutors found.</p>}
-                    </ScrollPanel>
-
-                    </div>
+                     {bookmarkedTutorList && bookmarkedTutorList?.length > 0  ? bookmarkedTutorList?.map((record, idx) => {
+                        return (
+                            <ScrollPanel style={{ width: '300%', height: '100%' }}>
+                                <BookmarkedTutorsCard key={idx} Id={record.id} Tutor={record.tutor} TutorId={record.tutorID} StudentId={record.studentID} forceUpdate={forceUpdate}/>
+                            </ScrollPanel> )
+                     }) : <p className="text-sm text-center text-black font-semibold">No tutors found.</p>}
+                     </div>
                 </div>
             </Card>
         );

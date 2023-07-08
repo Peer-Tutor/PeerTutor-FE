@@ -76,7 +76,7 @@ const IncomingRequest = ({ refresh }: { refresh: number }) => {
                             return (
                                 <IncomingRequestCard key={idx} ID={filteredRecord.id} StudentID={filteredRecord.studentId} TutorID={String(profileId)} StudentName={filteredRecord.studentName} TutorName={filteredRecord.tutorName} DateTime={splitString(filteredRecord.selectedDates)} Status={filteredRecord.status} OnForceUpdate={forceUpdate} />
                             )
-                        }) : <p className="text-center">No students found.</p>}
+                        }) : <p className="text-sm text-center text-black font-semibold">No student request found.</p>}
                     </ScrollPanel>
                 </div>
             </div>

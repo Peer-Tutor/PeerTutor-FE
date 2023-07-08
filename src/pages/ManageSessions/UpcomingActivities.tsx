@@ -59,7 +59,7 @@ const UpcomingActivities = (props: DasboardActionCardInput) => {
                     </div>
                 </div>
                 );
-              }) : <p className="text-center text-black font-bold">No upcoming activities scheduled.</p>
+              }) : <p className="text-sm text-center text-black font-semibold">No upcoming activities scheduled.</p>
             }
             </ScrollPanel>
         </Panel>

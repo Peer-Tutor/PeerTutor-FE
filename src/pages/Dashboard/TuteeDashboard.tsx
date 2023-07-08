@@ -9,18 +9,20 @@ import { BookmarkedTutorsList } from '../BookmarkedTutors/BookmarkedTutorsList';
 
 const TuteeDashboard = ({refresh}: {refresh:number}) => {
     return (
-        <div className="grid col-12">
-            <div className="field col-7">
-                <div className="flex gap-4">
-                    <ProfileCard />
-                    <DasboardActionCard tutorView={false}/>
+        <div className="flex flex-column gap-3">
+            <div className="flex flex-row flex-wrap gap-3">
+                <div className="flex flex-grow-1 flex-column">
+                    <div className="flex flex-row flex-wrap gap-3">
+                        <ProfileCard />
+                        <DasboardActionCard tutorView={false}/>
+                    </div>
+                    <UpcomingActivities refresh={refresh} />
                 </div>
-                <UpcomingActivities refresh={refresh} />
+                <div className="flex flex-grow-1 flex-column">
+                    <PendingRequest refresh={refresh} />
+                </div>
             </div>
-            <div className="field col-5">
-                <PendingRequest refresh={refresh} />
-            </div>
-            <div className="field col-12">
+            <div className="flex flex-1 flex-row">
                 <BookmarkedTutorsList refresh={refresh}  tutorView={false} />
             </div>
         </div>

@@ -33,7 +33,7 @@ const IncomingRequestSearchBar = (props: {setTotalRecords: any, setTuitionOrderL
                 </div>
                 <div className="flex flex-column align-items-center gap-3">
                     <span >
-                        <Button onClick={onClickHandler}  className="fa-solid fa-magnifying-glass" />
+                        <Button onClick={onClickHandler}  className="p-button-secondary" icon="fa-solid fa-magnifying-glass" />
                     </span>
 
                 </div>

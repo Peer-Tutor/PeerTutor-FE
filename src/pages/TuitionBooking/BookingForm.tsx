@@ -63,7 +63,7 @@ const BookingForm = ({ tutorId, selectedDates, handleSubmit, setSelectedDates, s
                             optionValue="code"
                             onChange={(e) => setSelectedDates(e.value)}
                         /> :
-                        <><p>No dates available</p></>}
+                        <><p className="text-sm text-center text-black font-semibold">No dates available</p></>}
 
                 </div>
                 <div className="flex flex-grow-1 flex-row-reverse">

@@ -83,7 +83,7 @@ const TutorCalendar = () => {
                             return (
                                 <Chip removable={true} label={elt} defaultValue={elt} key={elt} onRemove={() => { removeSelectedDate(elt) }} />
                             )
-                        })) : <p>No dates selected.</p>}
+                        })) : <p className="text-sm text-center text-black font-semibold">No dates selected.</p>}
                     </div>
                     <div className="flex flex-grow-1 flex-row-reverse">
                         <Button label="Save" className="p-button-primary" onClick={handleSubmit} />

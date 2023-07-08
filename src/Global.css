@@ -1,4 +1,5 @@
 body{
+    font-family: 'Ubuntu';font-size: 22px !important;
     font-weight: bold;
     margin: 0rem;
 }
@@ -63,3 +64,5 @@ body{
 
 /* LINK */
 a { text-decoration: none !important; }
+
+p { margin: 0rem 0.3rem !important;}

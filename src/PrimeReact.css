@@ -1,3 +1,4 @@
+.p-component { font-family: 'Ubuntu'; }
 .p-button.p-button-icon-only.p-button-rounded,
 .p-button, .p-button:enabled:hover {
     border-radius: 1rem;

@@ -52,91 +52,93 @@ export default function NavBar(props: BaseLayoutProps) {
     if(props.authenticated && session != null && (session.accountType == AccountType.TUTOR || session.accountType == AccountType.STUDENT)){
         if(session.accountType == AccountType.TUTOR){
             return (
-                <nav className="nav-bar text-2xl">
-                    <ul className="flex flex-row align-items-stretch my-0">
+                <div className="nav-bar text-2xl">
+                    <div className="flex flex-row flex-wrap align-items-stretch align-items-center my-0">
                         <Link to={session.homeLink ?? PageLink.DEFAULT }>
-                            <li className="flex mr-5">
-                                <img src={require('../../resources/TutorPeer.png')} width={200} height={60} alt=""/>
-                            </li>
+                            <div className="flex mr-5">
+                                <img src={require('../../resources/TutorPeer.png')} width={150} height={45} alt=""/>
+                            </div>
                         </Link>
-                        <li className="flex align-items-center mr-5">
-                            <Link to={PageLink.MANAGE_ACCOUNT}>
-                                <i className="text-xl mr-3 fa-solid fa-id-card"></i>Account Management
-                            </Link>
-                        </li>
-                        <li className="flex align-items-center mr-5">
+                        <div className="flex align-items-center mr-5">
                             <Link to={PageLink.TUITION_CALENDAR}>
-                                <i className="text-xl mr-3 fa-solid fa-id-card"></i>Tutor Calendar
+                                <div className="flex align-items-center">
+                                    <i className="text-xl mr-2 fa-solid fa-calendar-days"></i>
+                                    <p className="text-xl">Calendar</p>
+                                </div>
                             </Link>
-                        </li>
-                        <li className="flex align-items-center mr-5">
+                        </div>
+                        <div className="flex flex-grow-1 align-items-center mr-5">
                             <Link to={PageLink.TUTOR_REVIEW}>
-                                <i className="text-xl mr-3 fa-solid fa-id-card"></i>Reviews
+                                <div className="flex align-items-center">
+                                    <i className="text-xl mr-2 fa-solid fa-id-card"></i>
+                                    <p className="text-xl">Reviews</p>
+                                </div>
                             </Link>
-                        </li>
+                        </div>
 
-                        <li className="flex flex-grow-1 align-items-center text-right mx-3 text-4xl flex-row-reverse" >|</li>
-                        <li className="flex align-items-center mx-2"><i className="text-3xl fa-regular fa-circle-user"></i></li>
-                        <li className="flex align-self-center mx-3 flex-column">
-                            <label className="text-base font-semibold">{session.displayName ?? session.name}</label>
-                            <label className="text-sm font-normal">{session.accountType}</label>
-                        </li>
-                        <li className="flex align-items-center ml-5 mr-2">
+                        <Link to={PageLink.MANAGE_ACCOUNT}>
+                            <div className=" flex align-items-center cursor-pointer">
+                                <i className="text-2xl fa-regular fa-circle-user mx-2"></i>
+                                <div className="flex align-self-center mx-3 flex-column">
+                                    <p className="text-base font-semibold">{session.displayName ?? session.name}</p>
+                                    <p className="text-sm font-normal">{session.accountType}</p>
+                                </div>
+                            </div>
+                        </Link>
+                        <div className="flex align-items-center ml-5 mr-2">
                             <Link to="/" onClick={clearSession}>
                                 <i className="fa-solid fa-right-from-bracket"></i>
                             </Link>
-                        </li>
-                    </ul>
-                </nav>
+                        </div>
+                    </div>
+                </div>
             );
         }else{
             return (
-                <nav className="nav-bar text-2xl">
-                    <ul className="flex flex-row align-items-stretch my-0">
+                <div className="nav-bar text-2xl">
+                    <div className="flex flex-row flex-wrap align-items-stretch align-item-center my-0">
                         <Link to={session.homeLink ?? PageLink.DEFAULT }>
-                            <li className="flex mr-5">
-                                <img src={require('../../resources/TutorPeer.png')} width={200} height={60} alt=""/>
-                            </li>
+                            <div className="flex mr-5">
+                                <img src={require('../../resources/TutorPeer.png')} width={150} height={45} alt=""/>
+                            </div>
                         </Link>
-
-                        <li className="flex align-items-center mr-5">
-                            <Link to={PageLink.MANAGE_ACCOUNT}>
-                                <i className="text-xl mr-3 fa-solid fa-id-card"></i>Account Management
+                        <div className="flex flex-grow-1 justify-content-end">
+                             <Link to={PageLink.MANAGE_ACCOUNT}>
+                                 <div className="flex align-items-center cursor-pointer">
+                                    <i className="flex text-2xl fa-regular fa-circle-user mx-2"></i>
+                                    <div className="flex align-self-center mx-3 flex-column">
+                                        <p className="text-base font-semibold">{session.displayName ?? session.name}</p>
+                                        <p className="text-sm font-normal">{session.accountType}</p>
+                                    </div>
+                                 </div>
                             </Link>
-                        </li>
-
-                        <li className="flex flex-grow-1 align-items-center text-right mx-3 text-4xl flex-row-reverse" >|</li>
-                        <li className="flex align-items-center mx-2"><i className="text-3xl fa-regular fa-circle-user"></i></li>
-                        <li className="flex align-self-center mx-3 flex-column">
-                            <label className="text-base font-semibold">{session.displayName ?? session.name}</label>
-                            <label className="text-sm font-normal">{session.accountType}</label>
-                        </li>
-                        <li className="flex align-items-center ml-5 mr-2">
-                            <Link to="/" onClick={clearSession}>
-                                <i className="fa-solid fa-right-from-bracket"></i>
-                            </Link>
-                        </li>
-                    </ul>
-                </nav>
+                            <div className="flex ml-5 mr-2">
+                                <Link to="/" onClick={clearSession}>
+                                    <i className="fa-solid fa-right-from-bracket"></i>
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             );
         }
     }else{
         return (
-            <nav className="nav-bar text-2xl">
-                <ul className="flex flex-row align-items-stretch my-0">
+            <div className="nav-bar text-xl">
+                <div className="flex flex-row align-items-stretch my-0">
                     <Link to={session.homeLink ?? PageLink.DEFAULT} >
-                        <li className="flex mr-5 align-items-center flex-grow-1">
-                            <img src={require('../../resources/TutorPeer.png')} width={200} height={60} alt=""/>
-                        </li>
+                        <div className="flex mr-5 align-items-center flex-grow-1">
+                            <img src={require('../../resources/TutorPeer.png')} width={150} height={45} alt=""/>
+                        </div>
                     </Link>
-                    <li className="flex flex-grow-1 align-items-center text-right mx-3 text-2xl flex-row-reverse" >|</li>
-                    <li className="flex ml-5 mr-2 align-items-center">
+
+                    <div className="flex flex-grow-1 ml-5 mr-2 align-items-center justify-content-end">
                         <Link to={PageLink.LOGIN}>
                             LOGIN<i className="ml-3 fa-solid fa-right-to-bracket"></i>
                         </Link>
-                    </li>
-                </ul>
-            </nav>
+                    </div>
+                </div>
+            </div>
         );
     }
 }

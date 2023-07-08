@@ -9,18 +9,20 @@ import { Button } from 'primereact/button';
 const TutorDashboard = ({ refresh }: { refresh: number }) => {
     const viewObject = { tutorView: true };
     return (
-        <div className="grid col-12">
-            <div className="field col-7">
-                <div className="flex gap-4">
-                    <ProfileCard tutorView={true}
-                        introduction={'Hi I\'m a tutor under tutor scheme'}
-                        subjects={'Chinese;English'}
-                        certificates={'Master;Bachelor'} />
+        <div className="flex flex-column">
+            <div className="flex flex-row flex-wrap gap-3">
+                <div className="flex flex-column flex-grow-1">
+                    <div className="flex flex-row flex-wrap gap-3">
+                        <ProfileCard tutorView={true}
+                            introduction={'Hi I\'m a tutor under tutor scheme'}
+                            subjects={'Chinese;English'}
+                            certificates={'Master;Bachelor'} />
+                    </div>
+                    <UpcomingActivities refresh={refresh}/>
                 </div>
-                <UpcomingActivities refresh={refresh}/>
-            </div>
-            <div className="field col-5">
-                <IncomingRequest refresh={refresh}/>
+                <div className="flex flex-grow-1 flex-column">
+                    <IncomingRequest refresh={refresh}/>
+                </div>
             </div>
         </div>
     );
