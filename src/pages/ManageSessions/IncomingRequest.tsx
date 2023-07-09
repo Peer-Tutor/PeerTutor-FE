@@ -64,14 +64,12 @@ const IncomingRequest = ({ refresh }: { refresh: number }) => {
 
     return (
         <Panel headerTemplate={template} className="singlePanel" >
-            <div className="flex flex-row align-items-center gap-2 mb-3">
-                <div className="flex-1 flex">
+            <div className="flex flex-column align-items-start gap-2 mb-3">
+                <div className="flex flex-grow-1">
                     <IncomingRequestSearchBar setTotalRecords={setTotalRecords} setTuitionOrderList={setTuitionOrderList} />
                 </div>
-            </div>
-            <div className="grid">
-                <div className="col-12 md:col-4">
-                    <ScrollPanel style={{ width: '300%', height: '100%' }}>
+                <div className="flex flex-grow-1 col-12">
+                    <ScrollPanel className="flex flex-grow-1">
                         {tuitionOrderList && tuitionOrderList?.length > 0 ? tuitionOrderList?.map((filteredRecord, idx) => {
                             return (
                                 <IncomingRequestCard key={idx} ID={filteredRecord.id} StudentID={filteredRecord.studentId} TutorID={String(profileId)} StudentName={filteredRecord.studentName} TutorName={filteredRecord.tutorName} DateTime={splitString(filteredRecord.selectedDates)} Status={filteredRecord.status} OnForceUpdate={forceUpdate} />

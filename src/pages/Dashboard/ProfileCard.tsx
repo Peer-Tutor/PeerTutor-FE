@@ -44,7 +44,7 @@ const ProfileCard = (props: AccountInfo) => {
 
     if(props.tutorView){
         return (
-            <Card className="flex flex-grow-1 px-2 py-0 align-items-center">
+            <Card className="flex flex-1">
                 <div className="flex flex-row flex-wrap align-items-center gap-2">
                     <Link to={ PageLink.MANAGE_ACCOUNT }>
                         <div className="flex flex-column align-items-center gap-3">
@@ -52,7 +52,7 @@ const ProfileCard = (props: AccountInfo) => {
                             <label className="text-base font-bold text-dark-blue">Profile Overview</label>
                         </div>
                     </Link>
-                    <div className="flex flex-column align-items-start gap-3">
+                    <div className="flex flex-column align-items-start gap-3 ml-3">
                         <label className="text-sm text-black font-semibold">Introduction : </label>
                         <label className="text-xs text-black">{ introduction } </label>
                         <label className="text-sm text-black font-semibold">Subject Area : </label>

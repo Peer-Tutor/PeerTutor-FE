@@ -19,7 +19,6 @@ const IncomingRequestSearchBar = (props: {setTotalRecords: any, setTuitionOrderL
         searchStudent(setTotalRecords, searchStr, setTuitionOrderList)
     }
     return (
-        <>
             <div className="flex flex-row align-items-center">
                 <div className="flex ">
                     <span className="p-input-icon-left">
@@ -35,10 +34,8 @@ const IncomingRequestSearchBar = (props: {setTotalRecords: any, setTuitionOrderL
                     <span >
                         <Button onClick={onClickHandler}  className="p-button-secondary" icon="fa-solid fa-magnifying-glass" />
                     </span>
-
                 </div>
             </div>
-        </>
     )
 }
 
