@@ -5,12 +5,12 @@ import { Subdomain } from "../../constants/Subdomain";
 import { useNavigate } from "react-router-dom";
 import { PageLink } from "../../constants/Constant";
 import { TutorCardProps } from "../../constants/Model";
-import { getSessionTokenValues, getUrl } from "../../utils/apiUtils";
+import { getUrl } from "../../utils/apiUtils";
 import { BookmarkResponse, addBookmarkTutorCard, deleteBookmarkTutorCard } from "../../pages/BookmarkedTutors/BookmarkedServices";
 import { Tooltip } from 'primereact/tooltip';
 
 const TutorCard = (props: TutorCardProps) => {
-    const { tutorId, subject, name, certs, intro } = props
+    const { tutorId, subject, name, certs, intro, bookmarkedTutorList } = props
     const [bookmarked, BookmarkTutor] = useState(false);
 
     const navigate = useNavigate();
@@ -55,7 +55,7 @@ const TutorCard = (props: TutorCardProps) => {
         <>
             <div className="flex flex-row align-items-center flex-grow-1 justify-content-between p-3 my-3" >
                 <div className="flex flex-row flex-grow-1 align-items-center gap-3">
-                    <div className="flex">1
+                    <div className="flex">
                         <i className="text-5xl text-orange fa-solid fa-chalkboard-user mx-3"></i>
                     </div>
                     <div className="flex flex-column flex-1">

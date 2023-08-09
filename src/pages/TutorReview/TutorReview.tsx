@@ -1,16 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { Subdomain } from "../../constants/Subdomain";
-import { AuthenticationStorage } from "../../constants/Model";
-import { PageLink, SessionStorage } from "../../constants/Constant";
-import { getSessionTokenValues, getUrl } from "../../utils/apiUtils";
+import React from "react";
+import { PageLink } from "../../constants/Constant";
 import { Card } from "primereact/card";
-import { Paginator } from 'primereact/paginator';
-import { Rating } from "primereact/rating";
 import { TutorReviewCard } from "./TutorReviewCard";
-import { ScrollPanel } from 'primereact/scrollpanel';
 import { Button } from "primereact/button";
 import { useNavigate } from "react-router-dom";
-import { Divider } from "primereact/divider";
 
 export type TutorResponse = {
     tutorId: string;
@@ -19,8 +12,6 @@ export type TutorResponse = {
 }
 
 const TutorReview = () => {   
-    const [tutorReviewList, setTutorReviewList] = useState<TutorResponse[]>([])
-    const url = getUrl(Subdomain.REVIEW_MGR, '/reviews');
     const navigate = useNavigate();
     const onClickHandler = ()=>{
         navigate(PageLink.ADD_TUTOR_REVIEW)

@@ -1,35 +1,28 @@
-import React, { useEffect, useState } from "react";
-import { Dropdown } from 'primereact/dropdown';
-import { Calendar } from 'primereact/calendar';
+import React, { useState } from "react";
 import { Button } from 'primereact/button';
 import { useToastHook } from "../../utils/toastHooks";
 import { Toast } from "primereact/toast";
 import { Card } from 'primereact/card';
-import { InputText } from 'primereact/inputtext';
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Rating } from "primereact/rating";
 import { InputTextarea } from "primereact/inputtextarea";
-import { PageLink, SessionStorage } from "../../constants/Constant";
+import { PageLink } from "../../constants/Constant";
 import axios from "axios";
 import { Subdomain } from "../../constants/Subdomain";
-import { getSessionTokenValues, getUrl } from "../../utils/apiUtils";
+import { getUrl, getProfileId } from "../../utils/apiUtils";
 
 
 const AddTutorReview = () => {
     const [toast] = useToastHook()
     const navigate = useNavigate();
-    const [tutorId, setTutorId] = useState<any>(null);
     const [rating, setRating] = useState<any>(null);
     const [comment, setComment] = useState('');
-    const [route, setRoute] = useState(PageLink.TUTOR_REVIEW);
 
     const addReview = () => {
         const url = getUrl(Subdomain.REVIEW_MGR, '/reviews');
-        const { name, sessionToken, profileId } = getSessionTokenValues()
-        axios.post(url, { rating: rating, comment: comment, tutorId: profileId}).then(res => {
+        axios.post(url, { rating: rating, comment: comment, tutorId: getProfileId()}).then(res => {
             navigate(PageLink.TUTOR_REVIEW);
         }).catch(err => {
-            console.log('error!', err);
         });
     };
 
@@ -48,12 +41,8 @@ const AddTutorReview = () => {
                     <InputTextarea className="comment" value={comment} onChange={(e) => setComment(e.target.value)} autoResize />
                 </div>
                 <div className="flex flex-1 justify-content-end mt-4">
-                    <Link to={route} onClick={addReview}>
-                        <Button label="Cancel" className="p-button-secondary flex"  />
-                    </Link>
-                    <Link to={route} onClick={addReview}>
-                        <Button icon="pi pi-send" label="Submit" className="p-button-primary flex"  />
-                    </Link>
+                    <Button label="Cancel" className="p-button-secondary flex" onClick={ cancelReview } />
+                    <Button icon="pi pi-send" label="Submit" className="p-button-primary flex" onClick={ addReview }/>
                 </div>
             </Card>
         </div>

@@ -8,7 +8,7 @@ import { Panel } from 'primereact/panel';
 import { Badge } from 'primereact/badge';
 import { AccountType, PageLink, SessionStorage, AccountTypeList, SubjectList, CertificateList } from "../../constants/Constant";
 import { UpcomingActivitiesResponse } from "../../constants/Model";
-import { getUrl, getSessionTokenValues } from '../../utils/apiUtils';
+import { getUrl } from '../../utils/apiUtils';
 import { UpcomingActivitiesCard } from './UpcomingActivitiesCard';
 import { getUpcomingActivities } from './Services';
 import { ScrollPanel } from 'primereact/scrollpanel';

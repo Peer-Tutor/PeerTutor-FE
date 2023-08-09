@@ -12,6 +12,8 @@ const WelcomeDashboard = () => {
                     <Link to={PageLink.LOGIN}>
                         <img src={require('../../resources/TutorPeer.png')} width={300} height={90} alt=""/>
                     </Link>
+                </div>
+                <div className="flex flex-column align-items-center gap-3">
                     <label className="flex text-center font-bold text-3xl text-black">Tutor Space</label>
                     <label className="flex text-center font-base text-base text-orange">A space for students to look for tutor</label>
                 </div>

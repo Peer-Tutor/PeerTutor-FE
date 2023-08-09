@@ -1,44 +1,34 @@
 import axios from "axios";
 import { Subdomain } from "../../constants/Subdomain";
-import { getSessionTokenValues, getUrl } from "../../utils/apiUtils";
+import { getUrl, getProfileName, getSessionToken, getProfileId } from "../../utils/apiUtils";
 import { toast } from "../../utils/toastHooks";
 import { CalendarDetail } from "./Model";
 
 const getListOfAvailableDatesForCurrentTutor = (setAvailableDates: any) => {
     const url = getUrl(Subdomain.TUTOR_CALENDAR_MGR, '/calendar');
-    const { name, sessionToken, profileId } = getSessionTokenValues()
-    console.log("called")
 
     axios.get<CalendarDetail>(url, {
         params: {
-            name: name,
-            sessionToken: sessionToken,
-            tutorId: profileId,
+            name: getProfileName(),
+            sessionToken: getSessionToken(),
+            tutorId: getProfileId(),
         }
     }).then(res => {
-        // res.data
-        console.log(res.data)
         setAvailableDates(res.data.availableDate)
     }).catch(err => {
-        console.log(err)
     });
 }
 
 const saveAvailableDates =  (availableDates: string[]) => {
     const url = getUrl(Subdomain.TUTOR_CALENDAR_MGR, '/calendar');
-    const { name, sessionToken, profileId } = getSessionTokenValues()
-    console.log('profileId'+profileId)
     axios.post(url, {
-        name: name,
-        sessionToken: sessionToken,
+        name: getProfileName(),
+        sessionToken: getSessionToken(),
         availableDates: availableDates,
-        tutorId: profileId,
+        tutorId: getProfileId(),
     }).then(res => {
-        // console.log('success')
-        toast?.current?.show({ severity: 'success',content: 'Success', closable: true, life: 5000 });
+        toast?.current?.show({ severity: 'success',content: 'Success', closable: false, life: 5000 });
     }).catch(err => {
-        console.log(err)
-        // toast?.current?.show({ severity: 'error',content: 'failure', closable: false, life: 5000 });
     })
 }
 

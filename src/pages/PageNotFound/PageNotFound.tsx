@@ -4,11 +4,10 @@ import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 import { Link, useNavigate } from "react-router-dom";
 import { AccountType, PageLink } from "../../constants/Constant";
-import { getSessionTokenValues, getUrl } from "../../utils/apiUtils";
+import { getUrl, getHomeLink } from "../../utils/apiUtils";
 
 
 const PageNotFound = () => {
-    const { name, sessionToken, profileId, accountType } = getSessionTokenValues();
     return (
         <Card className="col-12 my-auto py-8">
             <div className="grid">
@@ -17,7 +16,7 @@ const PageNotFound = () => {
                     <label className="col-12 text-center font-base text-base text-black"></label>
                 </div>
                 <div className="col-12 text-center">
-                    <Link to={accountType == AccountType.STUDENT ? PageLink.DASHBOARD_STUDENT : (accountType == AccountType.TUTOR ? PageLink.DASHBOARD_TUTOR : PageLink.DEFAULT)}>
+                    <Link to={getHomeLink()}>
                        <Button label="Return" icon="fa-solid fa-house" iconPos="right" className="p-button-primary" />
                     </Link>
                 </div>

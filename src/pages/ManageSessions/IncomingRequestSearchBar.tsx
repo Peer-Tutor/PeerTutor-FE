@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Subdomain } from "../../constants/Subdomain";
-import { getSessionTokenValues, getUrl } from "../../utils/apiUtils";
+import { getUrl } from "../../utils/apiUtils";
 import { toast } from "../../utils/toastHooks";
 import { GetRequestResponse } from './IncomingRequestCard'
 import { Button } from 'primereact/button'

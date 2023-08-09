@@ -2,7 +2,7 @@ import axios from "axios"
 import React, { useEffect, useState } from "react";
 import { Subdomain } from "../../constants/Subdomain";
 import { AuthenticationStorage } from "../../constants/Model";
-import { getSessionTokenValues, getUrl } from "../../utils/apiUtils";
+import { getUrl } from "../../utils/apiUtils";
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 import { Divider } from 'primereact/divider';
@@ -17,7 +17,6 @@ type AccountInfo = { tutorView?: boolean; refresh: number};
 
 const BookmarkedTutorsList = (props: AccountInfo, props2: BookmarkedTutorResponse) => {
     const [bookmarkedTutorList, setBookmarkedTutorList] = useState<BookmarkedTutorResponse[]>([]) // todo type script
-    const { name, sessionToken, profileId } = getSessionTokenValues();
     const [onForceUpdate, forceUpdate] = useForceUpdate();
 
     useEffect(() => {

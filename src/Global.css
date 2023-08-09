@@ -5,7 +5,7 @@ body{
 }
 
 .nav-bar{
-    background-color: #112B3C;
+    background-color: #000000;
     padding: 0.5rem 1rem;
     color: #EFEFEF;
 }
@@ -28,7 +28,7 @@ body{
 .text-red{ color: #FF0000 !important; }
 .text-white{ color: #EFEFEF !important; }
 .text-orange{ color: #F66B0E !important; }
-.text-green{ color: #205375 !important; }
+.text-green{ color: #00FF00 !important; }
 .text-bright-green{ color: #11F60E !important; }
 .text-dark-blue{ color: #112B3C !important; }
 

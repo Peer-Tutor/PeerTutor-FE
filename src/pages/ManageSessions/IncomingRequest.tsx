@@ -2,7 +2,7 @@ import axios from "axios"
 import React, { useEffect, useState } from "react";
 import { Subdomain } from "../../constants/Subdomain";
 import { AuthenticationStorage } from "../../constants/Model";
-import { getSessionTokenValues, getUrl } from "../../utils/apiUtils";
+import { getUrl, getProfileId } from "../../utils/apiUtils";
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 import { Dropdown } from 'primereact/dropdown';
@@ -41,7 +41,6 @@ const IncomingRequest = ({ refresh }: { refresh: number }) => {
     };
 
     const [tuitionOrderList, setTuitionOrderList] = useState<GetRequestResponse[]>([]) // todo type script
-    const { name, sessionToken, profileId } = getSessionTokenValues();
     const url = getUrl(Subdomain.TUITION_ORDER_MGR, '/detailedTuitionOrders');
     const [onForceUpdate, forceUpdate] = useForceUpdate();
     useEffect(() => {
@@ -72,7 +71,7 @@ const IncomingRequest = ({ refresh }: { refresh: number }) => {
                     <ScrollPanel className="flex flex-grow-1">
                         {tuitionOrderList && tuitionOrderList?.length > 0 ? tuitionOrderList?.map((filteredRecord, idx) => {
                             return (
-                                <IncomingRequestCard key={idx} ID={filteredRecord.id} StudentID={filteredRecord.studentId} TutorID={String(profileId)} StudentName={filteredRecord.studentName} TutorName={filteredRecord.tutorName} DateTime={splitString(filteredRecord.selectedDates)} Status={filteredRecord.status} OnForceUpdate={forceUpdate} />
+                                <IncomingRequestCard key={idx} ID={filteredRecord.id} StudentID={filteredRecord.studentId} TutorID={String(getProfileId())} StudentName={filteredRecord.studentName} TutorName={filteredRecord.tutorName} DateTime={splitString(filteredRecord.selectedDates)} Status={filteredRecord.status} OnForceUpdate={forceUpdate} />
                             )
                         }) : <p className="text-sm text-center text-black font-semibold">No student request found.</p>}
                     </ScrollPanel>

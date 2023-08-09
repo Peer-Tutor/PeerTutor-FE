@@ -5,8 +5,6 @@ import { PageLink } from "../../constants/Constant";
 import { Rating } from "primereact/rating";
 import { InputTextarea} from "primereact/inputtextarea";
 
-
-
 type TutorReviewCardProps ={
     tutorId: string;
     rating: number;

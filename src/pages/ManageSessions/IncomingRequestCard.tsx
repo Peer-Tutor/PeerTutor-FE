@@ -2,7 +2,7 @@ import axios from "axios"
 import React, { useEffect, useState } from "react";
 import { Subdomain } from "../../constants/Subdomain";
 import { AuthenticationStorage } from "../../constants/Model";
-import { getSessionTokenValues, getUrl } from "../../utils/apiUtils";
+import { getUrl } from "../../utils/apiUtils";
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';

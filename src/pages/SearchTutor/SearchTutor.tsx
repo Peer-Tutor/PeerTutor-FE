@@ -1,10 +1,5 @@
-import axios from "axios"
 import React, { useEffect, useState } from "react";
-import { Subdomain } from "../../constants/Subdomain";
-import { AuthenticationStorage } from "../../constants/Model";
-import { PageLink, TUTOR_RESULTS_PAGINATION_PAGE_SIZE, SessionStorage } from "../../constants/Constant";
-import { getSessionTokenValues, getUrl } from "../../utils/apiUtils";
-import { Card } from "primereact/card";
+import { PageLink, TUTOR_RESULTS_PAGINATION_PAGE_SIZE } from "../../constants/Constant";
 import { Paginator } from 'primereact/paginator';
 import { TutorCard } from "./TutorCard";
 import { SearchBar } from "./SearchBar";
@@ -12,7 +7,6 @@ import { SearchBar } from "./SearchBar";
 import { Rating } from 'primereact/rating';
 import { Divider } from "primereact/divider";
 import { getRecommendationsForMyself, getTutorList } from "./Service";
-import { Badge } from "primereact/badge";
 import { Panel } from "primereact/panel";
 import { HeaderTemplate } from "../../components/Shared/HeaderTemplate";
 import { BookmarkedTutorResponse, getBookmarkedTutorOfStudentTutorCard } from "../../pages/BookmarkedTutors/BookmarkedServices";
@@ -46,6 +40,7 @@ const SearchTutor = () => {
 
     useEffect(() => {
         getTutorList(setTotalRecords, setTutorList, currentPage)
+        getBookmarkedTutorOfStudentTutorCard(setBookmarkedTutorList)
         getRecommendationsForMyself(setRecommendationList)
     }, []);
 
@@ -67,7 +62,7 @@ const SearchTutor = () => {
                             template="PrevPageLink CurrentPageReport NextPageLink"
                             onPageChange={(e) => {
                                 setCurrentPage(e.first)
-                                if (totalRecords != 0) {
+                                if (totalRecords !== 0) {
                                     const nextPageNum = Math.floor(e.first / TUTOR_RESULTS_PAGINATION_PAGE_SIZE);
                                     getTutorList(setTotalRecords, setTutorList, nextPageNum)
                                 } else {
@@ -78,7 +73,6 @@ const SearchTutor = () => {
                     </div>
                     <div className="flex flex-column flex-1">
                     {tutorList && tutorList?.length > 0 ? tutorList?.map((tutor, idx) => {
-                        // console.log(tutor.introduction)
                         return (
                             <>
                                 <TutorCard key={idx} intro={tutor.introduction} certs={tutor.certificates} tutorId={tutor.id} subject={tutor.subjects} name={tutor.displayName} getTutorList={getTutorList} setTotalRecords={setTotalRecords} setTutorList={setTutorList} currentPage={currentPage} bookmarkedTutorList={bookmarkedTutorList} forceUpdate={forceUpdate} />
@@ -98,7 +92,6 @@ const SearchTutor = () => {
         </div>
     );
 };
-
 
 const RecommendationList = ({ recommendationList }: { recommendationList: TutorRecommendationResponse }) => {
     return (
