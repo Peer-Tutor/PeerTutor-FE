@@ -37,6 +37,7 @@ const LoginDashboard:React.FC = () => {
             saveSessionTokenValue(name, res.data.sessionToken ?? '', res.data.usertype ?? '');
             updateProfile(false);
         }).catch(err => {
+            setLoading(false);
         });
     };
 
@@ -47,6 +48,7 @@ const LoginDashboard:React.FC = () => {
             saveSessionTokenValue(name, res.data.sessionToken ?? '', res.data.usertype ?? '');
             updateProfile(true);
         }).catch(err => {
+            setLoading(false);
         });
     };
 
@@ -78,6 +80,7 @@ const LoginDashboard:React.FC = () => {
                     navigate(PageLink.MANAGE_ACCOUNT);
                 }, 1000);
            }).catch(err => {
+                    setLoading(false);
            });
        }else{
             axios.get<AccountResponse>(profileURL, { params: profile }).then(res => {
@@ -92,6 +95,7 @@ const LoginDashboard:React.FC = () => {
                     navigate(getHomeLink());
                 }, 1000);
             }).catch(err => {
+                    setLoading(false);
             });
        }
     };

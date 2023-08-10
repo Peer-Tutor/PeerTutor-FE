@@ -11,7 +11,7 @@ const getTuitionOrderList = (setTotalRecords: any, setTuitionOrderList: any) => 
             sessionToken: getSessionToken()
         }
     }).then(res => {
-        const filteredList = res.data?.filter(record => (record.status === '0'  && record.tutorId === getProfileId()));
+        const filteredList = res.data?.filter(record => (record.status === 0 && record.tutorId === getProfileId()));
         setTuitionOrderList(filteredList);
         setTotalRecords(filteredList.length);
     }).catch(err => {
@@ -45,7 +45,7 @@ const searchStudent = (setTotalRecords: any, studentName: string, setTuitionOrde
         }
     }).then(res => {
         var name = studentName.toLowerCase();
-        const filteredList = res.data?.filter(record => ( record.status === '0' && record.studentName?.toLowerCase().includes(name) && record.tutorId === getProfileId()));
+        const filteredList = res.data?.filter(record => ( record.status === 0 && record.studentName?.toLowerCase().includes(name) && record.tutorId === getProfileId()));
         setTuitionOrderList(filteredList);
         setTotalRecords(filteredList.length);
     }).catch(err => {

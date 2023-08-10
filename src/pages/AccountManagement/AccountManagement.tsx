@@ -6,7 +6,6 @@ import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { MultiSelect } from 'primereact/multiselect';
-import { ProgressSpinner } from 'primereact/progressspinner';
 import { getUrl,
         getProfileName, getAccountType, getSessionToken,
         getDisplayName, setDisplayName,
@@ -15,12 +14,10 @@ import { getUrl,
         getProfileId, setProfileId
 } from "../../utils/apiUtils";
 import axios from "axios";
-import { useNavigate  } from "react-router-dom";
 import { useToastHook } from "../../utils/toastHooks";
 import { Toast } from "primereact/toast";
 
 const AccountManagement = () => {
-    const navigate = useNavigate();
     const [toast] = useToastHook();
 
     const [name, setName] = useState('');

@@ -7,12 +7,18 @@ import { Chip } from "primereact/chip";
 import { convertDateToYYYYMMDD } from "../../utils/DateUtils";
 import { Dialog } from "primereact/dialog";
 import { Divider } from 'primereact/divider';
-import { getListOfAvailableDatesForCurrentTutor, saveAvailableDates } from "./Service";
+import { getListOfAvailableDatesForCurrentTutor } from "./Service";
+import { getUrl, getProfileName, getSessionToken, getProfileId } from "../../utils/apiUtils";
+import { Subdomain } from "../../constants/Subdomain";
+import axios from "axios";
+import { useToastHook } from "../../utils/toastHooks";
+import { Toast } from "primereact/toast";
 
 const TutorCalendar = () => {
     const [date, setDate] = useState<any>(null);
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [availableDates, setAvailableDates] = useState<string[]>([]);
+    const [toast] = useToastHook();
 
     const handleSelectDate = () => {
         const newDate = convertDateToYYYYMMDD(date)
@@ -29,6 +35,32 @@ const TutorCalendar = () => {
         setAvailableDates(newSelectedDates);
     }
 
+    const successUpdate = () => {
+        return (
+            <div className="flex flex-row align-items-center" style={{flex: '1'}}>
+                <div className="flex mx-3">
+                    <i className="text-xl text-green fa-solid fa-circle-check"></i>
+                </div>
+                <div className="flex flex-1 flex-column">
+                    <label className="flex text-lg text-green font-bold">Successfully updated</label>
+                    <label className="text-xs text-white font-normal">Calendar dates updated successfully.</label>
+                </div>
+            </div>
+        );
+    };
+
+    const saveAvailableDates =  (availableDates: string[]) => {
+        const url = getUrl(Subdomain.TUTOR_CALENDAR_MGR, '/calendar');
+        axios.post(url, {
+            name: getProfileName(),
+            sessionToken: getSessionToken(),
+            availableDates: availableDates,
+            tutorId: getProfileId(),
+        }).then(res => {
+            toast?.current?.show({ severity: 'success', content: successUpdate(), closable: false, life: 5000 });
+        }).catch(err => {
+        })
+    }
     const handleSubmit = () => {
         saveAvailableDates(availableDates)
     }
@@ -65,6 +97,7 @@ const TutorCalendar = () => {
 
     return (
         <>
+            <Toast ref={toast} />
             <Panel header={HeaderTemplate({ title: 'Tutor Calendar' , hideBadge :true})} className="flex flex-column">
                 < div className="flex flex-column mx-auto pb-4">
                     <div className="flex flex-row flex-1 gap-2">

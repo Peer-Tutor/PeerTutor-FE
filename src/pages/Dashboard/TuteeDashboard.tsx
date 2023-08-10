@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { UpcomingActivities } from '../ManageSessions/UpcomingActivities';
 import { PendingRequest } from '../ManageSessions/PendingRequest';
 import { ProfileCard } from './ProfileCard';
 import { DasboardActionCard } from './DasboardActionCard';
-import { Card } from 'primereact/card';
-import { Button } from 'primereact/button';
 import { BookmarkedTutorsList } from '../BookmarkedTutors/BookmarkedTutorsList';
 
 const TuteeDashboard = ({refresh}: {refresh:number}) => {
@@ -18,7 +16,7 @@ const TuteeDashboard = ({refresh}: {refresh:number}) => {
                     </div>
                     <UpcomingActivities refresh={refresh} />
                 </div>
-                <div className="flex flex-grow-1 flex-column">
+                <div className="flex flex-1 flex-column">
                     <PendingRequest refresh={refresh} />
                 </div>
             </div>

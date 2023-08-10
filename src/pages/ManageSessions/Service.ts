@@ -1,4 +1,0 @@
-const getPendingRequests = () => {
-}
-
-export {getPendingRequests}

@@ -2,8 +2,7 @@ import axios from 'axios'
 import { Subdomain } from '../../constants/Subdomain';
 import { UpcomingActivitiesResponse } from '../../constants/Model';
 import { getUrl, getProfileName, getSessionToken, getAccountType, getProfileId } from '../../utils/apiUtils';
-import { toast } from '../../utils/toastHooks';
-import {AccountType} from '../../constants/Constant'
+import {AccountType} from '../../constants/Constant';
 
 export const getUpcomingActivities = (setActivities: React.Dispatch<React.SetStateAction<UpcomingActivitiesResponse[] | undefined>>,
     setDates: React.Dispatch<React.SetStateAction<string[] | undefined>>,
@@ -19,10 +18,11 @@ export const getUpcomingActivities = (setActivities: React.Dispatch<React.SetSta
         let response = res.data;
         response = response.filter((element) => {
             if(getAccountType().toString() === AccountType.STUDENT){
-                return element.status == 1 && element.studentId === getProfileId()
+                return element.status === 1 && element.studentId === getProfileId()
             } else if (getAccountType().toString() === AccountType.TUTOR){
-                return element.status == 1 && element.tutorId === getProfileId()
+                return element.status === 1 && element.tutorId === getProfileId()
             }else {
+                return element.status === 1;
             }
          });
         response.map((element) => {
@@ -54,7 +54,7 @@ export const getUpcomingActivities = (setActivities: React.Dispatch<React.SetSta
                 return 0;
             }
         });
-        datesArr = datesArr.filter(function (item, pos) { return datesArr.indexOf(item) == pos; })
+        datesArr = datesArr.filter(function (item, pos) { return datesArr.indexOf(item) === pos; })
             .sort(function (a, b) {
                 // Turn your strings into dates, and then subtract them
                 // to get a value that is either negative, positive, or zero.
@@ -83,7 +83,7 @@ export const getPendingRequest = (setActivities: React.Dispatch<React.SetStateAc
         }
     }).then(res => {
         let response = res.data;
-        response = response.filter((element) => { return element.status == 0 && element.studentId === getProfileId() });
+        response = response.filter((element) => { return element.status === 0 && element.studentId === getProfileId() });
         response.map((element) => {
             if (element.selectedDates) { element.selectedDates = element.selectedDates.replace("[", "").replace("]", ""); }
         });
@@ -97,6 +97,7 @@ export const getPendingRequest = (setActivities: React.Dispatch<React.SetStateAc
                     array.push({
                         studentName: element.studentName,
                         tutorName: element.tutorName,
+                        tutorId: element.tutorId,
                         selectedDates: date.trim(),
                         status: element.status
                     });
@@ -113,7 +114,7 @@ export const getPendingRequest = (setActivities: React.Dispatch<React.SetStateAc
                 return 0;
             }
         });
-        datesArr = datesArr.filter(function (item, pos) { return datesArr.indexOf(item) == pos; })
+        datesArr = datesArr.filter(function (item, pos) { return datesArr.indexOf(item) === pos; })
             .sort(function (a, b) {
                 // Turn your strings into dates, and then subtract them
                 // to get a value that is either negative, positive, or zero.
