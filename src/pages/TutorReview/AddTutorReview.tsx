@@ -31,18 +31,25 @@ const AddTutorReview = () => {
     return (
         <div className="global-component">
             <Toast ref={toast} />
-            <Card className="flex flex-column p-3 gap-3">
+            <Card>
+            <div className="flex flex-column p-3 gap-3">
                 <label className="flex flex-1 text-xl font-bold text-orange">New Review</label>
-                <div className="flex flex-row flex-wrap justify-content-between">
-                    <label className="flex text-base font-bold text-dark-blue" style={{ lineHeight: '3' }}>Rating:</label>
-                    <Rating value={rating} cancel={false} onChange={(e) => setRating(e.target.value)} />
+                <div className="flex flex-column flex-wrap align-self-end align-items-end gap-3">
+                    <div className="flex flex-row align-items-center gap-3">
+                        <label className="flex text-base font-semibold text-black">Rating:</label>
+                        <Rating value={rating} cancel={false} onChange={(e) => setRating(e.target.value)}
+                                tooltip="Rating of service" tooltipOptions={{ position: 'top' }}/>
+                    </div>
+                    <label className="flex text-xs text-right font-normal text-orange">Lowest 1 Star, Highest 5 Stars</label>
                 </div>
                 <div className="flex flex-column">
-                    <InputTextarea className="comment" value={comment} onChange={(e) => setComment(e.target.value)} autoResize />
+                    <InputTextarea  className="comment" value={comment} onChange={(e) => setComment(e.target.value)} autoResize
+                                    tooltip="Review summary of tutoring services experience" tooltipOptions={{ position: 'top' }}/>
                 </div>
                 <div className="flex flex-1 justify-content-end mt-4">
                     <Button label="Cancel" className="p-button-secondary flex" onClick={ cancelReview } />
                     <Button icon="pi pi-send" label="Submit" className="p-button-primary flex" onClick={ addReview }/>
+                </div>
                 </div>
             </Card>
         </div>

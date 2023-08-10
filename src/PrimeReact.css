@@ -19,7 +19,7 @@
 .p-button-primary {  background-color: #F66B0E !important; }
 .p-button-primary-outlined {
     color: #F66B0E !important;
-    background-color: #ffffff !important;
+    background-color: transparent !important;
     border: none !important;
  }
 .p-button-secondary { background-color: #000000 !important; }

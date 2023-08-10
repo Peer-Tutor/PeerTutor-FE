@@ -112,7 +112,7 @@ const RecommendationList = ({ recommendationList }: { recommendationList: TutorR
 const RecommendationCard = ({ tutorName, subjectList, tutorId }: { tutorName: string, subjectList: string, tutorId: string }) => {
     const navigate = useNavigate()
     return (
-        <div onClick={() => { navigate(PageLink.TUITION_BOOKING, { state: { tutorId: tutorId } }) }} className="surface-ground p-4 border-round w-5">
+        <div onClick={() => { navigate(PageLink.TUITION_BOOKING, { state: { tutorId: tutorId } }) }} className="bg-white p-4 border-round border-orange border-solid w-5">
             <div className="flex flex-column justify-content-center align-items-center gap-3">
                 <i className="text-5xl text-orange fa-solid fa-chalkboard-user"></i>
                 <label className="flex text-xl text-black font-bold">{tutorName}</label>

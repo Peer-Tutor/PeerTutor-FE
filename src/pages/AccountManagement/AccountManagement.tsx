@@ -119,19 +119,23 @@ const AccountManagement = () => {
                     <div className="flex flex-column mx-auto gap-5 col-6">
                         <div className="flex flex-column gap-2">
                             <label className="text-orange text-sm font-semibold">Display Name</label>
-                            <InputText type="text" className="col-12"  value={name} onChange={(e) => setName(e.target.value)} />
+                            <InputText  type="text" className="col-12"  value={name} onChange={(e) => setName(e.target.value)}
+                                        keyfilter={/^[a-zA-Z_\s]/}
+                                        tooltip="Name displayed when others view your profile" tooltipOptions={{ position: 'right' }}/>
                         </div>
                         <div className="flex flex-column gap-2">
                             <label className="text-orange text-sm font-semibold">Introduction</label>
-                            <InputText type="text" className="col-12"  value={intro} onChange={(e) => setIntroduction(e.target.value)}/>
+                            <InputText  type="text" className="col-12"  value={intro} onChange={(e) => setIntroduction(e.target.value)}
+                                        tooltip="Short introduction about yourself, when others view your profile" tooltipOptions={{ position: 'right' }}/>
                         </div>
                         <div className="flex flex-column gap-2">
                             <label className="text-orange text-sm font-semibold">Subjects</label>
                             <MultiSelect display="chip" className="col-12"  optionLabel="name" optionValue="code"
-                                     value={subject} options={subjectList} onChange={(e) => setProfileSubject(e.value)} />
+                                     value={subject} options={subjectList} onChange={(e) => setProfileSubject(e.value)}
+                                     tooltip="Subjects that require tutoring service on" tooltipOptions={{ position: 'right' }}/>
                         </div>
                         <div className="flex flex-grow-1 flex-row-reverse">
-                            <Button label="Update" className="p-button-primary" onClick={updateStudentProfile}/>
+                            <Button label="Update" className="p-button-primary" onClick={updateStudentProfile} />
                         </div>
                     </div>
                 </div>
@@ -144,21 +148,26 @@ const AccountManagement = () => {
                     <div className="flex flex-column mx-auto gap-5 col-6">
                         <div className="flex flex-column gap-2">
                             <label className="text-orange text-sm font-semibold">Display Name</label>
-                            <InputText type="text" className="col-12"  value={name} onChange={(e) => setName(e.target.value)} />
+                            <InputText  type="text" className="col-12"  value={name} onChange={(e) => setName(e.target.value)}
+                                        keyfilter={/^[a-zA-Z_\s]/}
+                                        tooltip="Name displayed when others view your profile" tooltipOptions={{ position: 'right' }}/>
                         </div>
                         <div className="flex flex-column gap-2">
                             <label className="text-orange text-sm font-semibold">Introduction</label>
-                            <InputText type="text" className="col-12"  value={intro} onChange={(e) => setIntroduction(e.target.value)}/>
+                            <InputText type="text" className="col-12"  value={intro} onChange={(e) => setIntroduction(e.target.value)}
+                                       tooltip="Short introduction about yourself, when others view your profile" tooltipOptions={{ position: 'right' }}/>
                         </div>
                         <div className="flex flex-column gap-2">
                             <label className="text-orange text-sm font-semibold">Subjects</label>
-                            <MultiSelect display="chip" className="col-12"  optionLabel="name" optionValue="code"
-                                     value={subject} options={subjectList} onChange={(e) => setProfileSubject(e.value)} />
+                            <MultiSelect    display="chip" className="col-12"  optionLabel="name" optionValue="code"
+                                            value={subject} options={subjectList} onChange={(e) => setProfileSubject(e.value)}
+                                            tooltip="Subjects that your are able to provide tutoring service on" tooltipOptions={{ position: 'right' }}/>
                         </div>
                         <div className="flex flex-column gap-2">
                             <label className="text-orange text-sm font-semibold">Certificates</label>
-                            <MultiSelect display="chip" className="col-12"  optionLabel="name" optionValue="code"
-                                     value={certificate} options={certificateList} onChange={(e) => setCertificate(e.value)} />
+                            <MultiSelect    display="chip" className="col-12"  optionLabel="name" optionValue="code"
+                                            value={certificate} options={certificateList} onChange={(e) => setCertificate(e.value)}
+                                            tooltip="List of education certifications you have achieved" tooltipOptions={{ position: 'right' }}/>
                         </div>
                         <div className="flex flex-grow-1 flex-row-reverse">
                             <Button label="Update" className="p-button-primary" onClick={updateTutorProfile}/>

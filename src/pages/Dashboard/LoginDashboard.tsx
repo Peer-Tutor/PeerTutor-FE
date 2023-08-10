@@ -104,13 +104,16 @@ const LoginDashboard:React.FC = () => {
                     <Card className="col-12 my-auto py-8">
                         <div className="grid">
                             <div className="col-12 text-center">
-                                <img src={require('../../resources/TutorPeer.png')} width={400} height={120} alt="" />
+                                <img src={require('../../resources/TutorPeer.png')} width={400} height={120} alt="" onClick={()=>navigate(getHomeLink())}/>
                             </div>
                             <div className="mx-auto my-5 grid align-items-center gap-4 col-6">
-                                <InputText type="text" className="col-12" value={name} onChange={(e) => setName(e.target.value)} placeholder="Name" />
-                                <Password className="col-12 p-0" inputClassName="col-12" value={password} onChange={(e) => setPassword(e.target.value)}
-                                    placeholder="Password" feedback={false} />
-                                <Dropdown optionLabel="name" optionValue="code" value={accountType} options={accountTypeList} onChange={accountTypeChange} />
+                                <InputText  type="text" className="col-12" keyfilter={/^[a-zA-Z_]/} value={name} onChange={(e) => setName(e.target.value)}
+                                            placeholder="Name"
+                                            tooltip="Name should not contain numeric or special characters" tooltipOptions={{ position: 'right' }}/>
+                                <Password   className="col-12 p-0" inputClassName="col-12" value={password} onChange={(e) => setPassword(e.target.value)}
+                                            placeholder="Password" feedback={false}
+                                            tooltip="Please enter a strong password to keep your account secured" tooltipOptions={{ position: 'right' }}/>
+                                <Dropdown   optionLabel="name" optionValue="code" value={accountType} options={accountTypeList} onChange={accountTypeChange} />
                                 { loading ?
                                     <div className="flex flex-grow-1 flex-row-reverse align-items-center">
                                         <label className="flex ml-2 font-semibold text-sm text-orange">Registering Profile ...</label>
@@ -138,13 +141,16 @@ const LoginDashboard:React.FC = () => {
                         <div className="grid">
                             <div className="col-12 text-center">
                                 <Link to={PageLink.DEFAULT}>
-                                    <img src={require('../../resources/TutorPeer.png')} width={400} height={120} alt="" />
+                                    <img src={require('../../resources/TutorPeer.png')} width={400} height={120} alt="" onClick={()=>navigate(getHomeLink())}/>
                                 </Link>
                             </div>
                             <div className="mx-auto my-5 grid align-items-center gap-4 col-6">
-                                <InputText type="text" className="col-12" value={name} onChange={(e) => setName(e.target.value)} placeholder="Name" />
-                                <Password className="col-12 p-0" inputClassName="col-12" value={password} onChange={(e) => setPassword(e.target.value)}
-                                    placeholder="Password" feedback={false} />
+                                <InputText  type="text" className="col-12" keyfilter={/^[a-zA-Z_]/}  value={name} onChange={(e) => setName(e.target.value)}
+                                            placeholder="Name"
+                                            tooltip="Name should not contain numeric or special characters" tooltipOptions={{ position: 'right' }}/>
+                                <Password   className="col-12 p-0" inputClassName="col-12" value={password} onChange={(e) => setPassword(e.target.value)}
+                                            placeholder="Password" feedback={false}
+                                            tooltip="Please enter a strong password to keep your account secured" tooltipOptions={{ position: 'right' }} />
                                 { loading ?
                                     <div className="flex flex-grow-1 flex-row-reverse align-items-center">
                                         <label className="flex ml-2 font-semibold text-sm text-orange">Retrieving Profile ...</label>
