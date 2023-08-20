@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Subdomain } from "../../constants/Subdomain";
 import { AccountResponse } from "../../constants/Model";
 import { AccountType, PageLink, AccountTypeList } from "../../constants/Constant";
+import { LOGIN_NAME_REGEX, LOGIN_NAME_SIZE, PASSWORD_SIZE } from "../../constants/Validation";
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 import { Dropdown } from 'primereact/dropdown';
@@ -111,23 +112,28 @@ const LoginDashboard:React.FC = () => {
                                 <img src={require('../../resources/TutorPeer.png')} width={400} height={120} alt="" onClick={()=>navigate(getHomeLink())}/>
                             </div>
                             <div className="mx-auto my-5 grid align-items-center gap-4 col-6">
-                                <InputText  type="text" className="col-12" keyfilter={/^[a-zA-Z_]/} value={name} onChange={(e) => setName(e.target.value)}
-                                            placeholder="Name"
-                                            tooltip="Name should not contain numeric or special characters" tooltipOptions={{ position: 'right' }}/>
+                                <InputText  type="text" className="col-12" keyfilter={LOGIN_NAME_REGEX} value={name} onChange={(e) => setName(e.target.value)}
+                                            placeholder="Name" maxLength={LOGIN_NAME_SIZE}
+                                            tooltip="Name should not contain numeric or special characters" tooltipOptions={{ event: 'both', position: 'right' }}/>
                                 <Password   className="col-12 p-0" inputClassName="col-12" value={password} onChange={(e) => setPassword(e.target.value)}
-                                            placeholder="Password" feedback={false}
-                                            tooltip="Please enter a strong password to keep your account secured" tooltipOptions={{ position: 'right' }}/>
-                                <Dropdown   optionLabel="name" optionValue="code" value={accountType} options={accountTypeList} onChange={accountTypeChange} />
+                                            placeholder="Password" feedback={true} maxLength={PASSWORD_SIZE}
+                                            weakLabel="Current password is not advisable to ensure account secured."
+                                            mediumLabel="Password entered could be stronger to keep your account secured."
+                                            strongLabel="Current password is advisable and sufficient to keep account secured."
+                                            tooltip="Please enter a strong password to keep your account secured" tooltipOptions={{ event: 'both', position: 'right' }}/>
                                 { loading ?
-                                    <div className="flex flex-grow-1 flex-row-reverse align-items-center">
+                                    <div className="mt-7 flex flex-grow-1 flex-row-reverse align-items-center">
                                         <label className="flex ml-2 font-semibold text-sm text-orange">Registering Profile ...</label>
                                         <ProgressSpinner className="flex justify-content-end" style={{width: '50px', height: '50px'}} strokeWidth="3"/>
                                         <label className="flex flex-grow-1"></label>
                                      </div>
                                     :
-                                    <div className="flex flex-grow-1 flex-row-reverse">
-                                        <Button label="Register" className="p-button-primary flex" onClick={registerAccount} disabled={isButtonDisabled}/>
-                                        <Button label="Login" className="p-button-secondary" onClick={() => setRegister(false)} />
+                                    <div className="mt-7 flex flex-grow-1">
+                                        <Dropdown   optionLabel="name" optionValue="code" value={accountType} options={accountTypeList} onChange={accountTypeChange} />
+                                        <div className="flex flex-grow-1 flex-row-reverse">
+                                            <Button label="Register" className="p-button-primary flex" onClick={registerAccount} disabled={isButtonDisabled}/>
+                                            <Button label="Login" className="p-button-secondary" onClick={() => setRegister(false)} />
+                                        </div>
                                     </div>
                                 }
                             </div>
@@ -149,12 +155,12 @@ const LoginDashboard:React.FC = () => {
                                 </Link>
                             </div>
                             <div className="mx-auto my-5 grid align-items-center gap-4 col-6">
-                                <InputText  type="text" className="col-12" keyfilter={/^[a-zA-Z_]/}  value={name} onChange={(e) => setName(e.target.value)}
-                                            placeholder="Name"
-                                            tooltip="Name should not contain numeric or special characters" tooltipOptions={{ position: 'right' }}/>
+                                <InputText  type="text" className="col-12" keyfilter={LOGIN_NAME_REGEX}  value={name} onChange={(e) => setName(e.target.value)}
+                                            maxLength={LOGIN_NAME_SIZE}
+                                            placeholder="Name"/>
                                 <Password   className="col-12 p-0" inputClassName="col-12" value={password} onChange={(e) => setPassword(e.target.value)}
-                                            placeholder="Password" feedback={false}
-                                            tooltip="Please enter a strong password to keep your account secured" tooltipOptions={{ position: 'right' }} />
+                                            maxLength={PASSWORD_SIZE}
+                                            placeholder="Password" feedback={false} />
                                 { loading ?
                                     <div className="flex flex-grow-1 flex-row-reverse align-items-center">
                                         <label className="flex ml-2 font-semibold text-sm text-orange">Retrieving Profile ...</label>

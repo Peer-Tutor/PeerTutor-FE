@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { Rating } from "primereact/rating";
 import { InputTextarea } from "primereact/inputtextarea";
 import { PageLink } from "../../constants/Constant";
+import { REMARKS_SIZE } from "../../constants/Validation";
 import axios from "axios";
 import { Subdomain } from "../../constants/Subdomain";
 import { getUrl, getProfileName, getSessionToken, getProfileId } from "../../utils/apiUtils";
@@ -98,14 +99,15 @@ const AddTutorReview = () => {
                         <div className="flex flex-row align-items-center gap-3">
                             <label className="flex text-base font-semibold text-black">Rating <span className="text-red">*</span></label>
                             <Rating value={rating} cancel={false} onChange={(e) => setRating(e.target.value)}
-                                    tooltip="Rating of service" tooltipOptions={{ position: 'top' }}/>
+                                    tooltip="Rating of service" tooltipOptions={{ event: 'both', position: 'top' }}/>
                         </div>
-                        <label className="flex text-xs text-right font-normal text-orange">Lowest 1 Star, Highest 5 Stars{tutorId}{session}</label>
+                        <label className="flex text-xs text-right font-normal text-orange">Lowest 1 Star, Highest 5 Stars</label>
                     </div>
                 </div>
                 <div className="flex flex-column">
                     <InputTextarea  className="comment" value={comment} onChange={(e) => setComment(e.target.value)} autoResize
-                                    tooltip="Review summary of tutoring services experience" tooltipOptions={{ position: 'top' }}/>
+                                    maxLength={REMARKS_SIZE}
+                                    tooltip="Review summary of tutoring services experience" tooltipOptions={{ event: 'both', position: 'top' }}/>
                 </div>
                 <div className="flex flex-1 justify-content-end mt-4">
                     <Button label="Cancel" className="p-button-secondary flex" onClick={ cancelReview } />

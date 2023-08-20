@@ -70,11 +70,11 @@ const TutorCard = (props: TutorCardProps) => {
                     </div>
                     <div className="flex align-items-evenly">
                         <Button icon={bookmarked ? 'fa-solid fa-bookmark' : 'fa-regular fa-bookmark'} className="p-button-primary-outlined" aria-label="Bookmark" onClick={() => { handleBookmarkSubmit() }}
-                            tooltip={bookmarked ? "Remove Bookmark" : "Bookmark"} tooltipOptions={{ position: 'top' }} />
+                            tooltip={bookmarked ? "Remove Bookmark" : "Bookmark"} tooltipOptions={{ event: 'both', position: 'top' }} />
                         <Button icon="fa-solid fa-calendar-check" className="p-button-secondary" aria-label="Schedule" onClick={() => { onClickHandler1(tutorId ?? '') }}
-                            tooltip="Schedule Session" tooltipOptions={{ position: 'top' }} />
+                            tooltip="Schedule Session" tooltipOptions={{ event: 'both', position: 'top' }} />
                         <Button icon="fa-solid fa-star-half-stroke" className="p-button-primary" aria-label="Review" onClick={() => { onClickHandler(tutorId ?? '') }}
-                            tooltip="Review" tooltipOptions={{ position: 'top' }} />
+                            tooltip="Review" tooltipOptions={{ event: 'both', position: 'top' }} />
                     </div>
                 </div>
             </div>
