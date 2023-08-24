@@ -1,0 +1,186 @@
+---
+swagger: "2.0"
+info:
+  description: "Test authorization using IAM Permissions"
+  version: "2023-08-24T07:51:34Z"
+  title: "PetStore"
+host: "aye5oh3lo6.execute-api.ap-southeast-1.amazonaws.com"
+basePath: "/v1"
+schemes:
+- "https"
+paths:
+  /:
+    get:
+      consumes:
+      - "application/json"
+      produces:
+      - "text/html"
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Content-Type:
+              type: "string"
+    options:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+  /pets:
+    get:
+      produces:
+      - "application/json"
+      parameters:
+      - name: "type"
+        in: "query"
+        required: false
+        type: "string"
+      - name: "page"
+        in: "query"
+        required: false
+        type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Pets"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+      security:
+      - sigv4: []
+    post:
+      operationId: "CreatePet"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "NewPet"
+        required: true
+        schema:
+          $ref: "#/definitions/NewPet"
+      responses:
+        "200":
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/NewPetResponse"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+    options:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+  /pets/{petId}:
+    get:
+      operationId: "GetPet"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "petId"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Pet"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+    options:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "petId"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+securityDefinitions:
+  sigv4:
+    type: "apiKey"
+    name: "Authorization"
+    in: "header"
+    x-amazon-apigateway-authtype: "awsSigv4"
+definitions:
+  Pets:
+    type: "array"
+    items:
+      $ref: "#/definitions/Pet"
+  Empty:
+    type: "object"
+  NewPetResponse:
+    type: "object"
+    properties:
+      pet:
+        $ref: "#/definitions/Pet"
+      message:
+        type: "string"
+  Pet:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+      type:
+        type: "string"
+      price:
+        type: "number"
+  NewPet:
+    type: "object"
+    properties:
+      type:
+        $ref: "#/definitions/PetType"
+      price:
+        type: "number"
+  PetType:
+    type: "string"
+    enum:
+    - "dog"
+    - "cat"
+    - "fish"
+    - "bird"
+    - "gecko"

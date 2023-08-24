@@ -5,13 +5,103 @@ import './Global.css';
 import './PrimeReact.css';
 import { redirectToHostedUi } from './utils/Auth';
 
-import { Amplify, Auth, Hub } from 'aws-amplify';
+import { API, Amplify, Auth, Hub,Logger } from 'aws-amplify';
+import { TestLoginPage } from './auth/TestLoginPage';
 
 const USER_POOL_ID = process.env.REACT_APP_COGNITO_USER_POOL_ID
 const CLIENT_ID = process.env.REACT_APP_COGNITO_CLIENT_ID
 const COGNITO_DOMAIN = process.env.REACT_APP_COGNITO_DOMAIN
 const HOST_DOMAIN = process.env.REACT_APP_HOST_DOMAIN
 const REDIRECT_URI = process.env.REACT_APP_COGNITO_REDIRECT_URI
+
+
+const logger = new Logger('My-Logger');
+
+// @ts-ignore
+const listener = (data) => {
+  switch (data?.payload?.event) {
+    case 'configured':
+      logger.info('the Auth module is configured');
+      break;
+    case 'signIn':
+      logger.info('user signed in');
+      break;
+    case 'signIn_failure':
+      logger.error('user sign in failed');
+      break;
+    case 'signUp':
+      logger.info('user signed up');
+      break;
+    case 'signUp_failure':
+      logger.error('user sign up failed');
+      break;
+    case 'confirmSignUp':
+      logger.info('user confirmation successful');
+      break;
+    case 'completeNewPassword_failure':
+      logger.error('user did not complete new password flow');
+      break;
+    case 'autoSignIn':
+      logger.info('auto sign in successful');
+      break;
+    case 'autoSignIn_failure':
+      logger.error('auto sign in failed');
+      break;
+    case 'forgotPassword':
+      logger.info('password recovery initiated');
+      break;
+    case 'forgotPassword_failure':
+      logger.error('password recovery failed');
+      break;
+    case 'forgotPasswordSubmit':
+      logger.info('password confirmation successful');
+      break;
+    case 'forgotPasswordSubmit_failure':
+      logger.error('password confirmation failed');
+      break;
+    case 'verify':
+      logger.info('TOTP token verification successful');
+      break;
+    case 'tokenRefresh':
+      logger.info('token refresh succeeded');
+      break;
+    case 'tokenRefresh_failure':
+      logger.error('token refresh failed');
+      break;
+    case 'cognitoHostedUI':
+      logger.info('Cognito Hosted UI sign in successful');
+      break;
+    case 'cognitoHostedUI_failure':
+      logger.error('Cognito Hosted UI sign in failed');
+      break;
+    case 'customOAuthState':
+      logger.info('custom state returned from CognitoHosted UI');
+      break;
+    case 'customState_failure':
+      logger.error('custom state failure');
+      break;
+    case 'parsingCallbackUrl':
+      logger.info('Cognito Hosted UI OAuth url parsing initiated');
+      break;
+    case 'userDeleted':
+      logger.info('user deletion successful');
+      break;
+    case 'updateUserAttributes':
+      logger.info('user attributes update successful');
+      break;
+    case 'updateUserAttributes_failure':
+      logger.info('user attributes update failed');
+      break;
+    case 'signOut':
+      logger.info('user signed out');
+      break;
+    default:
+      logger.info('unknown event type');
+      break;
+  }
+};
+
+Hub.listen('auth', listener);
 
 Amplify.configure({
   Auth: {
@@ -38,7 +128,9 @@ Amplify.configure({
     // Note: if the secure flag is set to true, then the cookie transmission requires a secure protocol
     cookieStorage: {
       // - Cookie domain (only required if cookieStorage is provided)
-      domain: HOST_DOMAIN,//'.yourdomain.com',
+
+      // TODO CHANGE BASED ON DIFF ENV
+      domain: 'localhost',//HOST_DOMAIN,//'.yourdomain.com',
       // (optional) - Cookie path
       path: '/',
       // (optional) - Cookie expiration in days
@@ -60,6 +152,8 @@ Amplify.configure({
     // clientMetadata: { myCustomKey: 'myCustomValue' },
 
     // (optional) - Hosted UI configuration
+
+    
     oauth: {
       domain: COGNITO_DOMAIN,
       scope: [
@@ -68,61 +162,27 @@ Amplify.configure({
         'openid',
         // 'aws.cognito.signin.user.admin'
       ],
-      redirectSignIn: REDIRECT_URI,//'http://localhost:3000/',
-      redirectSignOut: REDIRECT_URI,//'http://localhost:3000/',
+      // TODO CHANGE BASED ON DIFF ENV
+      redirectSignIn: 'http://localhost:3000/',// REDIRECT_URI,//'http://localhost:3000/',
+      // TODO CHANGE BASED ON DIFF ENV
+      redirectSignOut: 'http://localhost:3000/',//REDIRECT_URI,//'http://localhost:3000/',
       clientId: CLIENT_ID,
       responseType: 'code' // or 'token', note that REFRESH token will only be generated when the responseType is code
     }
-  }
+  },
+  API:{
+    endpoints: [
+      {
+        name: 'Test',
+        endpoint: 'https://aye5oh3lo6.execute-api.ap-southeast-1.amazonaws.com/v1'
+      }
+    ]
+  },
 });
-
-// Amplify.configure({
-//   Auth: {
-//     aws_cognito_region: 'ap-southeast-1', // (required) - Region where Amazon Cognito project was created
-//     // aws_user_pools_id: USER_POOL_ID, // (optional) -  Amazon Cognito User Pool ID
-//     // aws_user_pools_web_client_id: CLIENT_ID, // (optional) - Amazon Cognito App Client ID (App client secret needs to be disabled)
-//     // aws_cognito_identity_pool_id:
-//     //   'us-east-1:f602c14b-0fde-409c-9a7e-0baccbfd87d0', // (optional) - Amazon Cognito Identity Pool ID
-//     // aws_mandatory_sign_in: 'enable', // (optional) - Users are not allowed to get the aws credentials unless they are signed in
-//     // Note: if the secure flag is set to true, then the cookie transmission requires a secure protocol
-//     // cookieStorage: {
-//     //   // - Cookie domain (only required if cookieStorage is provided)
-//     //   domain: HOST_DOMAIN,
-//     //   // (optional) - Cookie path
-//     //   path: '/',
-//     //   // (optional) - Cookie expiration in days
-//     //   expires: 365,
-//     //   // (optional) - See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie/SameSite
-//     //   sameSite: 'strict', //| 'lax',
-//     //   // (optional) - Cookie secure flag
-//     //   // Either true or false, indicating if the cookie transmission requires a secure protocol (https).
-//     //   secure: true
-//     // },
-//     authenticationFlowType: 'ALLOW_USER_SRP_AUTH',
-
-//     // // (optional) - Manually set key value pairs that can be passed to Cognito Lambda Triggers
-//     // clientMetadata: { myCustomKey: 'myCustomValue' },
-//     // (optional) - Hosted UI configuration
-//     oauth: {
-//       domain: COGNITO_DOMAIN,
-//       scope: [
-//         // 'phone',
-//         'email',
-//         'profile',
-//         'openid',
-//         // 'aws.cognito.signin.user.admin'
-//       ],
-//       redirectSignIn: REDIRECT_URI,//'http://localhost:3000/',
-//       redirectSignOut: REDIRECT_URI,// 'http://localhost:3000/',
-//       clientId: CLIENT_ID,
-//       responseType: 'code' // or 'token', note that REFRESH token will only be generated when the responseType is code
-//     }
-//   }
-// }
-// );
-
 function App() {
-  redirectToHostedUi()
+
+  return <TestLoginPage/>
+  // redirectToHostedUi()
   return (
     <div>
       <h1>Hi</h1>
