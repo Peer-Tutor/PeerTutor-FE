@@ -86,10 +86,10 @@ export default function NavBar(props: BaseLayoutProps) {
                             </div>
                         </Link>
                         <div className="flex flex-grow-1 align-items-center mr-5">
-                            <Link to={PageLink.TUTOR_REVIEW}>
+                            <Link to={PageLink.SEARCH_TUTOR}>
                                 <div className="flex align-items-center">
-                                    <i className="text-xl mr-2 fa-solid fa-id-card"></i>
-                                    <p className="text-xl">Reviews</p>
+                                    <i className="text-xl mr-2 fa-solid fa-people-group"></i>
+                                    <p className="text-xl">Tutors</p>
                                 </div>
                             </Link>
                         </div>

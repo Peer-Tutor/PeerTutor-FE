@@ -28,8 +28,8 @@ const getTutorList = (setTotalRecords: any, setTutorList: any, currentPage: numb
             size: TUTOR_RESULTS_PAGINATION_PAGE_SIZE
         }
     }).then(res => {
-        const totalRecords = res.headers["x-total-count"]
-        setTotalRecords(totalRecords)
+        const totalRecords = res.headers["x-total-count"];
+        setTotalRecords(res.data.length)
         setTutorList(res.data)
     }).catch(err => {
     });

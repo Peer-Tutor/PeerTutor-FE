@@ -2,10 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { getATutorAvailableDates, submitForm } from "./Service";
 import { BookingForm } from "./BookingForm";
-
-interface CustomizedState {
-    tutorId: string
-};
+import { CustomizedState } from "../../constants/Model";
 
 const TuitionBooking = () => {
     const [selectedDates, setSelectedDates] = useState<string[]>([]);

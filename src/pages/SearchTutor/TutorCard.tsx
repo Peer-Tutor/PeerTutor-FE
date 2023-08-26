@@ -15,10 +15,10 @@ const TutorCard = (props: TutorCardProps) => {
 
     const navigate = useNavigate();
 
-    const onClickHandler = (id: string) => {
-        navigate(PageLink.TUTOR_REVIEW, { state: { tutorId: tutorId } });
+    const reviewHandler = (id: string, name: string) => {
+        navigate(PageLink.TUTOR_REVIEW, { state: { tutorId: tutorId, tutorName: name } });
     }
-    const onClickHandler1 = (id: string) => {
+    const scheduleHandler = (id: string) => {
         navigate(PageLink.BOOK_TUITION, { state: { tutorId: tutorId } });
     }
 
@@ -71,9 +71,9 @@ const TutorCard = (props: TutorCardProps) => {
                     <div className="flex align-items-evenly">
                         <Button icon={bookmarked ? 'fa-solid fa-bookmark' : 'fa-regular fa-bookmark'} className="p-button-primary-outlined" aria-label="Bookmark" onClick={() => { handleBookmarkSubmit() }}
                             tooltip={bookmarked ? "Remove Bookmark" : "Bookmark"} tooltipOptions={{ event: 'both', position: 'top' }} />
-                        <Button icon="fa-solid fa-calendar-check" className="p-button-secondary" aria-label="Schedule" onClick={() => { onClickHandler1(tutorId ?? '') }}
+                        <Button icon="fa-solid fa-calendar-check" className="p-button-secondary" aria-label="Schedule" onClick={() => { scheduleHandler(tutorId ?? '') }}
                             tooltip="Schedule Session" tooltipOptions={{ event: 'both', position: 'top' }} />
-                        <Button icon="fa-solid fa-star-half-stroke" className="p-button-primary" aria-label="Review" onClick={() => { onClickHandler(tutorId ?? '') }}
+                        <Button icon="fa-solid fa-star-half-stroke" className="p-button-primary" aria-label="Review" onClick={() => { reviewHandler(tutorId ?? '', name ?? '') }}
                             tooltip="Review" tooltipOptions={{ event: 'both', position: 'top' }} />
                     </div>
                 </div>
