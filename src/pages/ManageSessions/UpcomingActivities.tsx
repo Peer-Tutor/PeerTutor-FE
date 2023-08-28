@@ -8,7 +8,7 @@ import { Panel } from 'primereact/panel';
 import { Badge } from 'primereact/badge';
 import { AccountType, PageLink, SessionStorage, AccountTypeList, SubjectList, CertificateList } from "../../constants/Constant";
 import { UpcomingActivitiesResponse } from "../../constants/Model";
-import { getUrl, getSessionTokenValues } from '../../utils/apiUtils';
+import { getUrl } from '../../utils/apiUtils';
 import { UpcomingActivitiesCard } from './UpcomingActivitiesCard';
 import { getUpcomingActivities } from './Services';
 import { ScrollPanel } from 'primereact/scrollpanel';
@@ -59,7 +59,7 @@ const UpcomingActivities = (props: DasboardActionCardInput) => {
                     </div>
                 </div>
                 );
-              }) : <p className="text-center text-black font-bold">No upcoming activities scheduled.</p>
+              }) : <p className="text-sm text-center text-black font-semibold">No upcoming activities scheduled.</p>
             }
             </ScrollPanel>
         </Panel>

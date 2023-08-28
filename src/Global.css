@@ -1,10 +1,11 @@
 body{
+    font-family: 'Ubuntu';font-size: 22px !important;
     font-weight: bold;
     margin: 0rem;
 }
 
 .nav-bar{
-    background-color: #112B3C;
+    background-color: #000000;
     padding: 0.5rem 1rem;
     color: #EFEFEF;
 }
@@ -27,10 +28,27 @@ body{
 .text-red{ color: #FF0000 !important; }
 .text-white{ color: #EFEFEF !important; }
 .text-orange{ color: #F66B0E !important; }
-.text-green{ color: #205375 !important; }
+.text-green{ color: #00FF00 !important; }
 .text-bright-green{ color: #11F60E !important; }
 .text-dark-blue{ color: #112B3C !important; }
 
+/* BACKGROUND COLOR */
+.bg-black{ background-color: black !important; }
+.bg-red{ background-color: #FF0000 !important; }
+.bg-white{ background-color: #EFEFEF !important; }
+.bg-orange{ background-color: #F66B0E !important; }
+.bg-green{ background-color: #00FF00 !important; }
+.bg-bright-green{ background-color: #11F60E !important; }
+.bg-dark-blue{ background-color: #112B3C !important; }
+
+/* BORDER COLOR */
+.border-black{ border-color: black !important; }
+.border-red{ border-color: #FF0000 !important; }
+.border-white{ border-color: #EFEFEF !important; }
+.border-orange{ border-color: #F66B0E !important; }
+.border-green{ border-color: #00FF00 !important; }
+.border-bright-green{ border-color: #11F60E !important; }
+.border-dark-blue{ border-color: #112B3C !important; }
 
 /* SCROLLBAR */
     /* width */
@@ -63,3 +81,5 @@ body{
 
 /* LINK */
 a { text-decoration: none !important; }
+
+p { margin: 0rem 0.3rem !important;}

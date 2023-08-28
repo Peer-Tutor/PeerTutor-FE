@@ -36,22 +36,26 @@ const BookingForm = ({ tutorId, selectedDates, handleSubmit, setSelectedDates, s
     }, []);
     return (
         <Panel header={HeaderTemplate({ title: 'Book Tuition', hideBadge: true })} className="flex flex-column">
-            <div className="flex flex-column mx-auto gap-2 col-6">
-                <div className="flex flex-column gap-2">
-                    <label className="text-orange text-sm font-semibold">Tutor Name</label>
-                    <p>{tutorDetails?.displayName}</p>
+            <div className="flex flex-column mx-auto gap-4 flex-1">
+                <div className="flex flex-row flex-wrap gap-2">
+                    <div className="flex flex-1 flex-column gap-2">
+                        <label className="text-orange text-sm font-semibold">Tutor Name</label>
+                        <label className="text-black text-xs font-normal">{tutorDetails?.displayName}</label>
+                    </div>
+                    <div className="flex flex-1 flex-column gap-2">
+                        <label className="text-orange text-sm font-semibold">Introduction</label>
+                        <label className="text-black text-xs font-normal">{tutorDetails?.introduction}</label>
+                    </div>
                 </div>
-                <div className="flex flex-column gap-2">
-                    <label className="text-orange text-sm font-semibold">Introduction</label>
-                    <p>{tutorDetails?.introduction}</p>
-                </div>
-                <div className="flex flex-column gap-2">
-                    <label className="text-orange text-sm font-semibold">Subjects</label>
-                    <p>{tutorDetails?.subjects.replaceAll(';', ', ')}</p>
-                </div>
-                <div className="flex flex-column gap-2">
-                    <label className="text-orange text-sm font-semibold">Certifications</label>
-                    <p>{tutorDetails?.certificates.replaceAll(';', ', ')}</p>
+                <div className="flex flex-row flex-wrap gap-2">
+                    <div className="flex flex-1 flex-column gap-2">
+                        <label className="text-orange text-sm font-semibold">Subjects</label>
+                        <label className="text-black text-xs font-normal">{tutorDetails?.subjects ? tutorDetails?.subjects.replaceAll(';', ', ') : ''}</label>
+                    </div>
+                    <div className="flex flex-1 flex-column gap-2">
+                        <label className="text-orange text-sm font-semibold">Certifications</label>
+                        <label className="text-black text-xs font-normal">{tutorDetails?.certificates ? tutorDetails?.certificates.replaceAll(';', ', ') : ''}</label>
+                    </div>
                 </div>
                 <div className="flex flex-column gap-2">
                     <label className="text-orange text-sm font-semibold">Selected Dates</label>
@@ -63,11 +67,11 @@ const BookingForm = ({ tutorId, selectedDates, handleSubmit, setSelectedDates, s
                             optionValue="code"
                             onChange={(e) => setSelectedDates(e.value)}
                         /> :
-                        <><p>No dates available</p></>}
+                        <><p className="text-sm text-center text-black font-semibold">No dates available</p></>}
 
                 </div>
                 <div className="flex flex-grow-1 flex-row-reverse">
-                    <Button label="Submit" className="p-button-primary" onClick={handleSubmit} />
+                    <Button label="Submit" className="p-button-primary" onClick={handleSubmit} disabled={selectedDates.length > 0 ? false : true} />
                 </div>
             </div>
         </Panel>

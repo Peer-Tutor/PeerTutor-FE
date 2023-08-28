@@ -1,13 +1,5 @@
-import axios from "axios"
-import React, { useEffect, useState } from "react";
-import { Subdomain } from "../../constants/Subdomain";
-import { AuthenticationStorage } from "../../constants/Model";
-import { getSessionTokenValues, getUrl } from "../../utils/apiUtils";
-import { Card } from 'primereact/card';
-import { Button } from 'primereact/button';
-import { InputText } from 'primereact/inputtext';
+import React, { useState } from "react";
 import { Chip } from "primereact/chip";
-import { Panel } from 'primereact/panel';
 import { updateTuitionOrderList } from './IncomingRequestService';
 
 // detailed tuition order
@@ -22,7 +14,7 @@ export type GetRequestResponse = {
     subjects?: string,
     certificates?: string,
     selectedDates: string,
-    status?: string
+    status?: number
 }
 // tuition order
 export type RequestResponse = {
@@ -47,17 +39,13 @@ type TuitionOrderInfo = {
     TutorName?: string;
     Subject?: string;
     DateTime: string[];
-    Status?:string;
+    Status?:number;
     OnForceUpdate?:any;
 }
 
 const IncomingRequestCard = (props: TuitionOrderInfo) => {
-    const [studentName, setStudentName] = useState('');
-    const [subject, setSubject] = useState('');
-    const [time, setDateTime] = useState<any>(null);
-    const [status, setStatus] = useState('');
    return (
-        <div className="flex flex-row align-items-center gap-2">
+        <div className="flex flex-row align-items-center bg-white border-round my-3 py-2">
             <div className="flex">
                 <i className="text-5xl text-orange fa-regular fa-circle-user mx-3"></i>
             </div>
@@ -66,14 +54,14 @@ const IncomingRequestCard = (props: TuitionOrderInfo) => {
                     <label id="Name" className="flex my-2 text-base text-black font-semibold">{props.StudentName}</label>
                      {props.DateTime.length > 0 ? (props.DateTime.map((elt) => {
                          return (
-                             <Chip label={elt} defaultValue={elt} key={elt}  />
+                             <Chip label={elt} defaultValue={elt} key={elt}  className="bg-dark-blue text-white mr-2"/>
                          )
-                     })) : <p>No dates selected.</p>}
+                     })) : <p className="text-sm text-center text-black font-semibold">No dates selected.</p>}
                 </div>
             </div>
-            <div className="flex">
-                <Button icon="fa-regular fa-circle-check" className="p-button-success" aria-label="Submit" onClick={(e) => updateTuitionOrderList(props.ID, props.StudentID, props.TutorID, props.DateTime, 1, props.OnForceUpdate)} />
-                <Button icon="fa-regular fa-circle-xmark" className="p-button-danger" aria-label="Cancel"  onClick={(e) => updateTuitionOrderList(props.ID, props.StudentID, props.TutorID, props.DateTime, 2, props.OnForceUpdate)}/>
+            <div className="flex gap-3 mx-2">
+                    <i className="text-3xl fa-solid fa-circle-check text-green cursor-pointer" onClick={(e) => updateTuitionOrderList(props.ID, props.StudentID, props.TutorID, props.DateTime, 1, props.OnForceUpdate)} ></i>
+                <i className="text-3xl fa-solid fa-circle-xmark text-red cursor-pointer" onClick={(e) => updateTuitionOrderList(props.ID, props.StudentID, props.TutorID, props.DateTime, 2, props.OnForceUpdate)} ></i>
             </div>
         </div>
     );

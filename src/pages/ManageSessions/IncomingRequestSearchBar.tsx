@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Subdomain } from "../../constants/Subdomain";
-import { getSessionTokenValues, getUrl } from "../../utils/apiUtils";
+import { getUrl } from "../../utils/apiUtils";
 import { toast } from "../../utils/toastHooks";
 import { GetRequestResponse } from './IncomingRequestCard'
 import { Button } from 'primereact/button'
@@ -19,7 +19,6 @@ const IncomingRequestSearchBar = (props: {setTotalRecords: any, setTuitionOrderL
         searchStudent(setTotalRecords, searchStr, setTuitionOrderList)
     }
     return (
-        <>
             <div className="flex flex-row align-items-center">
                 <div className="flex ">
                     <span className="p-input-icon-left">
@@ -33,12 +32,10 @@ const IncomingRequestSearchBar = (props: {setTotalRecords: any, setTuitionOrderL
                 </div>
                 <div className="flex flex-column align-items-center gap-3">
                     <span >
-                        <Button onClick={onClickHandler}  className="fa-solid fa-magnifying-glass" />
+                        <Button onClick={onClickHandler}  className="p-button-secondary" icon="fa-solid fa-magnifying-glass" />
                     </span>
-
                 </div>
             </div>
-        </>
     )
 }
 

@@ -15,7 +15,7 @@ const BaseLayout = (props:BaseLayoutProps) => {
         <div className="global-component">
             <NavBar forceRefresh={props.forceRefresh} authenticated={props.authenticated}/>
             <Toast ref={toast} />
-            <div className="px-4 pt-4">
+            <div className="p-4">
                 <Outlet />
             </div>
         </div>
