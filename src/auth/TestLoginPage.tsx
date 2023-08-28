@@ -12,20 +12,6 @@ export const TestLoginPage = () => {
     const [email, setEmail] = useState('')
 
 
-    API.get('PetStore', '/pets', {
-        headers: {}, // OPTIONAL
-        response: true, // OPTIONAL (return the entire Axios response object instead of only response.data)
-        queryStringParameters: {
-            name: 'param' // OPTIONAL
-        }})
-        .then((response) => {
-            // Add your code here
-            console.log('response = ', response)
-        })
-        .catch((error) => {
-            console.log('error,', error)
-            console.log(error.response);
-        });
     return (
         <Card className="col-12 my-auto py-8">
             <TestComponent />
@@ -66,7 +52,9 @@ export const TestLoginPage = () => {
                     <div className="flex flex-grow-1 flex-row-reverse">
                         <Button label="Test Api Call" className="p-button-primary" onClick={async function () {
                             // console.log('test')
-                            Auth.currentUserCredentials()
+                            // console.log( Auth.configure() )
+                            console.log(await Auth.currentAuthenticatedUser())
+                            // Auth.currentUserCredentials()
                             // user.getUserCredentials().accessKeyId
                             await API.get('Test', '/pets', {
                                 // headers: {

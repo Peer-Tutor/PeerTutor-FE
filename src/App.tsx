@@ -106,14 +106,14 @@ Hub.listen('auth', listener);
 Amplify.configure({
   Auth: {
     // (required) only for Federated Authentication - Amazon Cognito Identity Pool ID
-    // identityPoolId: 'XX-XXXX-X:XXXXXXXX-XXXX-1234-abcd-1234567890ab',
+    identityPoolId: 'ap-southeast-1:846fc306-5a64-4f33-a57b-579953345ec8',
 
     // (required)- Amazon Cognito Region
     region: 'ap-southeast-1',
 
     // (optional) - Amazon Cognito Federated Identity Pool Region
     // Required only if it's different from Amazon Cognito Region
-    // identityPoolRegion: 'XX-XXXX-X',
+    // identityPoolRegion: 'ap-southeast-1',
 
     // (optional) - Amazon Cognito User Pool ID
     userPoolId: USER_POOL_ID,//'XX-XXXX-X_abcd1234',
@@ -122,7 +122,7 @@ Amplify.configure({
     userPoolWebClientId: CLIENT_ID,//'a1b2c3d4e5f6g7h8i9j0k1l2m3',
 
     // (optional) - Enforce user authentication prior to accessing AWS resources or not
-    mandatorySignIn: false,
+    mandatorySignIn: true,
 
     // (optional) - Configuration for cookie storage
     // Note: if the secure flag is set to true, then the cookie transmission requires a secure protocol
@@ -174,7 +174,8 @@ Amplify.configure({
     endpoints: [
       {
         name: 'Test',
-        endpoint: 'https://aye5oh3lo6.execute-api.ap-southeast-1.amazonaws.com/v1'
+        endpoint: 'https://aye5oh3lo6.execute-api.ap-southeast-1.amazonaws.com/v1',
+        region: 'ap-southeast-1'
       }
     ]
   },

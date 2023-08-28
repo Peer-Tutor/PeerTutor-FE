@@ -1,0 +1,92 @@
+{
+  "parameters": {
+    "AMPLIFY_auth_peertutorfe761edf19_allowUnauthenticatedIdentities": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "peertutorfe761edf19"
+        }
+      ]
+    },
+    "AMPLIFY_auth_peertutorfe761edf19_authRoleArn": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "peertutorfe761edf19"
+        }
+      ]
+    },
+    "AMPLIFY_auth_peertutorfe761edf19_authRoleName": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "peertutorfe761edf19"
+        }
+      ]
+    },
+    "AMPLIFY_auth_peertutorfe761edf19_identityPoolId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "peertutorfe761edf19"
+        }
+      ]
+    },
+    "AMPLIFY_auth_peertutorfe761edf19_identityPoolName": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "peertutorfe761edf19"
+        }
+      ]
+    },
+    "AMPLIFY_auth_peertutorfe761edf19_nativeClientId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "peertutorfe761edf19"
+        }
+      ]
+    },
+    "AMPLIFY_auth_peertutorfe761edf19_unauthRoleArn": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "peertutorfe761edf19"
+        }
+      ]
+    },
+    "AMPLIFY_auth_peertutorfe761edf19_unauthRoleName": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "peertutorfe761edf19"
+        }
+      ]
+    },
+    "AMPLIFY_auth_peertutorfe761edf19_userPoolId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "peertutorfe761edf19"
+        }
+      ]
+    },
+    "AMPLIFY_auth_peertutorfe761edf19_userPoolName": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "peertutorfe761edf19"
+        }
+      ]
+    },
+    "AMPLIFY_auth_peertutorfe761edf19_webClientId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "peertutorfe761edf19"
+        }
+      ]
+    }
+  }
+}
