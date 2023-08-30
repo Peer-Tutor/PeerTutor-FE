@@ -4,20 +4,20 @@ type SignUpParameters = {
   username: string;
   password: string;
   email: string;
-  // role: string;
+  role: string;
   // phoneNumber: string;
 };
 
 // const roleMap
 
-export async function signUp({ username, password, email }: SignUpParameters) {
+export async function signUp({ username, password, email, role }: SignUpParameters) {
   try {
     const { user } = await Auth.signUp({
       username,
       password,
       attributes: {
         email, // optional
-
+        'custom:role': role
         // phoneNumber, // optional - E.164 number convention
         // other custom attributes
       },

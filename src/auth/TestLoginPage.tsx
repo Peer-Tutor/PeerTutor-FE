@@ -29,11 +29,11 @@ export const TestLoginPage = () => {
 
                     <div className="flex flex-column gap-2">
                         <label className="text-orange text-sm font-semibold">Email</label>
-                        <InputText type="password" className="col-12" value={email} onChange={(e) => setEmail(e.target.value)} />
+                        <InputText type="text" className="col-12" value={email} onChange={(e) => setEmail(e.target.value)} />
                     </div>
                     <div className="flex flex-grow-1 flex-row-reverse">
                         <Button label="Register" className="p-button-primary" onClick={() => {
-                            signUp({ username: name, password: pw, email: email })
+                            signUp({ username: name, password: pw, email: email, role: 'student' })
                         }} />
                     </div>
                     <div className="flex flex-grow-1 flex-row-reverse">
@@ -58,7 +58,7 @@ export const TestLoginPage = () => {
                             // user.getUserCredentials().accessKeyId
                             await API.get('Test', '/pets', {
                                 // headers: {
-                                    // 'Authorization': `${(await Auth.currentSession()).getAccessToken().getJwtToken()}`
+                                //     'Authorization': `${(await Auth.currentSession()).getAccessToken().getJwtToken()}`
                                 // }, // OPTIONAL
                                 response: true, // OPTIONAL (return the entire Axios response object instead of only response.data)
                                 queryStringParameters: {
