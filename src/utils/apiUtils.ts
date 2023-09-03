@@ -3,8 +3,8 @@ import { AuthenticationStorage } from "../constants/Model";
 import { Subdomain } from "../constants/Subdomain"
 import CryptoJS from 'crypto-js';
 
-// const BASE_URL  = 'http://peer-tutor-alb-85147822.ap-southeast-1.elb.amazonaws.com'//process.env
-const BASE_URL  = 'http://localhost:'//process.env
+const BASE_URL  = 'https://kb8xxy064i.execute-api.ap-southeast-1.amazonaws.com'//process.env
+// const BASE_URL  = 'http://localhost:'//process.env
 
 const getUrl = (subdomain: Subdomain, endpoint: string) => { return BASE_URL + subdomain + endpoint; }
 
