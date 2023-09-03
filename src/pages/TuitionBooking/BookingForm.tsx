@@ -8,7 +8,11 @@ import { Chips } from 'primereact/chips';
 import { MultiSelect } from 'primereact/multiselect'
 import { Panel } from 'primereact/panel'
 import { HeaderTemplate } from '../../components/Shared/HeaderTemplate'
-
+import { useToastHook } from "../../utils/toastHooks";
+import { Toast } from "primereact/toast";
+import { authorisedRoute } from '../../utils/apiUtils';
+import { PageLink } from '../../constants/Constant';
+import { useNavigate } from "react-router-dom";
 
 export type TutorDetail = {
     id: string,
@@ -29,12 +33,16 @@ type BookingFormProps = {
     }[],
 };
 const BookingForm = ({ tutorId, selectedDates, handleSubmit, setSelectedDates, selectedDateDetails }: BookingFormProps) => {
-
+    const [toast] = useToastHook();
     const [tutorDetails, setTutorDetails] = useState<TutorDetail>();
+    const navigate = useNavigate();
     useEffect(() => {
-        getSelectedTutorDetails(tutorId, setTutorDetails)
+        if(!authorisedRoute(PageLink.TUITION_BOOKING)){ navigate(PageLink.UNAUTHORISED); }
+        else{ getSelectedTutorDetails(tutorId, setTutorDetails) }
     }, []);
     return (
+    <>
+        <Toast ref={toast} />
         <Panel header={HeaderTemplate({ title: 'Book Tuition', hideBadge: true })} className="flex flex-column">
             <div className="flex flex-column mx-auto gap-4 flex-1">
                 <div className="flex flex-row flex-wrap gap-2">
@@ -75,6 +83,7 @@ const BookingForm = ({ tutorId, selectedDates, handleSubmit, setSelectedDates, s
                 </div>
             </div>
         </Panel>
+        </>
     );
 };
 

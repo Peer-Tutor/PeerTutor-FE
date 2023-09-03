@@ -12,7 +12,7 @@ import { CustomizedState } from "../../constants/Model";
 import { REMARKS_SIZE } from "../../constants/Validation";
 import axios from "axios";
 import { Subdomain } from "../../constants/Subdomain";
-import { getUrl, getProfileName, getSessionToken, getProfileId } from "../../utils/apiUtils";
+import { getUrl, getProfileName, getSessionToken, getProfileId, authorisedRoute } from "../../utils/apiUtils";
 import { GetRequestResponse } from '../ManageSessions/IncomingRequestCard';
 import { useLocation } from "react-router-dom";
 
@@ -68,22 +68,26 @@ const AddTutorReview = () => {
     };
 
     const getTuitionOrderList = () => {
-        const url = getUrl(Subdomain.TUITION_ORDER_MGR, '/detailedTuitionOrders');
-        axios.get<GetRequestResponse[]>(url, {
-            params: {
-                name: getProfileName(),
-                sessionToken: getSessionToken()
-            }
-        }).then(res => {
-            const filteredList = res.data?.filter(record => (record.status === 1 && record.studentId === getProfileId() && record.tutorId === data.tutorId && tuitionTaken(record)));
-            const tutorMapList = filteredList
-                                    .map(element=> { return { id: element.tutorId, name: element.tutorName }; } )
-                                    .filter((thing, i, arr) => arr.findIndex(t => t.id === thing.id) === i ) ?? [];
-            setTutorList(tutorMapList);
-            const sessions = filteredList?.filter(element=> element.tutorId === data.tutorId).map(element => { return { id: element.id, name: element.selectedDates.replace('[','').replace(']','') }; } ) ?? [];
-            setSessionList(sessions);
-        }).catch(err => {
-        });
+        if(!authorisedRoute(PageLink.ADD_TUTOR_REVIEW)){
+            navigate(PageLink.UNAUTHORISED);
+        } else{
+            const url = getUrl(Subdomain.TUITION_ORDER_MGR, '/detailedTuitionOrders');
+            axios.get<GetRequestResponse[]>(url, {
+                params: {
+                    name: getProfileName(),
+                    sessionToken: getSessionToken()
+                }
+            }).then(res => {
+                const filteredList = res.data?.filter(record => (record.status === 1 && record.studentId === getProfileId() && record.tutorId === data.tutorId && tuitionTaken(record)));
+                const tutorMapList = filteredList
+                                        .map(element=> { return { id: element.tutorId, name: element.tutorName }; } )
+                                        .filter((thing, i, arr) => arr.findIndex(t => t.id === thing.id) === i ) ?? [];
+                setTutorList(tutorMapList);
+                const sessions = filteredList?.filter(element=> element.tutorId === data.tutorId).map(element => { return { id: element.id, name: element.selectedDates.replace('[','').replace(']','') }; } ) ?? [];
+                setSessionList(sessions);
+            }).catch(err => {
+            });
+        }
     };
 
     const cancelReview = () => { navigate(PageLink.TUTOR_REVIEW, { state: data }); };
@@ -95,7 +99,7 @@ const AddTutorReview = () => {
             <Toast ref={toast} />
             <Card>
             <div className="flex flex-column p-3 gap-3">
-                <label className="flex flex-1 text-xl font-bold text-orange">New Review for {data.tutorName}</label>
+                <label className="flex flex-1 text-xl font-bold text-orange">New Review for {data ? data.tutorName : ''}</label>
                 <div className="flex flex-row flex-wrap justify-content-between align-items-center gap-3">
                     <div className="flex flex-row gap-2">
                         <div className="flex flex-column gap-2">

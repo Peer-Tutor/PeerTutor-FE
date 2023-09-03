@@ -6,7 +6,7 @@ import { TutorReviewCard } from "./TutorReviewCard";
 import { Button } from "primereact/button";
 import { useNavigate } from "react-router-dom";
 import { Subdomain } from "../../constants/Subdomain";
-import { getUrl, getProfileName, getSessionToken, getProfileId } from "../../utils/apiUtils";
+import { getUrl, getProfileName, getSessionToken, authorisedRoute } from "../../utils/apiUtils";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 
@@ -21,20 +21,24 @@ const TutorReview = () => {
     const [reviewList, setReviewList] = useState<TutorResponse[] | []>();
 
     const data = location.state as CustomizedState; // Type Casting, then you can get the params passed via router
-    const tutorId = data.tutorId;
-    const tutorName = data.tutorName;
+    const tutorId = data ? data.tutorId : '';
+    const tutorName = data ? data.tutorName : '';
 
     const listReview = () => {
-        const url = getUrl(Subdomain.REVIEW_MGR, '/reviews');
-        axios.get<TutorResponse[]>(url, { params: {
-            name: getProfileName(),
-            sessionToken: getSessionToken(),
-            tutorID: tutorId
-          }
-        }).then(res => {
-            setReviewList(res.data);
-        }).catch(err => {
-        });
+        if(!authorisedRoute(PageLink.TUTOR_REVIEW)){
+            navigate(PageLink.UNAUTHORISED);
+        }else{
+            const url = getUrl(Subdomain.REVIEW_MGR, '/reviews');
+            axios.get<TutorResponse[]>(url, { params: {
+                name: getProfileName(),
+                sessionToken: getSessionToken(),
+                tutorID: tutorId
+              }
+            }).then(res => {
+                setReviewList(res.data);
+            }).catch(err => {
+            });
+        }
     };
 
     const onClickHandler = ()=>{

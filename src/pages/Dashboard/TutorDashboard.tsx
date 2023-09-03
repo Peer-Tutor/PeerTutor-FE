@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { UpcomingActivities } from '../ManageSessions/UpcomingActivities';
 import { IncomingRequest } from '../ManageSessions/IncomingRequest';
 import { ProfileCard } from './ProfileCard';
-import { DasboardActionCard } from './DasboardActionCard';
-import { Card } from 'primereact/card';
-import { Button } from 'primereact/button';
+import { authorisedRoute } from '../../utils/apiUtils';
+import { PageLink } from '../../constants/Constant';
+import { useNavigate } from "react-router-dom";
 
 const TutorDashboard = ({ refresh }: { refresh: number }) => {
-    const viewObject = { tutorView: true };
+    const navigate = useNavigate();
+    if(!authorisedRoute(PageLink.DASHBOARD_TUTOR)){ navigate(PageLink.UNAUTHORISED); }
     return (
         <div className="flex flex-column">
             <div className="flex flex-row flex-wrap gap-3">

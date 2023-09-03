@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Subdomain } from "../../constants/Subdomain";
-import { getUrl, getProfileId } from "../../utils/apiUtils";
+import { getUrl, getProfileId, authenticatedSession } from "../../utils/apiUtils";
 import { Panel } from 'primereact/panel';
 import { Badge } from 'primereact/badge';
 import { ScrollPanel } from 'primereact/scrollpanel';
@@ -10,8 +10,11 @@ import { IncomingRequestSearchBar } from './IncomingRequestSearchBar';
 import { GetRequestResponse } from './IncomingRequestCard';
 import { getTuitionOrderList } from './IncomingRequestService';
 import { useForceUpdate } from '../../utils/HookUtils';
+import { useNavigate } from "react-router-dom";
+import { PageLink } from "../../constants/Constant";
 
 const IncomingRequest = ({ refresh }: { refresh: number }) => {
+    const navigate = useNavigate();
     const [totalRecords, setTotalRecords] = useState(0);
 
     const template = (options: any) => {
@@ -31,12 +34,18 @@ const IncomingRequest = ({ refresh }: { refresh: number }) => {
     const [tuitionOrderList, setTuitionOrderList] = useState<GetRequestResponse[]>([]) // todo type script
     const [onForceUpdate, forceUpdate] = useForceUpdate();
     useEffect(() => {
-        getTuitionOrderList(setTotalRecords, setTuitionOrderList)
+        if(authenticatedSession()){
+            getTuitionOrderList(setTotalRecords, setTuitionOrderList);
+        }else{
+            navigate(PageLink.UNAUTHORISED);
+        }
     }, [refresh])
 
     useEffect(() => {
-        if (onForceUpdate > 0) {
-            getTuitionOrderList(setTotalRecords, setTuitionOrderList)
+        if(authenticatedSession()){
+            if (onForceUpdate > 0) { getTuitionOrderList(setTotalRecords, setTuitionOrderList) }
+        }else{
+            navigate(PageLink.UNAUTHORISED);
         }
     }, [onForceUpdate])
 

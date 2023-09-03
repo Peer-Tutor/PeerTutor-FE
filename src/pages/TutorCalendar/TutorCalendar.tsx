@@ -8,17 +8,20 @@ import { convertDateToYYYYMMDD } from "../../utils/DateUtils";
 import { Dialog } from "primereact/dialog";
 import { Divider } from 'primereact/divider';
 import { getListOfAvailableDatesForCurrentTutor } from "./Service";
-import { getUrl, getProfileName, getSessionToken, getProfileId } from "../../utils/apiUtils";
+import { getUrl, getProfileName, getSessionToken, getProfileId, authorisedRoute } from "../../utils/apiUtils";
 import { Subdomain } from "../../constants/Subdomain";
 import axios from "axios";
 import { useToastHook } from "../../utils/toastHooks";
 import { Toast } from "primereact/toast";
+import { PageLink } from '../../constants/Constant';
+import { useNavigate } from "react-router-dom";
 
 const TutorCalendar = () => {
     const [date, setDate] = useState<any>(null);
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [availableDates, setAvailableDates] = useState<string[]>([]);
     const [toast] = useToastHook();
+    const navigate = useNavigate();
 
     const handleSelectDate = () => {
         const newDate = convertDateToYYYYMMDD(date)
@@ -91,8 +94,9 @@ const TutorCalendar = () => {
         );
     };
 
-    useEffect(()=>{ 
-        getListOfAvailableDatesForCurrentTutor(setAvailableDates)
+    useEffect(()=>{
+        if(!authorisedRoute(PageLink.TUITION_CALENDAR)){ navigate(PageLink.UNAUTHORISED); }
+        else{ getListOfAvailableDatesForCurrentTutor(setAvailableDates); }
     }, [])
 
     return (

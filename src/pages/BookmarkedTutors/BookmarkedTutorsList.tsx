@@ -4,15 +4,23 @@ import { ScrollPanel } from 'primereact/scrollpanel';
 import { BookmarkedTutorsCard } from './BookmarkedTutorsCard';
 import { BookmarkedTutorResponse, getBookmarkedTutorOfStudent } from './BookmarkedServices';
 import { useForceUpdate } from '../../utils/HookUtils';
+import { useNavigate } from "react-router-dom";
+import { PageLink } from "../../constants/Constant";
+import { authenticatedSession } from "../../utils/apiUtils";
 
 type AccountInfo = { tutorView?: boolean; refresh: number};
 
 const BookmarkedTutorsList = (props: AccountInfo, props2: BookmarkedTutorResponse) => {
+    const navigate = useNavigate();
     const [bookmarkedTutorList, setBookmarkedTutorList] = useState<BookmarkedTutorResponse[]>([]) // todo type script
     const [onForceUpdate, forceUpdate] = useForceUpdate();
 
     useEffect(() => {
-        getBookmarkedTutorOfStudent(setBookmarkedTutorList)
+        if(authenticatedSession()){
+            getBookmarkedTutorOfStudent(setBookmarkedTutorList);
+        }else{
+            navigate(PageLink.UNAUTHORISED);
+        }
     }, [props.refresh, onForceUpdate])
 
     if(props.tutorView){

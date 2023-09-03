@@ -6,8 +6,12 @@ import { UpcomingActivitiesCard } from './UpcomingActivitiesCard';
 import { getPendingRequest } from './Services';
 import { ScrollPanel } from 'primereact/scrollpanel';
 import { UpcomingActivitiesResponse } from "../../constants/Model";
+import { authenticatedSession } from '../../utils/apiUtils';
+import { PageLink } from '../../constants/Constant';
+import { useNavigate } from "react-router-dom";
 
 const PendingRequest = ({refresh}: {refresh: number}) => {
+    const navigate = useNavigate();
     const [value, setValue] = useState(0);
     const [activityList, setActivities] = useState<UpcomingActivitiesResponse[]>();
     const [dateList, setDates] = useState<string[]>();
@@ -27,7 +31,11 @@ const PendingRequest = ({refresh}: {refresh: number}) => {
     };
 
     useEffect(() => {
-        getPendingRequest(setActivities, setDates, setValue);
+        if(authenticatedSession()){
+            getPendingRequest(setActivities, setDates, setValue);
+        }else{
+            navigate(PageLink.UNAUTHORISED);
+        }
     } , [refresh]);
 
     return (

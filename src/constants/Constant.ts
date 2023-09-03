@@ -18,7 +18,8 @@ export enum PageLink {
     SEARCH_TUTOR = '/dashboard/search-tutor',
     BOOK_TUITION= '/dashboard/tuition-booking',
     TUTOR_REVIEW= '/dashboard/tutor-review',
-    ADD_TUTOR_REVIEW= '/dashboard/add-tutor-review'
+    ADD_TUTOR_REVIEW= '/dashboard/add-tutor-review',
+    UNAUTHORISED = '/unauthorised'
 };
 
 

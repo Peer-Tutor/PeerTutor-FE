@@ -6,34 +6,40 @@ import { AccountInfo, AccountResponse } from "../../constants/Model";
 import { AccountType, PageLink } from "../../constants/Constant";
 import { getUrl,
          getProfileName, getAccountType, getSessionToken,
-         getIntro, setIntro, getProfileId
+         getIntro, setIntro, getProfileId, authenticatedSession
 } from "../../utils/apiUtils";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const ProfileCard = (props: AccountInfo) => {
+    const navigate = useNavigate();
     const [introduction, setIntroduction] = useState('');
     const [subjects, setProfileSubject] = useState('');
     const [certificates, setCertificates] = useState('');
 
     useEffect(() => {
-        let url = '';
-        if(getAccountType().toString() === AccountType.STUDENT){
-            url = getUrl(Subdomain.STUDENT_MGR, '/student');
+        if(authenticatedSession()){
+            let url = '';
+            if(getAccountType().toString() === AccountType.STUDENT){
+                url = getUrl(Subdomain.STUDENT_MGR, '/student');
+            }else{
+                url = getUrl(Subdomain.TUTOR_MGR, '/tutor');
+            }
+            axios.get<AccountResponse>(url, { params: {
+                name: getProfileName(),
+                sessionToken: getSessionToken(),
+                accountName: getProfileName(),
+                id: getProfileId()
+            } }).then(res => {
+                setIntroduction(res.data.introduction ?? getIntro());
+                setIntro(res.data.introduction ?? getIntro());
+                setProfileSubject(res.data.subjects ?? '');
+                setCertificates(res.data.certificates ?? '');
+            }).catch(err => {
+            });
         }else{
-            url = getUrl(Subdomain.TUTOR_MGR, '/tutor');
+            navigate(PageLink.UNAUTHORISED);
         }
-        axios.get<AccountResponse>(url, { params: {
-            name: getProfileName(),
-            sessionToken: getSessionToken(),
-            accountName: getProfileName(),
-            id: getProfileId()
-        } }).then(res => {
-            setIntroduction(res.data.introduction ?? getIntro());
-            setIntro(res.data.introduction ?? getIntro());
-            setProfileSubject(res.data.subjects ?? '');
-            setCertificates(res.data.certificates ?? '');
-        }).catch(err => {
-        });
     }, []);
 
     if(props.tutorView){

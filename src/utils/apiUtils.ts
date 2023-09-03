@@ -131,6 +131,37 @@ const authenticatedSession = () : boolean => {
     return false;
 }
 
+const authorisedRoute = (routeURL: string) : boolean =>{
+    if(!authenticatedSession()){ return false; }
+    switch(routeURL){
+        case PageLink.DASHBOARD_STUDENT:
+         return getAccountType() === AccountType.STUDENT;
+        case PageLink.DASHBOARD_TUTOR:
+         return getAccountType() === AccountType.TUTOR;
+        case PageLink.DASHBOARD_LOGIN:
+         return true;
+        case PageLink.LOGIN:
+         return true;
+        case PageLink.MANAGE_SESSION:
+         return getAccountType() === AccountType.TUTOR;
+        case PageLink.MANAGE_ACCOUNT:
+         return getAccountType() === AccountType.TUTOR || getAccountType() === AccountType.STUDENT;
+        case PageLink.TUITION_BOOKING:
+         return getAccountType() === AccountType.STUDENT;
+        case PageLink.TUITION_CALENDAR:
+         return getAccountType() === AccountType.TUTOR;
+        case PageLink.SEARCH_TUTOR:
+         return getAccountType() === AccountType.STUDENT;
+        case PageLink.BOOK_TUITION:
+         return getAccountType() === AccountType.STUDENT;
+        case PageLink.TUTOR_REVIEW:
+         return getAccountType() === AccountType.STUDENT;
+        case PageLink.ADD_TUTOR_REVIEW:
+         return getAccountType() === AccountType.STUDENT;
+    }
+    return false;
+}
+
 export {
     getUrl,
     getProfileName, getAccountType, getHomeLink, getSessionToken,
@@ -138,7 +169,7 @@ export {
     getIntro, setIntro,
     getSubject, setSubject,
     getProfileId, setProfileId,
-    authenticatedSession
+    authenticatedSession, authorisedRoute
 }
 
 export function saveSessionTokenValue(name:string, sessionToken:string, accountType:string, displayName?: string, intro?: string, subject?: string, profileId?: number) {
@@ -150,4 +181,3 @@ export function saveSessionTokenValue(name:string, sessionToken:string, accountT
     const session = { name: encryptedName, sessionToken: encryptedToken, accountType: encryptedAccount, displayName : displayName ?? '', intro: intro ?? '', subject: subject ?? '', profileId: profileId };
     updateSession(session);
 }
-

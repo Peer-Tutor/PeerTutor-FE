@@ -12,6 +12,7 @@ import { HeaderTemplate } from "../../components/Shared/HeaderTemplate";
 import { BookmarkedTutorResponse, getBookmarkedTutorOfStudentTutorCard } from "../../pages/BookmarkedTutors/BookmarkedServices";
 import { useNavigate } from "react-router-dom";
 import { useForceUpdate } from '../../utils/HookUtils';
+import { authenticatedSession, authorisedRoute } from '../../utils/apiUtils';
 
 export type TutorRecommendationResponse = {
     id: string,
@@ -37,15 +38,19 @@ const SearchTutor = () => {
     const [recommendationList, setRecommendationList] = useState<TutorRecommendationResponse>([]);
     const [bookmarkedTutorList, setBookmarkedTutorList] = useState<BookmarkedTutorResponse[]>([])
     const [onForceUpdate, forceUpdate] = useForceUpdate();
-
+    const navigate = useNavigate();
     useEffect(() => {
-        getTutorList(setTotalRecords, setTutorList, currentPage)
-        getBookmarkedTutorOfStudentTutorCard(setBookmarkedTutorList)
-        getRecommendationsForMyself(setRecommendationList)
+        if(!authorisedRoute(PageLink.SEARCH_TUTOR)){ navigate(PageLink.UNAUTHORISED); }
+        else{
+            getTutorList(setTotalRecords, setTutorList, currentPage);
+            getBookmarkedTutorOfStudentTutorCard(setBookmarkedTutorList);
+            getRecommendationsForMyself(setRecommendationList);
+        }
     }, []);
 
     useEffect(() => {
-        getBookmarkedTutorOfStudentTutorCard(setBookmarkedTutorList)
+        if(!authorisedRoute(PageLink.SEARCH_TUTOR)){ navigate(PageLink.UNAUTHORISED); }
+        else{ getBookmarkedTutorOfStudentTutorCard(setBookmarkedTutorList); }
     }, [onForceUpdate]);
 
     return (

@@ -38,6 +38,7 @@ export const getUpcomingActivities = (setActivities: React.Dispatch<React.SetSta
                     array.push({
                         studentName: element.studentName,
                         tutorName: element.tutorName,
+                        tutorId: element.tutorId,
                         selectedDates: date.trim(),
                         status: element.status
                     });

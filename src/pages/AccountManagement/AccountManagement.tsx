@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Subdomain } from "../../constants/Subdomain";
 import { AccountResponse } from "../../constants/Model";
-import { AccountType, SubjectList, CertificateList } from "../../constants/Constant";
+import { AccountType, SubjectList, CertificateList, PageLink } from "../../constants/Constant";
 import { PROFILE_NAME_REGEX, PROFILE_NAME_SIZE, INTRO_SIZE } from "../../constants/Validation";
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
@@ -12,52 +12,55 @@ import { getUrl,
         getDisplayName, setDisplayName,
         getIntro, setIntro,
         getSubject, setSubject,
-        getProfileId, setProfileId
+        getProfileId, setProfileId, authenticatedSession
 } from "../../utils/apiUtils";
 import axios from "axios";
 import { useToastHook } from "../../utils/toastHooks";
 import { Toast } from "primereact/toast";
+import { useNavigate } from "react-router-dom";
 
 const AccountManagement = () => {
     const [toast] = useToastHook();
-
     const [name, setName] = useState('');
     const [intro, setIntroduction] = useState('');
     const [subject, setProfileSubject] = useState<string[]>([]);
     const [certificate, setCertificate] = useState<string[]>([]);
     const subjectList = SubjectList;
     const certificateList = CertificateList;
+    const navigate = useNavigate();
 
     const isButtonDisabled = (name === ''); // Disable button when inputValue is empty
 
     useEffect(() => {
-        setName(getDisplayName());
-        setIntroduction(getIntro());
-        setProfileSubject(getSubject());
+        if(authenticatedSession()){
+            setName(getDisplayName());
+            setIntroduction(getIntro());
+            setProfileSubject(getSubject());
 
-        let url = '';
-        if(getAccountType().toString() === AccountType.STUDENT){
-            url = getUrl(Subdomain.STUDENT_MGR, '/student');
-        }else{
-            url = getUrl(Subdomain.TUTOR_MGR, '/tutor');
-        }
-
-        axios.get<AccountResponse>(url, { params: {
-            name: getProfileName() ?? '',
-            sessionToken: getSessionToken() ?? '',
-            accountName: getProfileName(),
-            id: getProfileId() ?? ''
-        } }).then(res => {
-            if(res.data){
-                setDisplayName(res.data.displayName ?? '');
-                setProfileId(res.data.id);
-                setName(res.data.displayName ?? '');
-                setIntro(res.data.introduction ?? '');
-                setSubject(res.data.subjects ? res.data.subjects.split(';') : []);
-                setCertificate(res.data.certificates ? res.data.certificates.split(';') : []);
+            let url = '';
+            if(getAccountType().toString() === AccountType.STUDENT){
+                url = getUrl(Subdomain.STUDENT_MGR, '/student');
+            }else{
+                url = getUrl(Subdomain.TUTOR_MGR, '/tutor');
             }
-        }).catch(err => {
-        });
+
+            axios.get<AccountResponse>(url, { params: {
+                name: getProfileName() ?? '',
+                sessionToken: getSessionToken() ?? '',
+                accountName: getProfileName(),
+                id: getProfileId() ?? ''
+            } }).then(res => {
+                if(res.data){
+                    setDisplayName(res.data.displayName ?? '');
+                    setProfileId(res.data.id);
+                    setName(res.data.displayName ?? '');
+                    setIntro(res.data.introduction ?? '');
+                    setSubject(res.data.subjects ? res.data.subjects.split(';') : []);
+                    setCertificate(res.data.certificates ? res.data.certificates.split(';') : []);
+                }
+            }).catch(err => {
+            });
+        }else{ navigate(PageLink.UNAUTHORISED); }
     }, []);
 
     const successUpdate = () => {
@@ -180,13 +183,7 @@ const AccountManagement = () => {
         );
     }else{
         return (
-            <Card className="col-12 my-auto py-8">
-                <div className="grid">
-                    <div className="mx-auto my-5 grid align-items-center gap-4 col-6">
-                        <label className="text-orange text-xl">Error encounter please contact administrator</label>
-                    </div>
-                </div>
-           </Card>
+            <></>
         );
     }
 };
