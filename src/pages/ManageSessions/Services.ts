@@ -1,33 +1,29 @@
 import axios from 'axios'
 import { Subdomain } from '../../constants/Subdomain';
 import { UpcomingActivitiesResponse } from '../../constants/Model';
-import { getSessionTokenValues, getUrl } from '../../utils/apiUtils';
-import { toast } from '../../utils/toastHooks';
-import {AccountType} from '../../constants/Constant'
+import { getUrl, getProfileName, getSessionToken, getAccountType, getProfileId } from '../../utils/apiUtils';
+import {AccountType} from '../../constants/Constant';
 
 export const getUpcomingActivities = (setActivities: React.Dispatch<React.SetStateAction<UpcomingActivitiesResponse[] | undefined>>,
     setDates: React.Dispatch<React.SetStateAction<string[] | undefined>>,
     setValue: React.Dispatch<React.SetStateAction<number>>
 ) => {
     const url = getUrl(Subdomain.TUITION_ORDER_MGR, '/detailedTuitionOrders');
-    const { name, sessionToken, profileId, accountType } = getSessionTokenValues()
-    console.log('profileId', profileId, 'name', name)
     axios.get<UpcomingActivitiesResponse[]>(url, {
         params: {
-            name: name,
-            sessionToken: sessionToken
+            name: getProfileName(),
+            sessionToken: getSessionToken()
         }
     }).then(res => {
         let response = res.data;
         response = response.filter((element) => {
-            if(accountType== AccountType.STUDENT){
-                return element.status == 1 && element.studentId == profileId
-            } else if (accountType == AccountType.TUTOR){
-                return element.status == 1 && element.tutorId == profileId
+            if(getAccountType().toString() === AccountType.STUDENT){
+                return element.status === 1 && element.studentId === getProfileId()
+            } else if (getAccountType().toString() === AccountType.TUTOR){
+                return element.status === 1 && element.tutorId === getProfileId()
             }else {
-                console.log('invalid account type')
+                return element.status === 1;
             }
-
          });
         response.map((element) => {
             if (element.selectedDates) { element.selectedDates = element.selectedDates.replace("[", "").replace("]", ""); }
@@ -42,6 +38,7 @@ export const getUpcomingActivities = (setActivities: React.Dispatch<React.SetSta
                     array.push({
                         studentName: element.studentName,
                         tutorName: element.tutorName,
+                        tutorId: element.tutorId,
                         selectedDates: date.trim(),
                         status: element.status
                     });
@@ -58,7 +55,7 @@ export const getUpcomingActivities = (setActivities: React.Dispatch<React.SetSta
                 return 0;
             }
         });
-        datesArr = datesArr.filter(function (item, pos) { return datesArr.indexOf(item) == pos; })
+        datesArr = datesArr.filter(function (item, pos) { return datesArr.indexOf(item) === pos; })
             .sort(function (a, b) {
                 // Turn your strings into dates, and then subtract them
                 // to get a value that is either negative, positive, or zero.
@@ -72,27 +69,22 @@ export const getUpcomingActivities = (setActivities: React.Dispatch<React.SetSta
         setDates(datesArr);
         setValue(array.length);
     }).catch(err => {
-        console.log(err)
     });
 };
-
-
 
 export const getPendingRequest = (setActivities: React.Dispatch<React.SetStateAction<UpcomingActivitiesResponse[] | undefined>>,
     setDates: React.Dispatch<React.SetStateAction<string[] | undefined>>,
     setValue: React.Dispatch<React.SetStateAction<number>>
 ) => {
     const url = getUrl(Subdomain.TUITION_ORDER_MGR, '/detailedTuitionOrders');
-    const { name, sessionToken, profileId } = getSessionTokenValues()
     axios.get<UpcomingActivitiesResponse[]>(url, {
         params: {
-            name: name,
-            sessionToken: sessionToken
+            name: getProfileName(),
+            sessionToken: getSessionToken()
         }
     }).then(res => {
-        console.log('res', res.data)
         let response = res.data;
-        response = response.filter((element) => { return element.status == 0 && element.studentId == profileId });
+        response = response.filter((element) => { return element.status === 0 && element.studentId === getProfileId() });
         response.map((element) => {
             if (element.selectedDates) { element.selectedDates = element.selectedDates.replace("[", "").replace("]", ""); }
         });
@@ -106,6 +98,7 @@ export const getPendingRequest = (setActivities: React.Dispatch<React.SetStateAc
                     array.push({
                         studentName: element.studentName,
                         tutorName: element.tutorName,
+                        tutorId: element.tutorId,
                         selectedDates: date.trim(),
                         status: element.status
                     });
@@ -122,7 +115,7 @@ export const getPendingRequest = (setActivities: React.Dispatch<React.SetStateAc
                 return 0;
             }
         });
-        datesArr = datesArr.filter(function (item, pos) { return datesArr.indexOf(item) == pos; })
+        datesArr = datesArr.filter(function (item, pos) { return datesArr.indexOf(item) === pos; })
             .sort(function (a, b) {
                 // Turn your strings into dates, and then subtract them
                 // to get a value that is either negative, positive, or zero.
@@ -133,10 +126,8 @@ export const getPendingRequest = (setActivities: React.Dispatch<React.SetStateAc
                 }
             });
         setActivities(array);
-        console.log(array);
         setDates(datesArr);
         setValue(array.length);
     }).catch(err => {
-        console.log(err)
     });
 };

@@ -18,12 +18,18 @@ export enum PageLink {
     SEARCH_TUTOR = '/dashboard/search-tutor',
     BOOK_TUITION= '/dashboard/tuition-booking',
     TUTOR_REVIEW= '/dashboard/tutor-review',
-    ADD_TUTOR_REVIEW= '/dashboard/add-tutor-review'
+    ADD_TUTOR_REVIEW= '/dashboard/add-tutor-review',
+    UNAUTHORISED = '/unauthorised'
 };
 
 
 export enum SessionStorage {
-    ACCOUNT = "account"
+    AES_KEY = "NDRQO6Vv1D",
+    PROFILE = "profile",
+    ACCOUNT = "account",
+    ACCOUNT_TYPE = "accountType",
+    SESSION_TOKEN = "sessionToken",
+    NAME = "name"
 };
 
 export enum Subject {
@@ -65,15 +71,11 @@ export const SubjectList = [
 
 export const CertificateList = [
     { name: Certificate.OLEVEL, code: Certificate.OLEVEL },
-    { name: Subject.CHEMISTRY, code: Subject.CHEMISTRY },
-    { name: Subject.CHINESE, code: Subject.CHINESE },
-    { name: Subject.ENGLISH, code: Subject.ENGLISH },
-    { name: Subject.GEOGRAPHY, code: Subject.GEOGRAPHY },
-    { name: Subject.HISTORY, code: Subject.HISTORY },
-    { name: Subject.MALAY, code: Subject.MALAY },
-    { name: Subject.MATH, code: Subject.MATH },
-    { name: Subject.PHYSICS, code: Subject.PHYSICS },
-    { name: Subject.TAMIL, code: Subject.TAMIL }
+    { name: Certificate.ALEVEL, code: Certificate.ALEVEL },
+    { name: Certificate.DIPLOMA, code: Certificate.DIPLOMA },
+    { name: Certificate.BACHELOR, code: Certificate.BACHELOR },
+    { name: Certificate.MASTER, code: Certificate.MASTER },
+    { name: Certificate.DOCTORATE, code: Certificate.DOCTORATE }
 ];
 
 export const RequestStatus = {

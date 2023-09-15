@@ -8,13 +8,15 @@ import { Panel } from 'primereact/panel';
 import { Badge } from 'primereact/badge';
 import { AccountType, PageLink, SessionStorage, AccountTypeList, SubjectList, CertificateList } from "../../constants/Constant";
 import { UpcomingActivitiesResponse } from "../../constants/Model";
-import { getUrl, getSessionTokenValues } from '../../utils/apiUtils';
+import { getUrl, authenticatedSession } from '../../utils/apiUtils';
 import { UpcomingActivitiesCard } from './UpcomingActivitiesCard';
 import { getUpcomingActivities } from './Services';
 import { ScrollPanel } from 'primereact/scrollpanel';
+import { useNavigate } from "react-router-dom";
 
 type DasboardActionCardInput = { tutorView?: boolean; refresh: number };
 const UpcomingActivities = (props: DasboardActionCardInput) => {
+    const navigate = useNavigate();
     const [value, setValue] = useState(0);
     const [activityList, setActivities] = useState<UpcomingActivitiesResponse[]>();
     const [dateList, setDates] = useState<string[]>();
@@ -34,7 +36,11 @@ const UpcomingActivities = (props: DasboardActionCardInput) => {
     };
 
     useEffect(() => {
-        getUpcomingActivities(setActivities, setDates, setValue);
+        if(authenticatedSession()){
+            getUpcomingActivities(setActivities, setDates, setValue);
+        }else{
+            navigate(PageLink.UNAUTHORISED);
+        }
     } , [props.refresh]);
 
     return (
@@ -51,6 +57,7 @@ const UpcomingActivities = (props: DasboardActionCardInput) => {
                                 <UpcomingActivitiesCard
                                     studentName={activity.studentName}
                                     tutorName={activity.tutorName}
+                                    tutorId={activity.tutorId}
                                     date={activity.selectedDates}/>
                             )
                         }
@@ -59,7 +66,7 @@ const UpcomingActivities = (props: DasboardActionCardInput) => {
                     </div>
                 </div>
                 );
-              }) : <p className="text-center text-black font-bold">No upcoming activities scheduled.</p>
+              }) : <p className="text-sm text-center text-black font-semibold">No upcoming activities scheduled.</p>
             }
             </ScrollPanel>
         </Panel>

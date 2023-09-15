@@ -1,3 +1,4 @@
+.p-component { font-family: 'Ubuntu'; }
 .p-button.p-button-icon-only.p-button-rounded,
 .p-button, .p-button:enabled:hover {
     border-radius: 1rem;
@@ -12,18 +13,18 @@
 
 .p-button:disabled, .p-button:disabled:hover{
     color: #EFEFEF !important;
-    background-color: #EFEFEF !important;
+    background-color: #BBBBBB !important;
 }
 
 .p-button-primary {  background-color: #F66B0E !important; }
 .p-button-primary-outlined {
     color: #F66B0E !important;
-    background-color: #ffffff !important;
+    background-color: transparent !important;
     border: none !important;
  }
-.p-button-secondary { background-color: #205375 !important; }
+.p-button-secondary { background-color: #000000 !important; }
 .p-button-secondary-outlined {
-    color: #205375 !important;
+    color: #000000 !important;
     background-color: #ffffff !important;
     border: none !important;
 }
@@ -102,13 +103,14 @@ input.p-inputtext{ height: fit-content !important; padding-left: 1rem !important
 
 .field { margin: 0 !important; }
 
-.p-toast .p-toast-message.p-toast-message-error{
-    background-color: #112B3C !important;
+.p-toast .p-toast-message{
+    background-color: #000000 !important;
     color: #EFEFEF !important;
-    border: solid #112B3C !important;
+    border: solid #000000 !important;
 }
 
 .p-rating .p-rating-item .p-rating-icon { color: #F66B0E !important; font-size: 1rem !important;}
+.p-rating .p-rating-item .p-rating-icon.p-icon { width: 0.8rem !important; height: 0.8rem !important;}
 
 .p-tooltip{
     font-size: 0.6rem !important;

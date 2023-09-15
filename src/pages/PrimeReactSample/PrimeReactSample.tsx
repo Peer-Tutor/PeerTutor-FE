@@ -18,21 +18,14 @@ const PrimeReactSample = () => {
     const [prop, setProp] = useState<AuthenticationStorage>({});
 
     useEffect(() => {
-        const props = sessionStorage.getItem(SessionStorage.ACCOUNT);
-        if(props != null){ setProp(JSON.parse(props)); }
         const url = getUrl(Subdomain.ACCOUNT_MGR, '/health');
         axios.get<ResponseDataExample>(url).then(res => {
-            console.log("res.data=", res.data)
             setState(res.data)
         }).catch(err => {
-            console.log('error!', err)
         });
     }, [])
-    // console.log('page one rendered')
 
-    const onCityChange = (e: { value: any }) => {
-        setSelectedCity1(e.value);
-    };
+    const onCityChange = (e: { value: any }) => { setSelectedCity1(e.value); };
 
     const cities = [
         { name: 'New York', code: 'NY' },

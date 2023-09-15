@@ -1,49 +1,68 @@
 import React, { useEffect, useState } from "react";
-import { Subdomain } from "../../constants/Subdomain";
-import { AuthenticationStorage } from "../../constants/Model";
-import { PageLink, SessionStorage } from "../../constants/Constant";
-import { getSessionTokenValues, getUrl } from "../../utils/apiUtils";
+import { PageLink } from "../../constants/Constant";
+import { CustomizedState } from "../../constants/Model";
 import { Card } from "primereact/card";
-import { Paginator } from 'primereact/paginator';
-import { Rating } from "primereact/rating";
 import { TutorReviewCard } from "./TutorReviewCard";
-import { ScrollPanel } from 'primereact/scrollpanel';
 import { Button } from "primereact/button";
 import { useNavigate } from "react-router-dom";
-import { Divider } from "primereact/divider";
+import { Subdomain } from "../../constants/Subdomain";
+import { getUrl, getProfileName, getSessionToken, authorisedRoute } from "../../utils/apiUtils";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
 
 export type TutorResponse = {
     tutorId: string;
     rating: number;
     comment: string;
 }
-
-const TutorReview = () => {   
-    const [tutorReviewList, setTutorReviewList] = useState<TutorResponse[]>([])
-    const url = getUrl(Subdomain.REVIEW_MGR, '/reviews');
+const TutorReview = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const [reviewList, setReviewList] = useState<TutorResponse[] | []>();
+
+    const data = location.state as CustomizedState; // Type Casting, then you can get the params passed via router
+    const tutorId = data ? data.tutorId : '';
+    const tutorName = data ? data.tutorName : '';
+
+    const listReview = () => {
+        if(!authorisedRoute(PageLink.TUTOR_REVIEW)){
+            navigate(PageLink.UNAUTHORISED);
+        }else{
+            const url = getUrl(Subdomain.REVIEW_MGR, '/reviews');
+            axios.get<TutorResponse[]>(url, { params: {
+                name: getProfileName(),
+                sessionToken: getSessionToken(),
+                tutorID: tutorId
+              }
+            }).then(res => {
+                setReviewList(res.data);
+            }).catch(err => {
+            });
+        }
+    };
+
     const onClickHandler = ()=>{
-        navigate(PageLink.ADD_TUTOR_REVIEW)
+        navigate(PageLink.ADD_TUTOR_REVIEW, { state: data } )
     }
+
+    useEffect(() => { listReview(); }, [navigate])
     
     return (
         <div>
-            <Card className="flex flex-column px-4 py-4 w-8">
-            <div className="grid">
-                    <div className="col-12 md:col-4">
-                    <label className="flex text-xl font-semibold text-black ml-2 mb-3">Tutor Reviews</label>
-                    <div className="flex">
-                    <div className="flex flex-column">
-                        <TutorReviewCard tutorId="" rating= {3} comment="Tutor reviews"/>
-                        <TutorReviewCard tutorId="2" rating= {4} comment="Tutor reviews"/>
-                        <TutorReviewCard tutorId="2" rating= {4} comment="Tutor reviews"/>
-                        
+            <Card className="flex flex-column flex-1 p-2">
+                <div className="flex flex-column">
+                    <label className="flex flex-1 text-xl font-semibold text-black">{tutorName} Reviews</label>
+                    <div className="flex flex-1 flex-row flex-wrap align-items-center gap-2">
+                      {reviewList && reviewList?.length > 0 ? reviewList?.map((review, idx) => {
+                        return (
+                            <>
+                                <TutorReviewCard tutorId="" rating= {review.rating} comment={review.comment}/>
+                            </>
+                        )
+                      }) : <label className="text-sm text-center text-black font-normal mx-0 my-2">No reviews available.</label>}
                     </div>
-                </div>
-                                   
-                    <button onClick={onClickHandler} className="flex flex-column align-items-center gap-2 p-4">
-                        <label className="text-base font-bold text-dark-blue">Add new Review</label>
-                    </button>
+                    <div className="flex flex-row justify-content-end mt-4">
+                        <Button onClick={onClickHandler} className="p-button-secondary text-sm" icon="pi pi-send" label="Review"></Button>
                     </div>
                 </div>
                 

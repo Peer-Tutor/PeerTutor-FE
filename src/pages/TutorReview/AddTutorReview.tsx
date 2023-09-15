@@ -1,57 +1,134 @@
 import React, { useEffect, useState } from "react";
-import { Dropdown } from 'primereact/dropdown';
-import { Calendar } from 'primereact/calendar';
 import { Button } from 'primereact/button';
 import { useToastHook } from "../../utils/toastHooks";
 import { Toast } from "primereact/toast";
 import { Card } from 'primereact/card';
-import { InputText } from 'primereact/inputtext';
-import { Link, useNavigate } from "react-router-dom";
+import { Dropdown } from 'primereact/dropdown';
+import { useNavigate } from "react-router-dom";
 import { Rating } from "primereact/rating";
 import { InputTextarea } from "primereact/inputtextarea";
-import { PageLink, SessionStorage } from "../../constants/Constant";
+import { PageLink } from "../../constants/Constant";
+import { CustomizedState } from "../../constants/Model";
+import { REMARKS_SIZE } from "../../constants/Validation";
 import axios from "axios";
 import { Subdomain } from "../../constants/Subdomain";
-import { getSessionTokenValues, getUrl } from "../../utils/apiUtils";
+import { getUrl, getProfileName, getSessionToken, getProfileId, authorisedRoute } from "../../utils/apiUtils";
+import { GetRequestResponse } from '../ManageSessions/IncomingRequestCard';
+import { useLocation } from "react-router-dom";
 
-
+type IOption = { id: any; name: any };
 const AddTutorReview = () => {
+    const location = useLocation();
     const [toast] = useToastHook()
     const navigate = useNavigate();
-    const [tutorId, setTutorId] = useState<any>(null);
     const [rating, setRating] = useState<any>(null);
     const [comment, setComment] = useState('');
-    const [route, setRoute] = useState(PageLink.TUTOR_REVIEW);
+    const [tuitionOrderList, setTuitionOrderList] = useState<GetRequestResponse[]>();
+
+    const data = location.state as CustomizedState; // Type Casting, then you can get the params passed via router
+    const [tutorList, setTutorList] = useState<IOption[] | []>();
+
+    const [sessionList, setSessionList] = useState<IOption[] | []>();
+    const [session, setSession] = useState('');
 
     const addReview = () => {
-        const url = getUrl(Subdomain.REVIEW_MGR, '/reviews');
-        const { name, sessionToken, profileId } = getSessionTokenValues()
-        axios.post(url, { rating: rating, comment: comment, tutorId: profileId}).then(res => {
-            navigate(PageLink.MANAGE_ACCOUNT);
+        const url = getUrl(Subdomain.REVIEW_MGR, '/review');
+        axios.post(url, {
+            name: getProfileName(),
+            sessionToken: getSessionToken(),
+            rating: rating,
+            comment: comment,
+            id: data.tutorId,
+            tutionOrderID: session
+        }).then(res => {
+            toast?.current?.show({ severity: 'success', content: successUpdate(), closable : false, life: 5000 });
+            setTimeout(() => { navigate(PageLink.TUTOR_REVIEW, { state: data }); }, 1000 );
         }).catch(err => {
-            console.log('error!', err);
         });
     };
+
+    const successUpdate = () => {
+        return (
+            <div className="flex flex-row align-items-center" style={{flex: '1'}}>
+                <div className="flex mx-3">
+                    <i className="text-xl text-green fa-solid fa-circle-check"></i>
+                </div>
+                <div className="flex flex-1 flex-column">
+                    <label className="flex text-lg text-green font-bold">Successfully submitted</label>
+                    <label className="text-xs text-white font-normal">New review has been successfully submitted.</label>
+                </div>
+            </div>
+        );
+    };
+
+    const isButtonDisabled = (session === '' || rating === null || comment === ''); // Disable button when inputValue is empty
+
+    const tuitionTaken = (tuition: GetRequestResponse):boolean =>{
+        return true;
+    };
+
+    const getTuitionOrderList = () => {
+        if(!authorisedRoute(PageLink.ADD_TUTOR_REVIEW)){
+            navigate(PageLink.UNAUTHORISED);
+        } else{
+            const url = getUrl(Subdomain.TUITION_ORDER_MGR, '/detailedTuitionOrders');
+            axios.get<GetRequestResponse[]>(url, {
+                params: {
+                    name: getProfileName(),
+                    sessionToken: getSessionToken()
+                }
+            }).then(res => {
+                const filteredList = res.data?.filter(record => (record.status === 1 && record.studentId === getProfileId() && record.tutorId === data.tutorId && tuitionTaken(record)));
+                const tutorMapList = filteredList
+                                        .map(element=> { return { id: element.tutorId, name: element.tutorName }; } )
+                                        .filter((thing, i, arr) => arr.findIndex(t => t.id === thing.id) === i ) ?? [];
+                setTutorList(tutorMapList);
+                const sessions = filteredList?.filter(element=> element.tutorId === data.tutorId).map(element => { return { id: element.id, name: element.selectedDates.replace('[','').replace(']','') }; } ) ?? [];
+                setSessionList(sessions);
+            }).catch(err => {
+            });
+        }
+    };
+
+    const cancelReview = () => { navigate(PageLink.TUTOR_REVIEW, { state: data }); };
+
+    useEffect(() => { getTuitionOrderList(); }, [navigate])
 
     return (
         <div className="global-component">
             <Toast ref={toast} />
-            <Card className="col-12 my-auto py-8" title="Review">
-                <label className="text-base font-bold text-dark-blue" style={{ lineHeight: '3' }}>Rating:</label>
-                <Rating value={rating} cancel={false} onChange={(e) => setRating(e.target.value)} />
-                <div className="content-section implementation">
-                    <div className="card">
-                        <h5 className="text-base font-bold text-dark-blue">Comment:</h5>
-                        <InputTextarea className="comment" value={comment} autoResize onChange={(e) => setComment(e.target.value)} />
-                        <Link to={route} onClick={addReview}>
-                            <Button label="Add Review" className="p-button-primary flex"  />
-                        </Link>
+            <Card>
+            <div className="flex flex-column p-3 gap-3">
+                <label className="flex flex-1 text-xl font-bold text-orange">New Review for {data ? data.tutorName : ''}</label>
+                <div className="flex flex-row flex-wrap justify-content-between align-items-center gap-3">
+                    <div className="flex flex-row gap-2">
+                        <div className="flex flex-column gap-2">
+                            <label className="flex flex-1 text-sm font-semibold text-black">Tutor Date <span className="text-red">*</span></label>
+                            <Dropdown   value={session} options={sessionList} optionLabel="name" optionValue="id"
+                                        style={{ width:'20rem' }}
+                                        onChange={(e: { value: any }) => { setSession(e.value); } }/>
+                        </div>
+                    </div>
+                    <div className="flex flex-column gap-3">
+                        <div className="flex flex-row align-items-center gap-3">
+                            <label className="flex text-base font-semibold text-black">Rating <span className="text-red">*</span></label>
+                            <Rating value={rating} cancel={false} onChange={(e) => setRating(e.target.value)}
+                                    tooltip="Rating of service" tooltipOptions={{ event: 'both', position: 'top' }}/>
+                        </div>
+                        <label className="flex text-xs text-right font-normal text-orange">Lowest 1 Star, Highest 5 Stars</label>
                     </div>
                 </div>
-
-
+                <div className="flex flex-column">
+                    <InputTextarea  className="comment" value={comment} onChange={(e) => setComment(e.target.value)} autoResize
+                                    maxLength={REMARKS_SIZE}
+                                    tooltip="Review summary of tutoring services experience" tooltipOptions={{ event: 'both', position: 'top' }}/>
+                </div>
+                <div className="flex flex-1 justify-content-end mt-4">
+                    <Button label="Cancel" className="p-button-secondary flex" onClick={ cancelReview } />
+                    <Button icon="pi pi-send" label="Submit" className="p-button-primary flex" onClick={ addReview } disabled={isButtonDisabled}/>
+                </div>
+                </div>
             </Card>
-
         </div>
     )
 }

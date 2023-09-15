@@ -1,26 +1,31 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { UpcomingActivities } from '../ManageSessions/UpcomingActivities';
 import { PendingRequest } from '../ManageSessions/PendingRequest';
 import { ProfileCard } from './ProfileCard';
 import { DasboardActionCard } from './DasboardActionCard';
-import { Card } from 'primereact/card';
-import { Button } from 'primereact/button';
 import { BookmarkedTutorsList } from '../BookmarkedTutors/BookmarkedTutorsList';
+import { authorisedRoute } from '../../utils/apiUtils';
+import { PageLink } from '../../constants/Constant';
+import { useNavigate } from "react-router-dom";
 
 const TuteeDashboard = ({refresh}: {refresh:number}) => {
+    const navigate = useNavigate();
+    if(!authorisedRoute(PageLink.DASHBOARD_STUDENT)){ navigate(PageLink.UNAUTHORISED); }
     return (
-        <div className="grid col-12">
-            <div className="field col-7">
-                <div className="flex gap-4">
-                    <ProfileCard />
-                    <DasboardActionCard tutorView={false}/>
+        <div className="flex flex-column gap-3">
+            <div className="flex flex-row flex-wrap gap-3">
+                <div className="flex flex-grow-1 flex-column">
+                    <div className="flex flex-row flex-wrap gap-3">
+                        <ProfileCard />
+                        <DasboardActionCard tutorView={false}/>
+                    </div>
+                    <UpcomingActivities refresh={refresh} />
                 </div>
-                <UpcomingActivities refresh={refresh} />
+                <div className="flex flex-1 flex-column">
+                    <PendingRequest refresh={refresh} />
+                </div>
             </div>
-            <div className="field col-5">
-                <PendingRequest refresh={refresh} />
-            </div>
-            <div className="field col-12">
+            <div className="flex flex-1 flex-row">
                 <BookmarkedTutorsList refresh={refresh}  tutorView={false} />
             </div>
         </div>

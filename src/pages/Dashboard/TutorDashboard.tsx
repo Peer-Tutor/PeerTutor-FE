@@ -1,26 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { UpcomingActivities } from '../ManageSessions/UpcomingActivities';
 import { IncomingRequest } from '../ManageSessions/IncomingRequest';
 import { ProfileCard } from './ProfileCard';
-import { DasboardActionCard } from './DasboardActionCard';
-import { Card } from 'primereact/card';
-import { Button } from 'primereact/button';
+import { authorisedRoute } from '../../utils/apiUtils';
+import { PageLink } from '../../constants/Constant';
+import { useNavigate } from "react-router-dom";
 
 const TutorDashboard = ({ refresh }: { refresh: number }) => {
-    const viewObject = { tutorView: true };
+    const navigate = useNavigate();
+    if(!authorisedRoute(PageLink.DASHBOARD_TUTOR)){ navigate(PageLink.UNAUTHORISED); }
     return (
-        <div className="grid col-12">
-            <div className="field col-7">
-                <div className="flex gap-4">
-                    <ProfileCard tutorView={true}
-                        introduction={'Hi I\'m a tutor under tutor scheme'}
-                        subjects={'Chinese;English'}
-                        certificates={'Master;Bachelor'} />
+        <div className="flex flex-column">
+            <div className="flex flex-row flex-wrap gap-3">
+                <div className="flex flex-column flex-grow-1">
+                    <div className="flex flex-row flex-wrap gap-3">
+                        <ProfileCard tutorView={true}
+                            introduction={'Hi I\'m a tutor under tutor scheme'}
+                            subjects={'Chinese;English'}
+                            certificates={'Master;Bachelor'} />
+                    </div>
+                    <UpcomingActivities refresh={refresh}/>
                 </div>
-                <UpcomingActivities refresh={refresh}/>
-            </div>
-            <div className="field col-5">
-                <IncomingRequest refresh={refresh}/>
+                <div className="flex flex-grow-1 flex-column">
+                    <IncomingRequest refresh={refresh}/>
+                </div>
             </div>
         </div>
     );

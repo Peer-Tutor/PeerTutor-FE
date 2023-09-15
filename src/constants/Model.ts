@@ -57,3 +57,5 @@ export type UpcomingActivitiesResponse = {
     tutorName?: string;
     subject?:string;
 };
+
+export interface CustomizedState { tutorId: string, tutorName: string };
