@@ -3,8 +3,9 @@ import { Card } from 'primereact/card'
 import { InputText } from 'primereact/inputtext'
 import React, { useState } from 'react'
 import { currentAuthenticatedUser, signIn, signUp } from './utils'
-import TestComponent from './LLL'
+import TestComponent from './CognitoAuthUI'
 import { API, Auth, Signer } from 'aws-amplify'
+import axios from 'axios'
 
 export const TestLoginPage = () => {
     const [name, setName] = useState('')
@@ -50,6 +51,17 @@ export const TestLoginPage = () => {
 
 
                     <div className="flex flex-grow-1 flex-row-reverse">
+                        <Button label="Test api call with HEADERS" className="p-button-primary" onClick={async function (){
+                            const user = await Auth.currentSession()//currentAuthenticatedUser()
+                            axios.get('https://fjox70rug8.execute-api.ap-southeast-1.amazonaws.com/Stage/hello', {
+                                headers: {
+                                    "authorizationToken": await user.getAccessToken().getJwtToken()
+                                }
+                            }).then(res=>{ console.log('res = ', res)}).catch(err=> {console.log(err)})
+                        }} />
+                    </div>
+
+                    <div className="flex flex-grow-1 flex-row-reverse">
                         <Button label="Test Api Call" className="p-button-primary" onClick={async function () {
                             // console.log('test')
                             // console.log( Auth.configure() )
@@ -63,7 +75,8 @@ export const TestLoginPage = () => {
                                 response: true, // OPTIONAL (return the entire Axios response object instead of only response.data)
                                 queryStringParameters: {
                                     // name: 'param' // OPTIONAL
-                                }})
+                                }
+                            })
                                 .then((response) => {
                                     // Add your code here
                                     console.log('response = ', response)
