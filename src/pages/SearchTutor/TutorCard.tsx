@@ -73,8 +73,8 @@ const TutorCard = (props: TutorCardProps) => {
                             tooltip={bookmarked ? "Remove Bookmark" : "Bookmark"} tooltipOptions={{ event: 'both', position: 'top' }} />
                         <Button icon="fa-solid fa-calendar-check" className="p-button-secondary" aria-label="Schedule" onClick={() => { scheduleHandler(tutorId ?? '') }}
                             tooltip="Schedule Session" tooltipOptions={{ event: 'both', position: 'top' }} />
-                        <Button icon="fa-solid fa-star-half-stroke" className="p-button-primary" aria-label="Review" onClick={() => { reviewHandler(tutorId ?? '', name ?? '') }}
-                            tooltip="Review" tooltipOptions={{ event: 'both', position: 'top' }} />
+{/*                         <Button icon="fa-solid fa-star-half-stroke" className="p-button-primary" aria-label="Review" onClick={() => { reviewHandler(tutorId ?? '', name ?? '') }} */}
+{/*                             tooltip="Review" tooltipOptions={{ event: 'both', position: 'top' }} /> */}
                     </div>
                 </div>
             </div>
