@@ -4,7 +4,7 @@ import { InputText } from 'primereact/inputtext'
 import React, { useState } from 'react'
 import { currentAuthenticatedUser, signIn, signUp } from './utils'
 import TestComponent from './CognitoAuthUI'
-import { API, Auth, Signer } from 'aws-amplify'
+import { API, Auth} from 'aws-amplify'
 import axios from 'axios'
 
 export const TestLoginPage = () => {
@@ -53,11 +53,13 @@ export const TestLoginPage = () => {
                     <div className="flex flex-grow-1 flex-row-reverse">
                         <Button label="Test api call with HEADERS" className="p-button-primary" onClick={async function (){
                             const user = await Auth.currentSession()//currentAuthenticatedUser()
-                            axios.get('https://fjox70rug8.execute-api.ap-southeast-1.amazonaws.com/Stage/hello', {
-                                headers: {
-                                    "authorizationToken": await user.getAccessToken().getJwtToken()
-                                }
-                            }).then(res=>{ console.log('res = ', res)}).catch(err=> {console.log(err)})
+                            axios.get('https://kb8xxy064i.execute-api.ap-southeast-1.amazonaws.com/api/test'
+                            // , {
+                            //     headers: {
+                            //         "authorizationToken": await user.getAccessToken().getJwtToken()
+                            //     }
+                            // }
+                            ).then(res=>{ console.log('res = ', res)}).catch(err=> {console.log(err)})
                         }} />
                     </div>
 
