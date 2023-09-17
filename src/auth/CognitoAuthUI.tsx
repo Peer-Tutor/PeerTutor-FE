@@ -242,6 +242,7 @@ export default function TestComponent() {
       let { username, password, attributes } = formData;
       // custom username
       username = username.toLowerCase();
+      const role = formData.attributes['custom:role'] 
       console.log('formData=',formData)
       // attributes.email = attributes.email.toLowerCase();
       return Auth.signUp({
@@ -249,7 +250,7 @@ export default function TestComponent() {
         password,
         attributes: {
           email: attributes.email, // optional
-          'custom:role': 'student'
+          'custom:role': role// 'student'
           // phoneNumber, // optional - E.164 number convention
           // other custom attributes
         },
