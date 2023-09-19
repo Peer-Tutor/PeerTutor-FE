@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Subdomain } from "../../constants/Subdomain";
 import { AccountResponse } from "../../constants/Model";
 import { AccountType, PageLink, AccountTypeList } from "../../constants/Constant";
-import { LOGIN_NAME_REGEX, LOGIN_NAME_SIZE, PASSWORD_SIZE } from "../../constants/Validation";
+import { LOGIN_NAME_REGEX, LOGIN_NAME_SIZE, PASSWORD_REGEX, PASSWORD_SIZE } from "../../constants/Validation";
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 import { Dropdown } from 'primereact/dropdown';
@@ -116,11 +116,12 @@ const LoginDashboard:React.FC = () => {
                                             placeholder="Name" maxLength={LOGIN_NAME_SIZE}
                                             tooltip="Name should not contain numeric or special characters" tooltipOptions={{ event: 'both', position: 'right' }}/>
                                 <Password   className="col-12 p-0" inputClassName="col-12" value={password} onChange={(e) => setPassword(e.target.value)}
+                                            keyfilter={LOGIN_NAME_REGEX}
                                             placeholder="Password" feedback={true} maxLength={PASSWORD_SIZE}
                                             weakLabel="Current password is not advisable to ensure account secured."
                                             mediumLabel="Password entered could be stronger to keep your account secured."
                                             strongLabel="Current password is advisable and sufficient to keep account secured."
-                                            tooltip="Please enter a strong password to keep your account secured" tooltipOptions={{ event: 'both', position: 'right' }}/>
+                                            tooltip="Contain at least 1 digit, uppercase, lowercase and special characters: @$!%*?&" tooltipOptions={{ event: 'both', position: 'right' }}/>
                                 { loading ?
                                     <div className="mt-7 flex flex-grow-1 flex-row-reverse align-items-center">
                                         <label className="flex ml-2 font-semibold text-sm text-orange">Registering Profile ...</label>
