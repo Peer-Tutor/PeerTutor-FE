@@ -1,249 +1,153 @@
-import { Authenticator, Button, Heading, View, useAuthenticator, useTheme } from '@aws-amplify/ui-react';
+import { Authenticator,ThemeProvider, Theme, Button, Heading, View, useAuthenticator, useTheme } from '@aws-amplify/ui-react';
 import { Auth } from 'aws-amplify';
 import { Text, Image } from '@aws-amplify/ui-react'
-import React from 'react'
-
-const components = {
-  Header() {
-    const { tokens } = useTheme();
-
-    return (
-      <View textAlign="center" padding={tokens.space.large}>
-        <Image
-          alt="Amplify logo"
-          src="https://docs.amplify.aws/assets/logo-dark.svg"
-        />
-      </View>
-    );
-  },
-
-  Footer() {
-    const { tokens } = useTheme();
-
-    return (
-      <View textAlign="center" padding={tokens.space.large}>
-        <Text color={tokens.colors.neutral[80]}>
-          &copy; All Rights Reserved
-        </Text>
-      </View>
-    );
-  },
-
-  SignIn: {
-    Header() {
-      const { tokens } = useTheme();
-
-      return (
-        <Heading
-          padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`}
-          level={3}
-        >
-          Sign in to your account
-        </Heading>
-      );
-    },
-    Footer() {
-      const { toResetPassword } = useAuthenticator();
-
-      return (
-        <View textAlign="center">
-          <Button
-            fontWeight="normal"
-            onClick={toResetPassword}
-            size="small"
-            variation="link"
-          >
-            Reset Password
-          </Button>
-        </View>
-      );
-    },
-  },
-
-  SignUp: {
-    Header() {
-      const { tokens } = useTheme();
-
-      return (
-        <Heading
-          padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`}
-          level={3}
-        >
-          Create a new account
-        </Heading>
-      );
-    },
-    Footer() {
-      const { toSignIn } = useAuthenticator();
-
-      return (
-        <View textAlign="center">
-          <Button
-            fontWeight="normal"
-            onClick={toSignIn}
-            size="small"
-            variation="link"
-          >
-            Back to Sign In
-          </Button>
-        </View>
-      );
-    },
-  },
-  ConfirmSignUp: {
-    Header() {
-      const { tokens } = useTheme();
-      return (
-        <Heading
-          padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`}
-          level={3}
-        >
-          Enter Information:
-        </Heading>
-      );
-    },
-    Footer() {
-      return <Text>Footer Information</Text>;
-    },
-  },
-  SetupTOTP: {
-    Header() {
-      const { tokens } = useTheme();
-      return (
-        <Heading
-          padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`}
-          level={3}
-        >
-          Enter Information:
-        </Heading>
-      );
-    },
-    Footer() {
-      return <Text>Footer Information</Text>;
-    },
-  },
-  ConfirmSignIn: {
-    Header() {
-      const { tokens } = useTheme();
-      return (
-        <Heading
-          padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`}
-          level={3}
-        >
-          Enter Information:
-        </Heading>
-      );
-    },
-    Footer() {
-      return <Text>Footer Information</Text>;
-    },
-  },
-  ResetPassword: {
-    Header() {
-      const { tokens } = useTheme();
-      return (
-        <Heading
-          padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`}
-          level={3}
-        >
-          Enter Information:
-        </Heading>
-      );
-    },
-    Footer() {
-      return <Text>Footer Information</Text>;
-    },
-  },
-  ConfirmResetPassword: {
-    Header() {
-      const { tokens } = useTheme();
-      return (
-        <Heading
-          padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`}
-          level={3}
-        >
-          Enter Information:
-        </Heading>
-      );
-    },
-    Footer() {
-      return <Text>Footer Information</Text>;
-    },
-  },
-};
-const formFields = {
-  signIn: {
-    username: {
-      placeholder: 'Enter your email',
-    },
-  },
-  signUp: {
-
-    password: {
-      label: 'Password:',
-      placeholder: 'Enter your Password:',
-      isRequired: false,
-      order: 2,
-    },
-    confirm_password: {
-      label: 'Confirm Password:',
-      order: 1,
-    },
-  },
-  'custom:role': {
-    label: 'role',
-    order: 3
-  }
-  // forceNewPassword: {
-  //   password: {
-  //     placeholder: 'Enter your Password:',
-  //   },
-  // },
-  // resetPassword: {
-  //   username: {
-  //     placeholder: 'Enter your email:',
-  //   },
-  // },
-  // confirmResetPassword: {
-  //   confirmation_code: {
-  //     placeholder: 'Enter your Confirmation Code:',
-  //     label: 'New Label',
-  //     isRequired: false,
-  //   },
-  //   confirm_password: {
-  //     placeholder: 'Enter your Password Please:',
-  //   },
-  // },
-  // setupTOTP: {
-  //   QR: {
-  //     totpIssuer: 'test issuer',
-  //     totpUsername: 'amplify_qr_test_user',
-  //   },
-  //   confirmation_code: {
-  //     label: 'New Label',
-  //     placeholder: 'Enter your Confirmation Code:',
-  //     isRequired: false,
-  //   },
-  // },
-  // confirmSignIn: {
-  //   confirmation_code: {
-  //     label: 'New Label',
-  //     placeholder: 'Enter your Confirmation Code:',
-  //     isRequired: false,
-  //   },
-  // },
-};
+import React, { useState } from 'react'
+import { Dropdown } from 'primereact/dropdown';
+import { AccountType, AccountTypeList } from '../constants/Constant';
+import { InputText } from 'primereact/inputtext';
+import { Password } from 'primereact/password';
+import { LOGIN_NAME_REGEX, LOGIN_NAME_SIZE, PASSWORD_SIZE } from '../constants/Validation';
 
 // @ts-nocheck
 export default function TestComponent() {
+  const [accountType, setAccountType] = useState(AccountType.STUDENT);
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
+  const accountTypeList = AccountTypeList;
+  const accountTypeChange = (e: { value: any }) => { setAccountType(e.value); };
+
+  const { tokens } = useTheme();
+  const theme: Theme = {
+    name: 'Auth Example Theme',
+    tokens: {
+      colors: {
+        background: {
+          primary: {
+            value: tokens.colors.neutral['90'].value,
+          },
+          secondary: {
+            value: tokens.colors.neutral['100'].value,
+          },
+        },
+        font: {
+          interactive: {
+            value: tokens.colors.white.value,
+          },
+        },
+        brand: {
+          primary: {
+            '10': tokens.colors.teal['100'],
+            '80': tokens.colors.teal['40'],
+            '90': tokens.colors.teal['20'],
+            '100': tokens.colors.teal['10'],
+          },
+        },
+      },
+      components: {
+        tabs: {
+          item: {
+            _focus: {
+              color: {
+                value: tokens.colors.white.value,
+              },
+            },
+            _hover: {
+              color: {
+                value: tokens.colors.yellow['80'].value,
+              },
+            },
+            _active: {
+              color: {
+                value: tokens.colors.white.value,
+              },
+            },
+          },
+        },
+      },
+    },
+  };
+  const components = {
+    // SignIn: {
+    //   FormFields() {
+    //     return (
+    //       <>
+    //         <Authenticator.SignUp.Header />
+    //       </>
+    //     )
+    //   }
+    // },
+    SignUp: {
+      FormFields() {
+        const { validationErrors } = useAuthenticator();
+
+        return (
+          <>
+            {/* Re-use default `Authenticator.SignUp.FormFields` */}
+            {/* <Authenticator.SignUp.FormFields /> */}
+
+            {/* Override sign up forms */}
+            <div className="mx-auto my-5 grid align-items-center gap-4 col-6">
+              <InputText
+                type="text"
+                className="col-12"
+                name="username"
+                keyfilter={LOGIN_NAME_REGEX}
+                // value={name}
+                // onChange={(e) => setName(e.target.value)}
+                placeholder="Name"
+                maxLength={LOGIN_NAME_SIZE}
+                tooltip="Name should not contain numeric or special characters"
+                tooltipOptions={{ event: 'both', position: 'right' }}
+              />
+
+              <InputText
+                type="text"
+                className="col-12"
+                name="email"
+                // keyfilter={LOGIN_NAME_REGEX} // TODO: CHANGE TO EMAIL_REGEX
+                placeholder="Email"
+                // maxLength={LOGIN_NAME_SIZE} // TODO: CHANGE TO EMAIL_SIZE
+                tooltip="Email should not contain numeric or special characters"
+                tooltipOptions={{ event: 'both', position: 'right' }}
+              />
+              <Password
+                name="password"
+                className="col-12 p-0"
+                inputClassName="col-12"
+                // value={password}
+                // onChange={(e) => setPassword(e.target.value)}
+                keyfilter={/^[^\#\$\^\*\(\)\-\=\_\+\{\}\|\[\]\;\'\:\"\<\>\?\,\.\/]+$/}
+                placeholder="Password" feedback={true} maxLength={PASSWORD_SIZE}
+                weakLabel="Current password is not advisable to ensure account secured."
+                mediumLabel="Password entered could be stronger to keep your account secured."
+                strongLabel="Current password is advisable and sufficient to keep account secured."
+                tooltip="Contain at least 1 digit, uppercase, lowercase and special characters: @$!%*?&"
+                tooltipOptions={{ event: 'both', position: 'right' }}
+              />
+
+              <Dropdown name="custom:role"
+                optionLabel="name"
+                optionValue="code"
+                value={accountType}
+                options={accountTypeList}
+                onChange={accountTypeChange}
+              />
+            </div>
+          </>
+        );
+      }
+    }
+  }
   const services = {
     // @ts-ignore
     async handleSignUp(formData) {
       let { username, password, attributes } = formData;
       // custom username
       username = username.toLowerCase();
-      const role = formData.attributes['custom:role'] 
-      console.log('formData=',formData)
+      const role = formData.attributes['custom:role']
+      console.log('formData=', formData)
       // attributes.email = attributes.email.toLowerCase();
       return Auth.signUp({
         username,
@@ -263,27 +167,29 @@ export default function TestComponent() {
   };
 
   return (
-    // <Authenticator components={components} formFields={formFields} services={services} >
-    <Authenticator 
-    signUpAttributes={[
-      'email', 'name'
-    ]}
+    <ThemeProvider theme={theme}>
+    <Authenticator
+      signUpAttributes={[
+        'email', 'name'
+      ]}
       formFields={{
         signUp: {
-          'custom:role': {
-            label: 'Role',
-            placeholder: 'role',
-            order: 1
-          },
+
           email: {
             placeholder: 'Enter your email hi',
             label: 'Email',
-            order: 2
+            order: 1
           },
+          password: {
+            order: 5
+          },
+          confirm_password: {
+            order: 6
+          }
         },
-      
-      }}
 
+      }}
+      components={components}
       services={services}
     >
       {({ signOut, user }) => (
@@ -293,5 +199,6 @@ export default function TestComponent() {
         </main>
       )}
     </Authenticator>
+    </ThemeProvider>
   );
 }
