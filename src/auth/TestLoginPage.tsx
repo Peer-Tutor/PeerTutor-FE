@@ -16,7 +16,7 @@ export const TestLoginPage = () => {
     return (
         <Card className="col-12 my-auto py-8">
             <TestComponent />
-            <div className="flex flex-1">
+            {/* <div className="flex flex-1">
                 <div className="flex flex-column mx-auto gap-5 col-6">
                     <div className="flex flex-column gap-2">
                         <label className="text-orange text-sm font-semibold">Name</label>
@@ -90,7 +90,7 @@ export const TestLoginPage = () => {
                         }} />
                     </div>
                 </div>
-            </div>
+            </div> */}
         </Card>
     )
 }
