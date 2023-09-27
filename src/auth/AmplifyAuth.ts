@@ -95,12 +95,16 @@ const listener = (data) => {
       logger.info('the Auth module is configured');
       break;
     case 'signIn':
+      console.log("User signed in")
       logger.info('user signed in');
       break;
     case 'signIn_failure':
+      
       logger.error('user sign in failed');
       break;
     case 'signUp':
+      console.log("User signed up")
+
       logger.info('user signed up');
       break;
     case 'signUp_failure':

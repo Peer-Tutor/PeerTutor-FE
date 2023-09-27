@@ -1,4 +1,5 @@
 import React from 'react';
+import { Authenticator } from '@aws-amplify/ui-react';
 import RouteConfig from './components/RouteConfig/RouteConfig';
 import { BrowserRouter } from 'react-router-dom';
 import './Global.css';
@@ -7,12 +8,12 @@ import './auth/AmplifyAuth'
 
 import { redirectToHostedUi } from './utils/Auth';
 
-import { API, Amplify, Auth, Hub,Logger } from 'aws-amplify';
+import { API, Amplify, Auth, Hub, Logger } from 'aws-amplify';
 import { TestLoginPage } from './auth/TestLoginPage';
 
 function App() {
 
-  return <TestLoginPage/>
+  // return <TestLoginPage/>
   // redirectToHostedUi()
   // return (
   //   <div>
@@ -27,9 +28,11 @@ function App() {
   //   </div>
   // )
   return (
-    <BrowserRouter>
-      <RouteConfig />
-    </BrowserRouter>
+    <Authenticator.Provider>
+      <BrowserRouter>
+        <RouteConfig />
+      </BrowserRouter>
+    </Authenticator.Provider>
   );
 }
 

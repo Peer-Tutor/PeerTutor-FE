@@ -7,12 +7,18 @@ import './utils/axiosInterceptor'
 import { Auth } from 'aws-amplify';
 
 axios.interceptors.request.use(async (config) => {
+  console.log('in await,')
   const user = await Auth.currentSession()//currentAuthenticatedUser()
-  config.headers = {
-    "authorizationToken": await user.getAccessToken().getJwtToken()
+  // config.params = {...config.params, sessionToken: 'value'}
+  config.headers = { 
+
+    // todo: pass only if is authenticated
+    "authorizationToken": await user.getAccessToken().getJwtToken(),
+    Name: "nana",
   }
   return config;
 }, (err) => {
+  console.log("Throwing error")
   return Promise.reject(err);
 })
 

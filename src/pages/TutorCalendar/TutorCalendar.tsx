@@ -26,7 +26,7 @@ const TutorCalendar = () => {
     const handleSelectDate = () => {
         const newDate = convertDateToYYYYMMDD(date)
         const newSelectedDates = []
-        if (!availableDates.includes(newDate)) {
+        if (!availableDates?.includes(newDate)) {
             newSelectedDates.push(...availableDates);
             newSelectedDates.push(newDate);
             setAvailableDates(newSelectedDates);
@@ -118,7 +118,7 @@ const TutorCalendar = () => {
                     </div>
                     <Divider />
                     <div className="flex gap-1 justify-content-center flex-wrap">
-                        {availableDates.length > 0 ? (availableDates.map((elt) => {
+                        {availableDates?.length > 0 ? (availableDates.map((elt) => {
                             return (
                                 <Chip removable={true} label={elt} defaultValue={elt} key={elt} onRemove={() => { removeSelectedDate(elt) }} />
                             )

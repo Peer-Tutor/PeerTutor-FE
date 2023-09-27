@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 
 const TutorDashboard = ({ refresh }: { refresh: number }) => {
     const navigate = useNavigate();
+    console.log(" rendering tutor dashboard")
+
     if(!authorisedRoute(PageLink.DASHBOARD_TUTOR)){ navigate(PageLink.UNAUTHORISED); }
     return (
         <div className="flex flex-column">

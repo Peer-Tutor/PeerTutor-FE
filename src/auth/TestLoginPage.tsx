@@ -6,8 +6,12 @@ import { currentAuthenticatedUser, signIn, signUp } from './utils'
 import TestComponent from './CognitoAuthUI'
 import { API, Auth} from 'aws-amplify'
 import axios from 'axios'
+import { AccountType } from '../constants/Constant'
 
-export const TestLoginPage = () => {
+type TestLoginPageProps = {
+    setAccountType: React.Dispatch<React.SetStateAction<AccountType>>
+  }
+export const TestLoginPage = (props: TestLoginPageProps) => {
     const [name, setName] = useState('')
     const [pw, setPw] = useState('')
     const [email, setEmail] = useState('')
@@ -15,7 +19,7 @@ export const TestLoginPage = () => {
 
     return (
         <Card className="col-12 my-auto py-8">
-            <TestComponent />
+            <TestComponent setAccountType={props.setAccountType} />
             {/* <div className="flex flex-1">
                 <div className="flex flex-column mx-auto gap-5 col-6">
                     <div className="flex flex-column gap-2">

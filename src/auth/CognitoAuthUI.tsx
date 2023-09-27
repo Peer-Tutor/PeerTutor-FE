@@ -1,4 +1,4 @@
-import { Authenticator,ThemeProvider, Theme, Button, Heading, View, useAuthenticator, useTheme } from '@aws-amplify/ui-react';
+import { Authenticator, ThemeProvider, Theme, Button, Heading, View, useAuthenticator, useTheme } from '@aws-amplify/ui-react';
 import { Auth } from 'aws-amplify';
 import { Text, Image } from '@aws-amplify/ui-react'
 import React, { useState } from 'react'
@@ -8,15 +8,21 @@ import { InputText } from 'primereact/inputtext';
 import { Password } from 'primereact/password';
 import { LOGIN_NAME_REGEX, LOGIN_NAME_SIZE, PASSWORD_SIZE } from '../constants/Validation';
 
+type TestComponentProps = {
+  setAccountType: React.Dispatch<React.SetStateAction<AccountType>>
+}
 // @ts-nocheck
-export default function TestComponent() {
+export default function TestComponent(props: TestComponentProps) {
   const [accountType, setAccountType] = useState(AccountType.STUDENT);
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const accountTypeList = AccountTypeList;
-  const accountTypeChange = (e: { value: any }) => { setAccountType(e.value); };
+  const accountTypeChange = (e: { value: any }) => {
+    setAccountType(e.value);
+    props?.setAccountType(e.value)
+  };
 
   const { tokens } = useTheme();
   const theme: Theme = {
@@ -168,37 +174,37 @@ export default function TestComponent() {
 
   return (
     <ThemeProvider theme={theme}>
-    <Authenticator
-      signUpAttributes={[
-        'email', 'name'
-      ]}
-      formFields={{
-        signUp: {
+      <Authenticator
+        signUpAttributes={[
+          'email', 'name'
+        ]}
+        formFields={{
+          signUp: {
 
-          email: {
-            placeholder: 'Enter your email hi',
-            label: 'Email',
-            order: 1
+            email: {
+              placeholder: 'Enter your email hi',
+              label: 'Email',
+              order: 1
+            },
+            password: {
+              order: 5
+            },
+            confirm_password: {
+              order: 6
+            }
           },
-          password: {
-            order: 5
-          },
-          confirm_password: {
-            order: 6
-          }
-        },
 
-      }}
-      components={components}
-      services={services}
-    >
-      {({ signOut, user }) => (
-        <main>
-          <h1>Hello {user?.username}</h1>
-          <button onClick={signOut}>Sign out</button>
-        </main>
-      )}
-    </Authenticator>
+        }}
+        components={components}
+        services={services}
+      >
+        {({ signOut, user }) => (
+          <main>
+            <h1>Hello {user?.username}</h1>
+            <button onClick={signOut}>Sign out</button>
+          </main>
+        )}
+      </Authenticator>
     </ThemeProvider>
   );
 }
