@@ -34,7 +34,8 @@ const LoginDashboard: React.FC = () => {
 
     const [pageType, setPageType] = useState<AUTH_PAGE_TYPE>(AUTH_PAGE_TYPE.SIGN_IN)
 
-    const [registerView, setRegister] = useState(false);
+    // const [registerView, setRegister] = useState(false);
+    const [email, setEmail] = useState('')
     const [accountType, setAccountType] = useState(AccountType.STUDENT);
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
@@ -44,8 +45,10 @@ const LoginDashboard: React.FC = () => {
     const isButtonDisabled = (name === '' || password === '' || !(PASSWORD_REGEX.test(password))); // Disable button when inputValue is empty
 
     const accountTypeList = AccountTypeList;
-    const accountTypeChange = (e: { value: any }) => { setAccountType(e.value); };
-    const { user, route } = useAuthenticator((context) => [context.route]);
+    const accountTypeChange = (e: { value: any }) => {
+        // console.log("account type set = ", e.value)
+        setAccountType(e.value);
+    };
 
     useEffect(() => {
 
@@ -61,27 +64,7 @@ const LoginDashboard: React.FC = () => {
                 saveSessionTokenValue(username, token, userType ?? '');
                 updateProfile(true)
                 setLoading(false);
-                // const userInfo: UserInfo = {
-                //     name: user.username,
-                //     sessionToken: token,
-                //     usertype: user.attributes['custom:role'],
-                // };
-                // dispatchRedux(setUserInfo(userInfo));
-
-                // const requestParam = {
-                //     name: user.username,
-                //     accountName: user.username,
-                // };
-
-                // dispatch(
-                //     getStudentProfileService(
-                //         requestParam,
-                //         getProfileSuccess,
-                //         msg => {
-                //             console.log('failed')
-                //         },
-                //     ),
-                // );
+                
             }
         });
 
@@ -92,8 +75,6 @@ const LoginDashboard: React.FC = () => {
 
     const loginAccount = async () => {
         setLoading(true);
-        // const url = getUrl(Subdomain.ACCOUNT_MGR, '/account')
-        // console.log("Calling acc mgr")
 
         await Auth.signIn(name, password)
             .then((data) => {
@@ -101,83 +82,36 @@ const LoginDashboard: React.FC = () => {
                 const userType = data.signInUserSession.idToken.payload["custom:role"];
                 const userName = data.signInUserSession.idToken.payload["cognito:username"];
                 if (typeof token === 'string') {
-                    const requestParam = {
-                        name: userName,
-                        accountName: userName,
-                    };
-
-                    const userInfo = {
-                        name: userName,
-                        sessionToken: token,
-                        usertype: data.signInUserSession.idToken.payload["custom:role"],
-                    };
-                    //   dispatchRedux(setUserInfo(userInfo));
                     saveSessionTokenValue(userName, token, userType ?? '');
 
-                    if (userType === AccountType.STUDENT) {
-                        // dispatch(
-                        //   getStudentProfileService(
-                        //     requestParam,
-                        //     getProfileSuccess,
-                        //     msg => {
-                        //       console.log('failed')
-                        //     },
-                        //   ),
-                        // );
-                    } else if (userType === AccountType.TUTOR) {
-                        //     dispatch(
-                        //       getTutorProfileService(
-                        //         requestParam,
-                        //         getProfileSuccess,
-                        //         msg => {
-                        //           console.log('failed')
-                        //         },
-                        //       ),
-                        //     );
-                        //   }
-                    }
-
                     updateProfile(false)
-                    // navigate(getHomeLink());
-
                 }
             }).catch((err) => {
                 setLoading(false)
 
-                // TODO: THrow error msg
                 console.log('failed');
             });
 
-        // temp todo: remove hardcoding
-        // axios.get<AccountResponse>(url, { params: { name: name, password: password } }).then(res => {
-        //     return res
-        // }).then((res) => {
-        //     saveSessionTokenValue(name, res.data.sessionToken ?? '', res.data.usertype ?? '');
-        // }).then(() => {
-        //     updateProfile(false);
-        // }).catch(err => {
-        //     setLoading(false);
-        // });
+
     };
 
     const registerAccount = async () => {
         setLoading(true);
-        // const url = getUrl(Subdomain.ACCOUNT_MGR, '/account')
         console.log("Registering account, accountType = ", accountType)
-        // const res = await signUp({username: name, password: password, email: 'nyi_zheng@hotmail.com', role: accountType})
+
         const requestParam = {
             username: name,
             password: password,
             attributes: {
                 //   email,
-                email: "nyi_zheng@hotmail.com",
+                email: email,
                 'custom:role': accountType
             },
             autoSignIn: {
                 enabled: true,
             }
         }
-
+        console.log("Signing up , ", requestParam)
         Auth.signUp(requestParam).then((data) => {
             setPageType(AUTH_PAGE_TYPE.CONFIRM_EMAIL)
             // navigation.navigate('Confirm Email', { username: username });
@@ -186,32 +120,11 @@ const LoginDashboard: React.FC = () => {
                 console.log(err.message);
             });
 
-        // temp TODO remove
-        // axios.post(url, { name: "name", password: "password", usertype: accountType }).then(res => {
-        //     console.log("res = ", res)
-        //     return res
-        // }).then(res => {
-        //     console.log("calling saveSessionTokenValue")
-        //     saveSessionTokenValue(name, res.data.sessionToken ?? '', res.data.usertype ?? '');
-        // }).then(() => {
-        //     console.log("calling updateProfile")
-        //     updateProfile(true);
-        // }).catch(err => {
-        //     console.log("calling setLoading")
-        //     setLoading(false);
-        // });
     };
     const verifyEmail = async () => {
         try {
             const res = await confirmSignUp({ username: name, code: verificationCode })
-
             console.log('verified, ', res)
-            // navigate(getHomeLink());
-
-            // saveSessionTokenValue(userName, token, userType ?? '');
-
-            // updateProfile(true);
-
         } catch (err) {
             console.log(err)
         }
@@ -282,6 +195,9 @@ const LoginDashboard: React.FC = () => {
                                 <InputText type="text" className="col-12" keyfilter={LOGIN_NAME_REGEX} value={name} onChange={(e) => setName(e.target.value)}
                                     placeholder="Name" maxLength={LOGIN_NAME_SIZE}
                                     tooltip="Name should not contain numeric or special characters" tooltipOptions={{ event: 'both', position: 'right' }} />
+                                <InputText type="type" className="col-12" value={email} onChange={(e) => setEmail(e.target.value)}
+                                    placeholder="Email" 
+                                    tooltip="Email should not contain numeric or special characters" tooltipOptions={{ event: 'both', position: 'right' }} />
                                 <Password className="col-12 p-0" inputClassName="col-12" value={password} onChange={(e) => setPassword(e.target.value)}
                                     keyfilter={/^[^\#\$\^\*\(\)\-\=\_\+\{\}\|\[\]\;\'\:\"\<\>\?\,\.\/]+$/}
                                     placeholder="Password" feedback={true} maxLength={PASSWORD_SIZE}
@@ -313,7 +229,6 @@ const LoginDashboard: React.FC = () => {
     } else if (pageType === AUTH_PAGE_TYPE.SIGN_IN) {
         return (
             <div className="global-component">
-                <TestLoginPage setAccountType={setAccountType} />
                 <Toast ref={toast} />
                 <div className="p-4 flex flex-column h-screen">
                     <Card className="col-12 my-auto py-8">
@@ -342,7 +257,7 @@ const LoginDashboard: React.FC = () => {
                                         <Button label="Login" className="p-button-primary flex" onClick={loginAccount} disabled={isButtonDisabled} />
                                         <Button label="Register" className="p-button-secondary" onClick={() => {
                                             setPageType(AUTH_PAGE_TYPE.SIGN_UP)
-                                            setRegister(true)
+                                            // setRegister(true)
                                         }}
                                         />
                                     </div>
