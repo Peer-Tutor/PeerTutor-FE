@@ -40,23 +40,23 @@ const getHomeLink = () => {
 const getSessionToken = () => {
 
     // temp
-    return {
-        name: "testName",
-        displayName: "testDisplayName",
-        sessionToken: "testSessionToken",
-        accountType: "TUTOR",
-        homeLink: '',
-        intro: 'TestIntro',
-        subject: 'Math',
-        profileI: 'testProfileI',
-    }
-
-    // var session = sessionStorage.getItem(SessionStorage.PROFILE);
-    // if (session != null) {
-    //     const sessionValue: AuthenticationStorage = JSON.parse(session);
-    //     return sessionValue.sessionToken ? decryptedData(sessionValue.sessionToken) : '';
+    // return {
+    //     name: "testName",
+    //     displayName: "testDisplayName",
+    //     sessionToken: "testSessionToken",
+    //     accountType: "TUTOR",
+    //     homeLink: '',
+    //     intro: 'TestIntro',
+    //     subject: 'Math',
+    //     profileI: 'testProfileI',
     // }
-    // return '';
+
+    var session = sessionStorage.getItem(SessionStorage.PROFILE);
+    if (session != null) {
+        const sessionValue: AuthenticationStorage = JSON.parse(session);
+        return sessionValue.sessionToken ? decryptedData(sessionValue.sessionToken) : '';
+    }
+    return '';
 }
 
 const decryptedData = (encryptedValue: string) => {
@@ -195,18 +195,19 @@ export {
 
 export async function saveSessionTokenValue(name: string, sessionToken: string, accountType: string, displayName?: string, intro?: string, subject?: string, profileId?: number) {
     // temp: get name, account-type from ID token
-    const user = await currentAuthenticatedUser();
+    // const user = await currentAuthenticatedUser();
     // attributes: custom:role: 
     // "TUTOR"
 
 
-    const newName = user.username
-    const newAccountType = user.attributes['custom:role']
-    console.log("In saveSessionTokenValue, newAccountType = ", newAccountType)
-    
-    const encryptedName = CryptoJS.AES.encrypt(newName, SessionStorage.AES_KEY).toString();
+    // const newName = user?.username
+    // const newAccountType = user?.attributes['custom:role']
+    // console.log("In saveSessionTokenValue, newAccountType = ", newAccountType)
+    // console.log("In saveSessionTokenValue, newName = ", newName)
+
+    const encryptedName = CryptoJS.AES.encrypt(name, SessionStorage.AES_KEY).toString();
     const encryptedToken = CryptoJS.AES.encrypt(sessionToken, SessionStorage.AES_KEY).toString();
-    const encryptedAccount = CryptoJS.AES.encrypt(newAccountType, SessionStorage.AES_KEY).toString();
+    const encryptedAccount = CryptoJS.AES.encrypt(accountType, SessionStorage.AES_KEY).toString();
 
     const session = { name: encryptedName, sessionToken: encryptedToken, accountType: encryptedAccount, displayName: displayName ?? '', intro: intro ?? '', subject: subject ?? '', profileId: profileId };
     updateSession(session);

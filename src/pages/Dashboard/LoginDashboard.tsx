@@ -19,71 +19,203 @@ import { useToastHook } from "../../utils/toastHooks";
 import { Toast } from "primereact/toast";
 import { TestLoginPage } from "../../auth/TestLoginPage";
 import { useAuthenticator } from '@aws-amplify/ui-react';
+import { confirmSignUp, signUp } from "../../auth/utils";
+import { Auth, Hub } from "aws-amplify";
+
+enum AUTH_PAGE_TYPE {
+    SIGN_UP = "SIGN_UP",
+    SIGN_IN = "SIGN_IN",
+    CONFIRM_EMAIL = "CONFIRM_EMAIL"
+}
 
 const LoginDashboard: React.FC = () => {
     const navigate = useNavigate();
     const [toast] = useToastHook();
 
+    const [pageType, setPageType] = useState<AUTH_PAGE_TYPE>(AUTH_PAGE_TYPE.SIGN_IN)
+
     const [registerView, setRegister] = useState(false);
     const [accountType, setAccountType] = useState(AccountType.STUDENT);
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
+    const [verificationCode, setVerificationCode] = useState('')
     const [loading, setLoading] = useState(false);
 
     const isButtonDisabled = (name === '' || password === '' || !(PASSWORD_REGEX.test(password))); // Disable button when inputValue is empty
 
     const accountTypeList = AccountTypeList;
     const accountTypeChange = (e: { value: any }) => { setAccountType(e.value); };
-    const { user, signOut, route } = useAuthenticator((context) => [context.route]);
-    let authenticated = route === 'authenticated'
+    const { user, route } = useAuthenticator((context) => [context.route]);
 
     useEffect(() => {
-        console.log('calling on refresh, route = ', route)
 
-        if (route === 'authenticated') {
-            // TODO: shift to navbar or layout to route to unprotected if is not authenticated
-            // onRefresh()
-            console.log("User signed in")
-            // TODO: Call user login flow api
-            loginAccount()
-        } else if (route === 'confirmSignUp') { // vs confirmSignUp?
-            console.log("Clicked on sign up")
-            // updateProfile(true); // temp
-            registerAccount()
-            // todo: call sign up flow api
-        }
-    }, [route])
+        const hubListenerCancelToken = Hub.listen('auth', ({ payload }) => {
+            const { event } = payload;
+            if ((event === 'autoSignIn') && payload?.data !== undefined) {
+                const user = payload.data;
+                const username = user.username
+                const token = user.signInUserSession.accessToken.jwtToken;
+                const userType = user.attributes["custom:role"]
+                console.log('event is = ', event)
+                console.log("user is =", user)
+                saveSessionTokenValue(username, token, userType ?? '');
+                updateProfile(true)
+                setLoading(false);
+                // const userInfo: UserInfo = {
+                //     name: user.username,
+                //     sessionToken: token,
+                //     usertype: user.attributes['custom:role'],
+                // };
+                // dispatchRedux(setUserInfo(userInfo));
 
-    const loginAccount = () => {
-        setLoading(true);
-        const url = getUrl(Subdomain.ACCOUNT_MGR, '/account')
-        console.log("Calling acc mgr")
-        axios.get<AccountResponse>(url, { params: { name: name, password: password } }).then(res => {
-            return res
-        }).then((res) => {
-            saveSessionTokenValue(name, res.data.sessionToken ?? '', res.data.usertype ?? '');
-        }).then(()=>{
-            updateProfile(false);
-        }).catch(err => {
-            setLoading(false);
+                // const requestParam = {
+                //     name: user.username,
+                //     accountName: user.username,
+                // };
+
+                // dispatch(
+                //     getStudentProfileService(
+                //         requestParam,
+                //         getProfileSuccess,
+                //         msg => {
+                //             console.log('failed')
+                //         },
+                //     ),
+                // );
+            }
         });
+
+        return () => hubListenerCancelToken();
+
+    }, [])
+
+
+    const loginAccount = async () => {
+        setLoading(true);
+        // const url = getUrl(Subdomain.ACCOUNT_MGR, '/account')
+        // console.log("Calling acc mgr")
+
+        await Auth.signIn(name, password)
+            .then((data) => {
+                const token = data.signInUserSession.accessToken.jwtToken;
+                const userType = data.signInUserSession.idToken.payload["custom:role"];
+                const userName = data.signInUserSession.idToken.payload["cognito:username"];
+                if (typeof token === 'string') {
+                    const requestParam = {
+                        name: userName,
+                        accountName: userName,
+                    };
+
+                    const userInfo = {
+                        name: userName,
+                        sessionToken: token,
+                        usertype: data.signInUserSession.idToken.payload["custom:role"],
+                    };
+                    //   dispatchRedux(setUserInfo(userInfo));
+                    saveSessionTokenValue(userName, token, userType ?? '');
+
+                    if (userType === AccountType.STUDENT) {
+                        // dispatch(
+                        //   getStudentProfileService(
+                        //     requestParam,
+                        //     getProfileSuccess,
+                        //     msg => {
+                        //       console.log('failed')
+                        //     },
+                        //   ),
+                        // );
+                    } else if (userType === AccountType.TUTOR) {
+                        //     dispatch(
+                        //       getTutorProfileService(
+                        //         requestParam,
+                        //         getProfileSuccess,
+                        //         msg => {
+                        //           console.log('failed')
+                        //         },
+                        //       ),
+                        //     );
+                        //   }
+                    }
+
+                    updateProfile(false)
+                    // navigate(getHomeLink());
+
+                }
+            }).catch((err) => {
+                setLoading(false)
+
+                // TODO: THrow error msg
+                console.log('failed');
+            });
+
+        // temp todo: remove hardcoding
+        // axios.get<AccountResponse>(url, { params: { name: name, password: password } }).then(res => {
+        //     return res
+        // }).then((res) => {
+        //     saveSessionTokenValue(name, res.data.sessionToken ?? '', res.data.usertype ?? '');
+        // }).then(() => {
+        //     updateProfile(false);
+        // }).catch(err => {
+        //     setLoading(false);
+        // });
     };
 
-    const registerAccount = () => {
+    const registerAccount = async () => {
         setLoading(true);
-        const url = getUrl(Subdomain.ACCOUNT_MGR, '/account')
+        // const url = getUrl(Subdomain.ACCOUNT_MGR, '/account')
         console.log("Registering account, accountType = ", accountType)
-        axios.post(url, { name: name, password: password, usertype: accountType }).then(res => {
-            return res
-        }).then(res => {
-            saveSessionTokenValue(name, res.data.sessionToken ?? '', res.data.usertype ?? '');
-        }).then(()=>{
-            updateProfile(true);
-        }).catch(err => {
-            setLoading(false);
-        });
-    };
+        // const res = await signUp({username: name, password: password, email: 'nyi_zheng@hotmail.com', role: accountType})
+        const requestParam = {
+            username: name,
+            password: password,
+            attributes: {
+                //   email,
+                email: "nyi_zheng@hotmail.com",
+                'custom:role': accountType
+            },
+            autoSignIn: {
+                enabled: true,
+            }
+        }
 
+        Auth.signUp(requestParam).then((data) => {
+            setPageType(AUTH_PAGE_TYPE.CONFIRM_EMAIL)
+            // navigation.navigate('Confirm Email', { username: username });
+        })
+            .catch((err) => {
+                console.log(err.message);
+            });
+
+        // temp TODO remove
+        // axios.post(url, { name: "name", password: "password", usertype: accountType }).then(res => {
+        //     console.log("res = ", res)
+        //     return res
+        // }).then(res => {
+        //     console.log("calling saveSessionTokenValue")
+        //     saveSessionTokenValue(name, res.data.sessionToken ?? '', res.data.usertype ?? '');
+        // }).then(() => {
+        //     console.log("calling updateProfile")
+        //     updateProfile(true);
+        // }).catch(err => {
+        //     console.log("calling setLoading")
+        //     setLoading(false);
+        // });
+    };
+    const verifyEmail = async () => {
+        try {
+            const res = await confirmSignUp({ username: name, code: verificationCode })
+
+            console.log('verified, ', res)
+            // navigate(getHomeLink());
+
+            // saveSessionTokenValue(userName, token, userType ?? '');
+
+            // updateProfile(true);
+
+        } catch (err) {
+            console.log(err)
+        }
+    }
     const updateProfile = (newAccount: boolean) => {
         console.log("Calling updateProfile")
         let profileURL = '';
@@ -136,7 +268,7 @@ const LoginDashboard: React.FC = () => {
         }
     };
 
-    if (registerView) {
+    if (pageType === AUTH_PAGE_TYPE.SIGN_UP) {
         return (
             <div className="global-component">
                 <Toast ref={toast} />
@@ -168,7 +300,7 @@ const LoginDashboard: React.FC = () => {
                                         <Dropdown optionLabel="name" optionValue="code" value={accountType} options={accountTypeList} onChange={accountTypeChange} />
                                         <div className="flex flex-grow-1 flex-row-reverse">
                                             <Button label="Register" className="p-button-primary flex" onClick={registerAccount} disabled={isButtonDisabled} />
-                                            <Button label="Login" className="p-button-secondary" onClick={() => setRegister(false)} />
+                                            <Button label="Login" className="p-button-secondary" onClick={() => setPageType(AUTH_PAGE_TYPE.SIGN_IN)} />
                                         </div>
                                     </div>
                                 }
@@ -178,7 +310,7 @@ const LoginDashboard: React.FC = () => {
                 </div>
             </div>
         );
-    } else {
+    } else if (pageType === AUTH_PAGE_TYPE.SIGN_IN) {
         return (
             <div className="global-component">
                 <TestLoginPage setAccountType={setAccountType} />
@@ -208,7 +340,11 @@ const LoginDashboard: React.FC = () => {
                                     :
                                     <div className="flex flex-grow-1 flex-row-reverse">
                                         <Button label="Login" className="p-button-primary flex" onClick={loginAccount} disabled={isButtonDisabled} />
-                                        <Button label="Register" className="p-button-secondary" onClick={() => setRegister(true)} />
+                                        <Button label="Register" className="p-button-secondary" onClick={() => {
+                                            setPageType(AUTH_PAGE_TYPE.SIGN_UP)
+                                            setRegister(true)
+                                        }}
+                                        />
                                     </div>
                                 }
                             </div>
@@ -217,6 +353,37 @@ const LoginDashboard: React.FC = () => {
                 </div>
             </div>
         );
+    } else if (pageType === AUTH_PAGE_TYPE.CONFIRM_EMAIL) {
+        return (
+            <div className="global-component">
+                <Toast ref={toast} />
+                <div className="p-4 flex flex-column h-screen">
+                    <Card className="col-12 my-auto py-8">
+                        <p>Verify email</p>
+                        <InputText type="text"
+                            className="col-12"
+                            // keyfilter={LOGIN_NAME_REGEX}
+                            value={verificationCode}
+                            onChange={(e) => setVerificationCode(e.target.value)}
+                            // maxLength={LOGIN_NAME_SIZE}
+                            placeholder="Verification Code" />
+                        <Button
+                            label="Verify"
+                            className="p-button-primary flex"
+                            onClick={verifyEmail}
+                        // disabled={isButtonDisabled}
+                        />
+                    </Card>
+                </div>
+            </div>
+        )
+    } else {
+        return (
+
+            <>
+                <p> Oops something went wrong </p>
+            </>
+        )
     }
 };
 export { LoginDashboard };

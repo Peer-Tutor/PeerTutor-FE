@@ -5,18 +5,26 @@ import App from './App';
 import { toast } from './utils/toastHooks';
 import './utils/axiosInterceptor'
 import { Auth } from 'aws-amplify';
+import { currentAuthenticatedUser } from './auth/utils';
 
 axios.interceptors.request.use(async (config) => {
   console.log('in await,')
-  const user = await Auth.currentSession()//currentAuthenticatedUser()
-  // config.params = {...config.params, sessionToken: 'value'}
-  config.headers = { 
-
-    // todo: pass only if is authenticated
-    "authorizationToken": await user.getAccessToken().getJwtToken(),
-    Name: "nana",
+  try {
+    const user = await currentAuthenticatedUser()//currentAuthenticatedUser()
+    // config.params = {...config.params, sessionToken: 'value'}
+    console.log("in try")
+    config.headers = {
+      // todo: pass only if is authenticated
+      "authorizationToken": user.signInUserSession.accessToken.jwtToken ,
+      Name: user?.username
+    }
+    return config;
   }
-  return config;
+  catch (err) {
+    console.log("in catch")
+    console.log("ERROR!!", err)
+    return config
+  }
 }, (err) => {
   console.log("Throwing error")
   return Promise.reject(err);

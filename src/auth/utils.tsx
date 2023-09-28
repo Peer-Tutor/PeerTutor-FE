@@ -1,6 +1,6 @@
 import { Auth } from 'aws-amplify';
 
-type SignUpParameters = {
+export type SignUpParameters = {
   username: string;
   password: string;
   email: string;
@@ -9,6 +9,20 @@ type SignUpParameters = {
 };
 
 // const roleMap
+
+
+type ConfirmSignUpParameters = {
+  username: string;
+  code: string;
+};
+
+export async function confirmSignUp({ username, code }: ConfirmSignUpParameters) {
+  try {
+    return await Auth.confirmSignUp(username, code);
+  } catch (error) {
+    console.log('error confirming sign up', error);
+  }
+}
 
 export async function signUp({ username, password, email, role }: SignUpParameters) {
   try {
@@ -27,6 +41,7 @@ export async function signUp({ username, password, email, role }: SignUpParamete
       },
     });
     console.log(user);
+    return user
   } catch (error) {
     console.log('error signing up:', error);
   }
