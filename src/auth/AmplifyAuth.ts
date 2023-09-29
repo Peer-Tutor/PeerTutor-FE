@@ -1,6 +1,6 @@
 import { Amplify, Hub, Logger } from "aws-amplify";
 
-const isDev = true
+const isDev = false
 const USER_POOL_ID = process.env.REACT_APP_COGNITO_USER_POOL_ID
 const CLIENT_ID = process.env.REACT_APP_COGNITO_CLIENT_ID
 const COGNITO_DOMAIN = process.env.REACT_APP_COGNITO_DOMAIN
