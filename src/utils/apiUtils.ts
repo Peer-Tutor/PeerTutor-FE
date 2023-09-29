@@ -206,7 +206,7 @@ export async function saveSessionTokenValue(name: string, sessionToken: string, 
     // console.log("In saveSessionTokenValue, newName = ", newName)
 
     const encryptedName = CryptoJS.AES.encrypt(name, SessionStorage.AES_KEY).toString();
-    const encryptedToken = CryptoJS.AES.encrypt(sessionToken, SessionStorage.AES_KEY).toString();
+    const encryptedToken = CryptoJS.AES.encrypt("toRemove", SessionStorage.AES_KEY).toString();
     const encryptedAccount = CryptoJS.AES.encrypt(accountType, SessionStorage.AES_KEY).toString();
 
     const session = { name: encryptedName, sessionToken: encryptedToken, accountType: encryptedAccount, displayName: displayName ?? '', intro: intro ?? '', subject: subject ?? '', profileId: profileId };

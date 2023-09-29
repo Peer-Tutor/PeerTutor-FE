@@ -41,7 +41,8 @@ const searchTutor = (tutorName: string, setTutorList: React.Dispatch<React.SetSt
         params: {
             name: getProfileName(),
             sessionToken: getSessionToken(),
-            displayName: tutorName ?? ''
+            displayName: tutorName ?? '',
+            studentId: getProfileId()
         }
     }).then(res => {
         setTutorList(res.data)
