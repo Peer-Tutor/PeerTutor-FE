@@ -6,17 +6,22 @@ import { toast } from './utils/toastHooks';
 import './utils/axiosInterceptor'
 import { Auth } from 'aws-amplify';
 import { currentAuthenticatedUser } from './auth/utils';
+import { getProfileName } from './utils/apiUtils';
 
 axios.interceptors.request.use(async (config) => {
   console.log('in await,')
   try {
-    const user = await currentAuthenticatedUser()//currentAuthenticatedUser()
-    // config.params = {...config.params, sessionToken: 'value'}
+    // const user = await Auth.currentSession()//currentAuthenticatedUser()
+    // const token = await user.getAccessToken().getJwtToken()
+    const user = await currentAuthenticatedUser()
+    const token = user.signInUserSession.accessToken.jwtToken
+    // console.log('user = ', user)
+    // console.log("token = ", token)
     console.log("in try")
     config.headers = {
       // todo: pass only if is authenticated
-      "authorizationToken": user.signInUserSession.accessToken.jwtToken ,
-      Name: user?.username
+      "authorizationtoken": token, //user.signInUserSession.accessToken.jwtToken ,
+      Name: getProfileName()
     }
     return config;
   }

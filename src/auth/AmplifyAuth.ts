@@ -74,16 +74,7 @@ Amplify.configure({
       clientId: CLIENT_ID,
       responseType: 'code' // or 'token', note that REFRESH token will only be generated when the responseType is code
     }
-  },
-  API:{
-    endpoints: [
-      {
-        name: 'Test',
-        endpoint: 'https://aye5oh3lo6.execute-api.ap-southeast-1.amazonaws.com/v1',
-        region: 'ap-southeast-1'
-      }
-    ]
-  },
+  }
 });
 
 const logger = new Logger('My-Logger');
