@@ -19,6 +19,8 @@ import { useToastHook } from "../../utils/toastHooks";
 import { Toast } from "primereact/toast";
 import { TestLoginPage } from "../../auth/TestLoginPage";
 import { useAuthenticator } from '@aws-amplify/ui-react';
+import 'primereact/resources/themes/saga-blue/theme.css';
+import 'primereact/resources/primereact.min.css';
 import { confirmSignUp, signUp } from "../../auth/utils";
 import { Auth, Hub } from "aws-amplify";
 
