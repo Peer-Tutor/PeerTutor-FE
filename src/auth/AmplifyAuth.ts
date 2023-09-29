@@ -1,13 +1,13 @@
 import { Amplify, Hub, Logger } from "aws-amplify";
 
-const isDev = false
-
+const isDev = process.env.REACT_APP_IS_DEV ? process.env.REACT_APP_IS_DEV : true
 const USER_POOL_ID = process.env.REACT_APP_COGNITO_USER_POOL_ID
 const CLIENT_ID = process.env.REACT_APP_COGNITO_CLIENT_ID
 const COGNITO_DOMAIN = process.env.REACT_APP_COGNITO_DOMAIN
 const HOST_DOMAIN = process.env.REACT_APP_HOST_DOMAIN
 const REDIRECT_URI = process.env.REACT_APP_COGNITO_REDIRECT_URI
 
+console.log("isDev = ", isDev, process.env.REACT_APP_IS_DEV)
 console.log("Env variables = ", "USER_POOL_ID", USER_POOL_ID, "CLIENT_ID", CLIENT_ID, "COGNITO_DOMAIN", COGNITO_DOMAIN, "HOST_DOMAIN", HOST_DOMAIN, "REDIRECT_URI", REDIRECT_URI)
 
 Amplify.configure({
