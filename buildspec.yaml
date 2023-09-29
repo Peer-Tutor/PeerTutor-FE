@@ -1,5 +1,13 @@
 version: 0.2
-
+env:
+  parameter-store:
+    REACT_APP_COGNITO_USER_POOL_ID: /dev/web/REACT_APP_COGNITO_USER_POOL_ID
+    REACT_APP_COGNITO_CLIENT_ID: /dev/web/REACT_APP_COGNITO_CLIENT_ID
+    REACT_APP_COGNITO_DOMAIN: /dev/web/REACT_APP_COGNITO_DOMAIN
+    REACT_APP_HOST_DOMAIN: /dev/web/REACT_APP_HOST_DOMAIN
+    REACT_APP_COGNITO_REDIRECT_URI: /dev/web/REACT_APP_COGNITO_REDIRECT_URI
+  variables:
+    IS_DEV: 0
 phases:
   install:
     runtime-versions:
@@ -18,5 +26,5 @@ phases:
       - aws cloudfront create-invalidation --distribution-id E26JM5QIRACOGQ --paths /index.html
 artifacts:
   files:
-    - '**/*'
-  base-directory: 'build'
+    - "**/*"
+  base-directory: "build"
