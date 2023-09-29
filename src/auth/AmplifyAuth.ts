@@ -1,6 +1,6 @@
 import { Amplify, Hub, Logger } from "aws-amplify";
 
-
+const isDev = true
 const USER_POOL_ID = process.env.REACT_APP_COGNITO_USER_POOL_ID
 const CLIENT_ID = process.env.REACT_APP_COGNITO_CLIENT_ID
 const COGNITO_DOMAIN = process.env.REACT_APP_COGNITO_DOMAIN
@@ -35,7 +35,7 @@ Amplify.configure({
       // - Cookie domain (only required if cookieStorage is provided)
 
       // TODO CHANGE BASED ON DIFF ENV
-      domain: 'localhost',//HOST_DOMAIN,//'.yourdomain.com',
+      domain: isDev ? 'localhost' : HOST_DOMAIN,//'.yourdomain.com',
       // (optional) - Cookie path
       path: '/',
       // (optional) - Cookie expiration in days
@@ -58,7 +58,7 @@ Amplify.configure({
 
     // (optional) - Hosted UI configuration
 
-    
+
     oauth: {
       domain: COGNITO_DOMAIN,
       scope: [
@@ -68,9 +68,9 @@ Amplify.configure({
         // 'aws.cognito.signin.user.admin'
       ],
       // TODO CHANGE BASED ON DIFF ENV
-      redirectSignIn: 'http://localhost:3000/',// REDIRECT_URI,//'http://localhost:3000/',
+      redirectSignIn: isDev ? 'http://localhost:3000/' : REDIRECT_URI,//'http://localhost:3000/',
       // TODO CHANGE BASED ON DIFF ENV
-      redirectSignOut: 'http://localhost:3000/',//REDIRECT_URI,//'http://localhost:3000/',
+      redirectSignOut: isDev ? 'http://localhost:3000/' : REDIRECT_URI,//'http://localhost:3000/',
       clientId: CLIENT_ID,
       responseType: 'code' // or 'token', note that REFRESH token will only be generated when the responseType is code
     }
@@ -90,7 +90,7 @@ const listener = (data) => {
       logger.info('user signed in');
       break;
     case 'signIn_failure':
-      
+
       logger.error('user sign in failed');
       break;
     case 'signUp':
