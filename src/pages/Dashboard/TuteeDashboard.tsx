@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 const TuteeDashboard = ({refresh}: {refresh:number}) => {
     const navigate = useNavigate();
-    console.log(" rendering tuteedashboard")
+//     console.log(" rendering tuteedashboard")
     if(!authorisedRoute(PageLink.DASHBOARD_STUDENT)){ navigate(PageLink.UNAUTHORISED); }
     return (
         <div className="flex flex-column gap-3">

@@ -46,7 +46,6 @@ const AccountManagement = () => {
 
             axios.get<AccountResponse>(url, { params: {
                 name: getProfileName() ?? '',
-                sessionToken: getSessionToken() ?? '',
                 accountName: getProfileName(),
                 id: getProfileId() ?? ''
             } }).then(res => {
@@ -81,7 +80,6 @@ const AccountManagement = () => {
        const url = getUrl(Subdomain.STUDENT_MGR, '/student');
        axios.post(url, {
             name: getProfileName(),
-            sessionToken: getSessionToken(),
             accountName: getProfileName(),
             displayName: name,
             introduction: intro,
@@ -99,7 +97,6 @@ const AccountManagement = () => {
        const url = getUrl(Subdomain.TUTOR_MGR, '/tutor');
        axios.post(url, {
             name: getProfileName(),
-            sessionToken: getSessionToken(),
             accountName: getProfileName(),
             displayName: name,
             introduction: intro,

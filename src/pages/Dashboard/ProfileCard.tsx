@@ -27,7 +27,6 @@ const ProfileCard = (props: AccountInfo) => {
             }
             axios.get<AccountResponse>(url, { params: {
                 name: getProfileName(),
-                sessionToken: getSessionToken(),
                 accountName: getProfileName(),
                 id: getProfileId()
             } }).then(res => {

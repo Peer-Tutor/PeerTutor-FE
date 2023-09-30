@@ -5,7 +5,7 @@ import { Card } from 'primereact/card';
 import { Link } from "react-router-dom";
 
 const WelcomeDashboard = () => {
-    console.log("Rendering WElcomeDashboard")
+//     console.log("Rendering WElcomeDashboard")
     return (
         <Card className="flex flex-column my-auto py-8">
             <div className="flex flex-column gap-6">

@@ -8,7 +8,6 @@ const getTuitionOrderList = (setTotalRecords: any, setTuitionOrderList: any) => 
     axios.get<GetRequestResponse[]>(url, {
         params: {
             name: getProfileName(),
-            sessionToken: getSessionToken()
         }
     }).then(res => {
         const filteredList = res.data?.filter(record => (record.status === 0 && record.tutorId === getProfileId()));
@@ -22,7 +21,6 @@ const updateTuitionOrderList = (id: any, studentId: any, tutorId: any, selectedD
     const url = getUrl(Subdomain.TUITION_ORDER_MGR, '/tuitionOrder');
     axios.post<RequestResponse[]>(url, {
             name: getProfileName() ?? '',
-            sessionToken: getSessionToken() ?? '',
             studentId: studentId?? '',
             tutorId: tutorId?? '',
             status:status?? '',
@@ -40,7 +38,6 @@ const searchStudent = (setTotalRecords: any, studentName: string, setTuitionOrde
     axios.get<GetRequestResponse[]>(url, {
         params: {
             name: getProfileName() ?? '',
-            sessionToken: getSessionToken() ?? '',
             displayName: studentName ?? ''
         }
     }).then(res => {

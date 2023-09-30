@@ -193,7 +193,7 @@ export {
     authenticatedSession, authorisedRoute
 }
 
-export async function saveSessionTokenValue(name: string, sessionToken: string, accountType: string, displayName?: string, intro?: string, subject?: string, profileId?: number) {
+export async function saveSessionTokenValue(name: string, accountType: string, displayName?: string, intro?: string, subject?: string, profileId?: number) {
     // temp: get name, account-type from ID token
     // const user = await currentAuthenticatedUser();
     // attributes: custom:role: 
@@ -206,9 +206,9 @@ export async function saveSessionTokenValue(name: string, sessionToken: string, 
     // console.log("In saveSessionTokenValue, newName = ", newName)
 
     const encryptedName = CryptoJS.AES.encrypt(name, SessionStorage.AES_KEY).toString();
-    const encryptedToken = CryptoJS.AES.encrypt("toRemove", SessionStorage.AES_KEY).toString();
+//     const encryptedToken = CryptoJS.AES.encrypt("toRemove", SessionStorage.AES_KEY).toString();
     const encryptedAccount = CryptoJS.AES.encrypt(accountType, SessionStorage.AES_KEY).toString();
 
-    const session = { name: encryptedName, sessionToken: encryptedToken, accountType: encryptedAccount, displayName: displayName ?? '', intro: intro ?? '', subject: subject ?? '', profileId: profileId };
+    const session = { name: encryptedName, accountType: encryptedAccount, displayName: displayName ?? '', intro: intro ?? '', subject: subject ?? '', profileId: profileId };
     updateSession(session);
 }

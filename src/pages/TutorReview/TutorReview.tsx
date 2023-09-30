@@ -31,7 +31,6 @@ const TutorReview = () => {
             const url = getUrl(Subdomain.REVIEW_MGR, '/reviews');
             axios.get<TutorResponse[]>(url, { params: {
                 name: getProfileName(),
-                sessionToken: getSessionToken(),
                 tutorID: tutorId
               }
             }).then(res => {

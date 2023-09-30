@@ -42,9 +42,9 @@ const SearchTutor = () => {
     useEffect(() => {
         if(!authorisedRoute(PageLink.SEARCH_TUTOR)){ navigate(PageLink.UNAUTHORISED); }
         else{
-            getTutorList(setTotalRecords, setTutorList, currentPage);
+            getTutorList(setTutorList, currentPage);
             getBookmarkedTutorOfStudentTutorCard(setBookmarkedTutorList);
-            getRecommendationsForMyself(setRecommendationList);
+            getRecommendationsForMyself(setRecommendationList, setTotalRecords);
         }
     }, []);
 
@@ -69,7 +69,7 @@ const SearchTutor = () => {
                                 setCurrentPage(e.first)
                                 if (totalRecords !== 0) {
                                     const nextPageNum = Math.floor(e.first / TUTOR_RESULTS_PAGINATION_PAGE_SIZE);
-                                    getTutorList(setTotalRecords, setTutorList, nextPageNum)
+                                    getTutorList(setTutorList, nextPageNum)
                                 } else {
                                     console.error('divide by 0 error!')
                                 }
@@ -103,7 +103,6 @@ const RecommendationList = ({ recommendationList }: { recommendationList: TutorR
         <div className="flex flex-row flex-wrap justify-content-center gap-3 ">
             {recommendationList.length > 0 ?
                 recommendationList.map((elt, idx) => {
-                    if (idx < 3)
                         return (
                             <RecommendationCard tutorName={elt.displayName} subjectList={elt.subjects} tutorId={elt.id} />
                         )

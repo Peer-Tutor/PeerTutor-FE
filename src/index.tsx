@@ -9,7 +9,7 @@ import { currentAuthenticatedUser } from './auth/utils';
 import { getProfileName } from './utils/apiUtils';
 
 axios.interceptors.request.use(async (config) => {
-  console.log('in await,')
+//   console.log('in await,')
   try {
     // const user = await Auth.currentSession()//currentAuthenticatedUser()
     // const token = await user.getAccessToken().getJwtToken()
@@ -17,7 +17,7 @@ axios.interceptors.request.use(async (config) => {
     const token = user.signInUserSession.accessToken.jwtToken
     // console.log('user = ', user)
     // console.log("token = ", token)
-    console.log("in try")
+//     console.log("in try")
     config.headers = {
       // todo: pass only if is authenticated
       "authorizationtoken": token, //user.signInUserSession.accessToken.jwtToken ,
@@ -26,7 +26,7 @@ axios.interceptors.request.use(async (config) => {
     return config;
   }
   catch (err) {
-    console.log("in catch")
+//     console.log("in catch")
     console.log("ERROR!!", err)
     return config
   }

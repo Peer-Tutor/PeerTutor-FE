@@ -40,7 +40,7 @@ export async function signUp({ username, password, email, role }: SignUpParamete
         enabled: true,
       },
     });
-    console.log(user);
+//     console.log(user);
     return user
   } catch (error) {
     console.log('error signing up:', error);
@@ -77,7 +77,7 @@ export async function currentAuthenticatedUser() {
     const user = await Auth.currentAuthenticatedUser({
       bypassCache: false // Optional, By default is false. If set to true, this call will send a request to Cognito to get the latest user data
     });
-    console.log(user);
+//     console.log(user);
     return user
   } catch(err) {
     console.log(err);

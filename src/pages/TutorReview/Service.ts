@@ -11,7 +11,6 @@ const getListOfReviewByTutor = (setTutorList: any) => {
     axios.get<TutorResponse>(url, {
         params: {
             name: getProfileName(),
-            sessionToken: getSessionToken(),
             tutorId: getProfileId(),
         }
     }).then(res => {

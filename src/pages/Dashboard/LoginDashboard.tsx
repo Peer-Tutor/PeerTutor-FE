@@ -48,12 +48,10 @@ const LoginDashboard: React.FC = () => {
 
     const accountTypeList = AccountTypeList;
     const accountTypeChange = (e: { value: any }) => {
-        // console.log("account type set = ", e.value)
         setAccountType(e.value);
     };
 
     useEffect(() => {
-
         const hubListenerCancelToken = Hub.listen('auth', ({ payload }) => {
             const { event } = payload;
             if ((event === 'autoSignIn') && payload?.data !== undefined) {
@@ -61,12 +59,11 @@ const LoginDashboard: React.FC = () => {
                 const username = user.username
                 const token = user.signInUserSession.accessToken.jwtToken;
                 const userType = user.attributes["custom:role"]
-                console.log('event is = ', event)
-                console.log("user is =", user)
+//                 console.log('event is = ', event)
+//                 console.log("user is =", user)
                 saveSessionTokenValue(username, token, userType ?? '');
                 updateProfile(true)
                 setLoading(false);
-                
             }
         });
 
@@ -74,38 +71,32 @@ const LoginDashboard: React.FC = () => {
 
     }, [])
 
-
     const loginAccount = async () => {
         setLoading(true);
 
         await Auth.signIn(name, password)
             .then((data) => {
-                const token = data.signInUserSession.accessToken.jwtToken;
+//                 const token = data.signInUserSession.accessToken.jwtToken;
                 const userType = data.signInUserSession.idToken.payload["custom:role"];
                 const userName = data.signInUserSession.idToken.payload["cognito:username"];
-                if (typeof token === 'string') {
-                    saveSessionTokenValue(userName, token, userType ?? '');
-
+//                 if (typeof token === 'string') {
+                    saveSessionTokenValue(userName, userType ?? '');
                     updateProfile(false)
-                }
+//                 }
             }).catch((err) => {
                 setLoading(false)
-
-                console.log('failed');
+//                 console.log('failed');
             });
-
-
     };
 
     const registerAccount = async () => {
         setLoading(true);
-        console.log("Registering account, accountType = ", accountType)
+//         console.log("Registering account, accountType = ", accountType)
 
         const requestParam = {
             username: name,
             password: password,
             attributes: {
-                //   email,
                 email: email,
                 'custom:role': accountType
             },
@@ -113,46 +104,46 @@ const LoginDashboard: React.FC = () => {
                 enabled: true,
             }
         }
-        console.log("Signing up , ", requestParam)
+//         console.log("Signing up , ", requestParam)
         Auth.signUp(requestParam).then((data) => {
             setPageType(AUTH_PAGE_TYPE.CONFIRM_EMAIL)
             // navigation.navigate('Confirm Email', { username: username });
-        })
-            .catch((err) => {
-                console.log(err.message);
-            });
-
+        }).catch((err) => {
+//             console.log(err.message);
+        });
     };
+
     const verifyEmail = async () => {
         try {
             const res = await confirmSignUp({ username: name, code: verificationCode })
-            console.log('verified, ', res)
+//             console.log('verified, ', res)
         } catch (err) {
-            console.log(err)
+//             console.log(err)
         }
     }
+
     const updateProfile = (newAccount: boolean) => {
-        console.log("Calling updateProfile")
+//         console.log("Calling updateProfile")
         let profileURL = '';
         let profile = {}
         if (getAccountType().toString() === AccountType.STUDENT) {
             profileURL = getUrl(Subdomain.STUDENT_MGR, '/student');
             profile = {
-                name: getProfileName(), sessionToken: getSessionToken(),
+                name: getProfileName(),
                 accountName: getProfileName(), displayName: getProfileName(),
                 introduction: '', subjects: ''
             };
         } else {
             profileURL = getUrl(Subdomain.TUTOR_MGR, '/tutor');
             profile = {
-                name: getProfileName(), sessionToken: getSessionToken(),
+                name: getProfileName(),
                 accountName: getProfileName(), displayName: getProfileName(),
                 introduction: '', subjects: '', certificates: ''
             };
         }
 
         if (newAccount) {
-            console.log("Is new account, update profile MANAGE_ACCOUNT")
+//             console.log("Is new account, update profile MANAGE_ACCOUNT")
             axios.post(profileURL, profile).then(res => {
                 setDisplayName(res.data.displayName);
                 setProfileId(res.data.id);
@@ -164,9 +155,9 @@ const LoginDashboard: React.FC = () => {
                 setLoading(false);
             });
         } else {
-            console.log("Not new account, calling profileURL")
+//             console.log("Not new account, calling profileURL")
             axios.get<AccountResponse>(profileURL, { params: profile }).then(res => {
-                console.log("HELLO, res = ", res)
+//                 console.log("HELLO, res = ", res)
                 if (res.data) {
                     setDisplayName(res.data.displayName ?? '');
                     setProfileId(res.data.id);
@@ -197,9 +188,9 @@ const LoginDashboard: React.FC = () => {
                                 <InputText type="text" className="col-12" keyfilter={LOGIN_NAME_REGEX} value={name} onChange={(e) => setName(e.target.value)}
                                     placeholder="Name" maxLength={LOGIN_NAME_SIZE}
                                     tooltip="Name should not contain numeric or special characters" tooltipOptions={{ event: 'both', position: 'right' }} />
-                                <InputText type="type" className="col-12" value={email} onChange={(e) => setEmail(e.target.value)}
+                                <InputText type="text" className="col-12" value={email} onChange={(e) => setEmail(e.target.value)}
                                     placeholder="Email" 
-                                    tooltip="Email should not contain numeric or special characters" tooltipOptions={{ event: 'both', position: 'right' }} />
+                                    tooltip="Please provide a valid email to receive OTP" tooltipOptions={{ event: 'both', position: 'right' }} />
                                 <Password className="col-12 p-0" inputClassName="col-12" value={password} onChange={(e) => setPassword(e.target.value)}
                                     keyfilter={/^[^\#\$\^\*\(\)\-\=\_\+\{\}\|\[\]\;\'\:\"\<\>\?\,\.\/]+$/}
                                     placeholder="Password" feedback={true} maxLength={PASSWORD_SIZE}
@@ -276,20 +267,19 @@ const LoginDashboard: React.FC = () => {
                 <Toast ref={toast} />
                 <div className="p-4 flex flex-column h-screen">
                     <Card className="col-12 my-auto py-8">
-                        <p>Verify email</p>
-                        <InputText type="text"
-                            className="col-12"
-                            // keyfilter={LOGIN_NAME_REGEX}
-                            value={verificationCode}
-                            onChange={(e) => setVerificationCode(e.target.value)}
-                            // maxLength={LOGIN_NAME_SIZE}
-                            placeholder="Verification Code" />
-                        <Button
-                            label="Verify"
-                            className="p-button-primary flex"
-                            onClick={verifyEmail}
-                        // disabled={isButtonDisabled}
-                        />
+                        <div className="col-12 text-center">
+                            <Link to={PageLink.DEFAULT}>
+                                <img src={require('../../resources/TutorPeer.png')} width={400} height={120} alt="" onClick={() => navigate(getHomeLink())} />
+                            </Link>
+                        </div>
+                        <div className="flex flex-column col-12">
+                            <label className="flex flex-row font-bold text-base text-orange">Verify email</label>
+                            <div className="flex flex-row col-12 p-0 align-items-center">
+                                <InputText type="text" className="col-11 flex" value={verificationCode}
+                                    onChange={(e) => setVerificationCode(e.target.value)} placeholder="Verification Code" />
+                                <Button label="Verify" className="p-button-primary" onClick={verifyEmail} />
+                            </div>
+                        </div>
                     </Card>
                 </div>
             </div>

@@ -40,7 +40,6 @@ const submitForm = (tutorId: string, selectedDates: string[]) => {
     } else {
         axios.post(url, {
             name: getProfileName(),
-            sessionToken: getSessionToken(),
             selectedDates: selectedDates,
             studentId: getProfileId(),
             tutorId: tutorId,
@@ -62,7 +61,6 @@ const getATutorAvailableDates = (tutorId: string ,setAvailableDates: React.Dispa
     axios.get<CalendarDetail>(url, {
         params: {
             name: getProfileName(),
-            sessionToken: getSessionToken(),
             tutorId: tutorId,
         }
     }).then(res => {
@@ -84,7 +82,6 @@ const getSelectedTutorDetails = (tutorId: string, setTutorDetails: React.Dispatc
     axios.get<TutorDetail>(url, {
         params: {
             name: getProfileName(),
-            sessionToken: getSessionToken(),
             id: tutorId,
         }
     }).then(res => {

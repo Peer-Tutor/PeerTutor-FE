@@ -28,15 +28,17 @@ const TutorCard = (props: TutorCardProps) => {
 
     const setBookmarkValue = () => {
         let result = props.bookmarkedTutorList;
-        result = result?.filter((record) => {
-            return record.tutorID === tutorId;
-        });
+        if(result){
+            result = result?.filter((record) => {
+                return record.tutorID === tutorId;
+            });
 
-        if (result !== undefined && result?.length > 0) {
-            BookmarkTutor(true);
-        }
-        else {
-            BookmarkTutor(false);
+            if (result !== undefined && result?.length > 0) {
+                BookmarkTutor(true);
+            }
+            else {
+                BookmarkTutor(false);
+            }
         }
     }
 

@@ -5,31 +5,28 @@ import { getUrl, getProfileName, getSessionToken, getProfileId } from "../../uti
 import { toast } from "../../utils/toastHooks";
 import { TutorRecommendationResponse, TutorResponse } from "./SearchTutor";
 
-const getRecommendationsForMyself = (setRecommendationList: React.Dispatch<React.SetStateAction<TutorRecommendationResponse>>) => {
+const getRecommendationsForMyself = (setRecommendationList: React.Dispatch<React.SetStateAction<TutorRecommendationResponse>>, setTotalRecords: any) => {
     const url = getUrl(Subdomain.TUTOR_MGR, '/tutors');
     axios.get<TutorRecommendationResponse>(url, {
         params: {
             name: getProfileName(),
-            sessionToken: getSessionToken(),
             id: getProfileId()
         }
     }).then(res => {
-        setRecommendationList(res.data)
+        setRecommendationList(res.data);
+        setTotalRecords(res.data.length);
     }).catch(err => {
     });
 }
-const getTutorList = (setTotalRecords: any, setTutorList: any, currentPage: number) => {
+const getTutorList = (setTutorList: any, currentPage: number) => {
     const url = getUrl(Subdomain.TUTOR_MGR, '/tutors');
     axios.get<TutorResponse[]>(url, {
         params: {
             name: getProfileName(),
-            sessionToken: getSessionToken(),
             page: currentPage,
             size: TUTOR_RESULTS_PAGINATION_PAGE_SIZE
         }
     }).then(res => {
-        const totalRecords = res.headers["x-total-count"];
-        setTotalRecords(res.data.length)
         setTutorList(res.data)
     }).catch(err => {
     });
@@ -40,7 +37,6 @@ const searchTutor = (tutorName: string, setTutorList: React.Dispatch<React.SetSt
     axios.get<TutorResponse[]>(url, {
         params: {
             name: getProfileName(),
-            sessionToken: getSessionToken(),
             displayName: tutorName ?? '',
             studentId: getProfileId()
         }

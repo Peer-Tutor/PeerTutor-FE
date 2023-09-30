@@ -9,7 +9,6 @@ const getListOfAvailableDatesForCurrentTutor = (setAvailableDates: any) => {
     axios.get<CalendarDetail>(url, {
         params: {
             name: getProfileName(),
-            sessionToken: getSessionToken(),
             tutorId: getProfileId(),
         }
     }).then(res => {

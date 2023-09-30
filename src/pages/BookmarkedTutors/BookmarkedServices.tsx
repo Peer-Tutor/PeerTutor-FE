@@ -22,7 +22,6 @@ const getBookmarkedTutorOfStudentTutorCard = (setBookmarkedTutorList: React.Disp
     axios.get<BookmarkedTutorResponse[]>(url, {
         params: {
             name: getProfileName(),
-            sessionToken: getSessionToken(),
             studentId: getProfileId(),
         }
     }).then(res => {
@@ -36,7 +35,6 @@ const addBookmarkTutorCard = (tutorID: string, onForceUpdate: any) =>{
     const url = getUrl(Subdomain.BOOKMARK_MGR, '/bookmark');
     axios.post<BookmarkResponse>(url, {
             name: getProfileName(),
-            sessionToken: getSessionToken(),
             id: getProfileId(),
             studentID: getProfileId()?.toString(),
             tutorID: tutorID?.toString()
@@ -51,7 +49,6 @@ const deleteBookmarkTutorCard = (tutorId: any, onForceUpdate: any)=> {
     axios.delete<BookmarkResponse>(url, {
         params:{
             name: getProfileName(),
-            sessionToken: getSessionToken(),
             studentId: getProfileId(),
             tutorId: tutorId?? ''
         }
@@ -66,7 +63,6 @@ const getBookmarkedTutorOfStudent = (setBookmarkedTutorList: React.Dispatch<Reac
     axios.get<BookmarkedTutorResponse[]>(url, {
         params: {
             name: getProfileName(),
-            sessionToken: getSessionToken(),
             studentId: getProfileId()?.toString()
         }
     }).then(res => {
@@ -79,7 +75,6 @@ const addBookmark = (id: string, tutorId: string, tutorName: string, setBookmark
     const url = getUrl(Subdomain.BOOKMARK_MGR, '/bookmark');
     axios.post<BookmarkResponse[]>(url, {
             name: getProfileName(),
-            sessionToken: getSessionToken(),
             studentID: getProfileId(),
             tutorID: tutorId?? '',
             id: id?? ''
@@ -93,7 +88,6 @@ const deleteBookmark = (tutorId: any, onForceUpdate: any)=> {
     axios.delete<BookmarkResponse>(url, {
         params:{
             name: getProfileName(),
-            sessionToken: getSessionToken(),
             studentId: getProfileId(),
             tutorId: tutorId?? ''
         }

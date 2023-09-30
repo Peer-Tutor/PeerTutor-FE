@@ -12,7 +12,6 @@ export const getUpcomingActivities = (setActivities: React.Dispatch<React.SetSta
     axios.get<UpcomingActivitiesResponse[]>(url, {
         params: {
             name: getProfileName(),
-            sessionToken: getSessionToken()
         }
     }).then(res => {
         let response = res.data;
@@ -80,7 +79,6 @@ export const getPendingRequest = (setActivities: React.Dispatch<React.SetStateAc
     axios.get<UpcomingActivitiesResponse[]>(url, {
         params: {
             name: getProfileName(),
-            sessionToken: getSessionToken()
         }
     }).then(res => {
         let response = res.data;

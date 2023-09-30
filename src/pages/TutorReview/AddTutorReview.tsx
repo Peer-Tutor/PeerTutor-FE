@@ -35,7 +35,6 @@ const AddTutorReview = () => {
         const url = getUrl(Subdomain.REVIEW_MGR, '/review');
         axios.post(url, {
             name: getProfileName(),
-            sessionToken: getSessionToken(),
             rating: rating,
             comment: comment,
             id: data.tutorId,
@@ -75,7 +74,6 @@ const AddTutorReview = () => {
             axios.get<GetRequestResponse[]>(url, {
                 params: {
                     name: getProfileName(),
-                    sessionToken: getSessionToken()
                 }
             }).then(res => {
                 const filteredList = res.data?.filter(record => (record.status === 1 && record.studentId === getProfileId() && record.tutorId === data.tutorId && tuitionTaken(record)));

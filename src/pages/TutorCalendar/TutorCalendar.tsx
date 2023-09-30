@@ -20,8 +20,10 @@ const TutorCalendar = () => {
     const [date, setDate] = useState<any>(null);
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [availableDates, setAvailableDates] = useState<string[]>([]);
+    const [originalDates, setOriginalDates] = useState<string[]>([]);
     const [toast] = useToastHook();
     const navigate = useNavigate();
+    const isButtonDisabled = ((availableDates.length === originalDates.length) && availableDates.every(element=> originalDates.includes(element)) );
 
     const handleSelectDate = () => {
         const newDate = convertDateToYYYYMMDD(date)
@@ -56,11 +58,11 @@ const TutorCalendar = () => {
         const url = getUrl(Subdomain.TUTOR_CALENDAR_MGR, '/calendar');
         axios.post(url, {
             name: getProfileName(),
-            sessionToken: getSessionToken(),
             availableDates: availableDates,
             tutorId: getProfileId(),
         }).then(res => {
             toast?.current?.show({ severity: 'success', content: successUpdate(), closable: false, life: 5000 });
+            setOriginalDates(availableDates);
         }).catch(err => {
         })
     }
@@ -96,7 +98,9 @@ const TutorCalendar = () => {
 
     useEffect(()=>{
         if(!authorisedRoute(PageLink.TUITION_CALENDAR)){ navigate(PageLink.UNAUTHORISED); }
-        else{ getListOfAvailableDatesForCurrentTutor(setAvailableDates); }
+        else{ getListOfAvailableDatesForCurrentTutor(setAvailableDates);
+        setOriginalDates(availableDates);
+        }
     }, [])
 
     return (
@@ -113,7 +117,7 @@ const TutorCalendar = () => {
                             <Button icon='fa-regular fa-calendar'
                                 tooltip="Add New Available Date" tooltipOptions={{position: 'top'}}
                                 onClick={() => { setShowDatePicker(true) }}></Button>
-                            <Button label="Update" className="p-button-primary" onClick={handleSubmit} />
+                            <Button label="Update" className="p-button-primary" onClick={handleSubmit} disabled={isButtonDisabled} />
                         </div>
                     </div>
                     <Divider />
