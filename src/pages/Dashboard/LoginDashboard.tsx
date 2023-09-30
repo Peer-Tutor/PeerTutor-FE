@@ -11,14 +11,12 @@ import { Password } from 'primereact/password';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { Link, useNavigate } from "react-router-dom";
 import {
-    saveSessionTokenValue, getUrl, getProfileName, getAccountType, getHomeLink, getSessionToken,
+    saveSessionTokenValue, getUrl, getProfileName, getAccountType, getHomeLink,
     setDisplayName, setProfileId, setIntro, setSubject
 } from "../../utils/apiUtils";
 import axios from "axios";
 import { useToastHook } from "../../utils/toastHooks";
 import { Toast } from "primereact/toast";
-import { TestLoginPage } from "../../auth/TestLoginPage";
-import { useAuthenticator } from '@aws-amplify/ui-react';
 import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import { confirmSignUp, signUp } from "../../auth/utils";
@@ -106,17 +104,53 @@ const LoginDashboard: React.FC = () => {
         }
 //         console.log("Signing up , ", requestParam)
         Auth.signUp(requestParam).then((data) => {
-            setPageType(AUTH_PAGE_TYPE.CONFIRM_EMAIL)
+            setPageType(AUTH_PAGE_TYPE.CONFIRM_EMAIL);
+            setLoading(false);
             // navigation.navigate('Confirm Email', { username: username });
         }).catch((err) => {
 //             console.log(err.message);
         });
     };
 
+    const successVerify = (valid: boolean) => {
+        if(valid){
+            return (
+                <div className="flex flex-row align-items-center" style={{flex: '1'}}>
+                    <div className="flex mx-3">
+                        <i className="text-xl text-green fa-solid fa-circle-check"></i>
+                    </div>
+                    <div className="flex flex-1 flex-column">
+                        <label className="flex text-lg text-green font-bold">Successful Verification</label>
+                        <label className="text-xs text-white font-normal">Email verified successfully. Please wait while we profile your account.</label>
+                    </div>
+                </div>
+            );
+        }else{
+            return (
+                <div className="flex flex-row align-items-center" style={{flex: '1'}}>
+                    <div className="flex mx-3">
+                        <i className="text-xl text-orange fa-solid fa-circle-xmark"></i>
+                    </div>
+                    <div className="flex flex-1 flex-column">
+                        <label className="flex text-lg text-orange font-bold">Verification Failed</label>
+                        <label className="text-xs text-white font-normal">Verification code entered does not match.</label>
+                    </div>
+                </div>
+            );
+        }
+    };
+
     const verifyEmail = async () => {
         try {
+            setLoading(true);
             const res = await confirmSignUp({ username: name, code: verificationCode })
-//             console.log('verified, ', res)
+            if(res){
+               setLoading(res);
+               toast?.current?.show({ severity: 'success', content: successVerify(true), closable : false, life: 5000 });
+            }else{
+               setLoading(false);
+               toast?.current?.show({ severity: 'error', content: successVerify(false), closable : false, life: 5000 });
+            }
         } catch (err) {
 //             console.log(err)
         }
@@ -190,7 +224,7 @@ const LoginDashboard: React.FC = () => {
                                 <InputText type="text" className="col-12" keyfilter={LOGIN_NAME_REGEX} value={name} onChange={(e) => setName(e.target.value)}
                                     placeholder="Name" maxLength={LOGIN_NAME_SIZE}
                                     tooltip="Name should not contain numeric or special characters" tooltipOptions={{ event: 'both', position: 'right' }} />
-                                <InputText type="text" className="col-12" value={email} onChange={(e) => setEmail(e.target.value)}
+                                <InputText type="text" className="col-12" keyfilter="email"  value={email} onChange={(e) => setEmail(e.target.value)}
                                     placeholder="Email" 
                                     tooltip="Please provide a valid email to receive OTP" tooltipOptions={{ event: 'both', position: 'right' }} />
                                 <Password className="col-12 p-0" inputClassName="col-12" value={password} onChange={(e) => setPassword(e.target.value)}
@@ -279,7 +313,7 @@ const LoginDashboard: React.FC = () => {
                             <div className="flex flex-row col-12 p-0 align-items-center">
                                 <InputText type="text" className="col-11 flex" value={verificationCode}
                                     onChange={(e) => setVerificationCode(e.target.value)} placeholder="Verification Code" />
-                                <Button label="Verify" className="p-button-primary" onClick={verifyEmail} />
+                                <Button label="Verify" className="p-button-primary" onClick={verifyEmail} disabled={loading}/>
                             </div>
                         </div>
                     </Card>

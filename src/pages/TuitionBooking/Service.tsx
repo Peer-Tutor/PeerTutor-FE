@@ -22,7 +22,7 @@ const successUpdate = (valid: boolean) => {
         return (
             <div className="flex flex-row align-items-center" style={{flex: '1'}}>
                 <div className="flex mx-3">
-                    <i className="text-xl text-orange fa-solid fa-circle-check"></i>
+                    <i className="text-xl text-orange fa-solid fa-circle-xmark"></i>
                 </div>
                 <div className="flex flex-1 flex-column">
                     <label className="flex text-lg text-orange font-bold">Unsuccessful Application</label>

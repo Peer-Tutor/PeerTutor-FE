@@ -18,9 +18,11 @@ type ConfirmSignUpParameters = {
 
 export async function confirmSignUp({ username, code }: ConfirmSignUpParameters) {
   try {
-    return await Auth.confirmSignUp(username, code);
+    await Auth.confirmSignUp(username, code);
+    return true;
   } catch (error) {
     console.log('error confirming sign up', error);
+    return false;
   }
 }
 
