@@ -61,7 +61,7 @@ const LoginDashboard: React.FC = () => {
                 const userType = user.attributes["custom:role"]
 //                 console.log('event is = ', event)
 //                 console.log("user is =", user)
-                saveSessionTokenValue(username, token, userType ?? '');
+                saveSessionTokenValue(username, userType ?? '');
                 updateProfile(true)
                 setLoading(false);
             }
@@ -147,10 +147,12 @@ const LoginDashboard: React.FC = () => {
             axios.post(profileURL, profile).then(res => {
                 setDisplayName(res.data.displayName);
                 setProfileId(res.data.id);
-                setTimeout(() => {
-                    setLoading(false);
-                    navigate(PageLink.MANAGE_ACCOUNT);
-                }, 1000);
+                setLoading(false);
+
+                navigate(PageLink.MANAGE_ACCOUNT);
+                // setTimeout(() => {
+                //     navigate(PageLink.MANAGE_ACCOUNT);
+                // }, 1000);
             }).catch(err => {
                 setLoading(false);
             });
