@@ -21,6 +21,8 @@ import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import { confirmSignUp, signUp } from "../../auth/utils";
 import { Auth, Hub } from "aws-amplify";
+import { BadRequest, EmailVerificationFail, EmailVerificationSuccess, GenericError } from "../../components/Shared/ToastMsg";
+import { CountDowntimer } from "../../components/LoginDashboard/CountdownTimer";
 
 enum AUTH_PAGE_TYPE {
     SIGN_UP = "SIGN_UP",
@@ -35,6 +37,7 @@ const LoginDashboard: React.FC = () => {
     const [pageType, setPageType] = useState<AUTH_PAGE_TYPE>(AUTH_PAGE_TYPE.SIGN_IN)
 
     // const [registerView, setRegister] = useState(false);
+    const [disableResendVerifyCode, setDisableResendVerifyCode] = useState(false)
     const [email, setEmail] = useState('')
     const [accountType, setAccountType] = useState(AccountType.STUDENT);
     const [name, setName] = useState('');
@@ -55,10 +58,7 @@ const LoginDashboard: React.FC = () => {
             if ((event === 'autoSignIn') && payload?.data !== undefined) {
                 const user = payload.data;
                 const username = user.username
-                const token = user.signInUserSession.accessToken.jwtToken;
                 const userType = user.attributes["custom:role"]
-//                 console.log('event is = ', event)
-//                 console.log("user is =", user)
                 saveSessionTokenValue(username, userType ?? '');
                 updateProfile(true)
                 setLoading(false);
@@ -71,25 +71,27 @@ const LoginDashboard: React.FC = () => {
 
     const loginAccount = async () => {
         setLoading(true);
-
         await Auth.signIn(name, password)
             .then((data) => {
-//                 const token = data.signInUserSession.accessToken.jwtToken;
+                //                 const token = data.signInUserSession.accessToken.jwtToken;
                 const userType = data.signInUserSession.idToken.payload["custom:role"];
                 const userName = data.signInUserSession.idToken.payload["cognito:username"];
-//                 if (typeof token === 'string') {
-                    saveSessionTokenValue(userName, userType ?? '');
-                    updateProfile(false)
-//                 }
+                //                 if (typeof token === 'string') {
+                saveSessionTokenValue(userName, userType ?? '');
+                updateProfile(false)
+                //                 }
             }).catch((err) => {
                 setLoading(false)
-//                 console.log('failed');
+                toast?.current?.show({
+                    severity: 'error',
+                    content: <BadRequest msg={err.message} />, closable: true, life: 5000
+                });
             });
     };
 
     const registerAccount = async () => {
         setLoading(true);
-//         console.log("Registering account, accountType = ", accountType)
+        //         console.log("Registering account, accountType = ", accountType)
 
         const requestParam = {
             username: name,
@@ -102,62 +104,61 @@ const LoginDashboard: React.FC = () => {
                 enabled: true,
             }
         }
-//         console.log("Signing up , ", requestParam)
+        //         console.log("Signing up , ", requestParam)
         Auth.signUp(requestParam).then((data) => {
             setPageType(AUTH_PAGE_TYPE.CONFIRM_EMAIL);
             setLoading(false);
             // navigation.navigate('Confirm Email', { username: username });
         }).catch((err) => {
-//             console.log(err.message);
+            setLoading(false);
+            toast?.current?.show({
+                severity: 'error',
+                content: <BadRequest msg={err.message} />, closable: true, life: 5000
+            });
         });
     };
 
-    const successVerify = (valid: boolean) => {
-        if(valid){
-            return (
-                <div className="flex flex-row align-items-center" style={{flex: '1'}}>
-                    <div className="flex mx-3">
-                        <i className="text-xl text-green fa-solid fa-circle-check"></i>
-                    </div>
-                    <div className="flex flex-1 flex-column">
-                        <label className="flex text-lg text-green font-bold">Successful Verification</label>
-                        <label className="text-xs text-white font-normal">Email verified successfully. Please wait while we profile your account.</label>
-                    </div>
-                </div>
-            );
-        }else{
-            return (
-                <div className="flex flex-row align-items-center" style={{flex: '1'}}>
-                    <div className="flex mx-3">
-                        <i className="text-xl text-orange fa-solid fa-circle-xmark"></i>
-                    </div>
-                    <div className="flex flex-1 flex-column">
-                        <label className="flex text-lg text-orange font-bold">Verification Failed</label>
-                        <label className="text-xs text-white font-normal">Verification code entered does not match.</label>
-                    </div>
-                </div>
-            );
-        }
-    };
 
+    const resendCode = async () => {
+        try {
+            setDisableResendVerifyCode(true)
+            Auth.resendSignUp(name)
+            // 
+        }
+        catch (err) {
+            setDisableResendVerifyCode(false)
+            setLoading(false)
+            toast?.current?.show({
+                severity: 'error',
+                // @ts-ignore
+                content: <BadRequest msg={err?.message} />, closable: true, life: 5000
+            });
+        }
+    }
     const verifyEmail = async () => {
         try {
             setLoading(true);
             const res = await confirmSignUp({ username: name, code: verificationCode })
-            if(res){
-               setLoading(res);
-               toast?.current?.show({ severity: 'success', content: successVerify(true), closable : false, life: 5000 });
-            }else{
-               setLoading(false);
-               toast?.current?.show({ severity: 'error', content: successVerify(false), closable : false, life: 5000 });
+            if (res) {
+                setLoading(res);
+                toast?.current?.show({ severity: 'success', content: <EmailVerificationSuccess />, closable: true, life: 5000 });
+            } else {
+                setLoading(false);
+                toast?.current?.show({ severity: 'error', content: <EmailVerificationFail />, closable: true, life: 5000 });
             }
         } catch (err) {
-//             console.log(err)
+            setLoading(false)
+
+            toast?.current?.show({
+                severity: 'error',
+                // @ts-ignore
+                content: <BadRequest msg={err?.message} />, closable: true, life: 5000
+            });
         }
     }
 
     const updateProfile = (newAccount: boolean) => {
-//         console.log("Calling updateProfile")
+        //         console.log("Calling updateProfile")
         let profileURL = '';
         let profile = {}
         if (getAccountType().toString() === AccountType.STUDENT) {
@@ -177,23 +178,23 @@ const LoginDashboard: React.FC = () => {
         }
 
         if (newAccount) {
-//             console.log("Is new account, update profile MANAGE_ACCOUNT")
+            //             console.log("Is new account, update profile MANAGE_ACCOUNT")
             axios.post(profileURL, profile).then(res => {
                 setDisplayName(res.data.displayName);
                 setProfileId(res.data.id);
                 setLoading(false);
 
                 navigate(PageLink.MANAGE_ACCOUNT);
-                // setTimeout(() => {
-                //     navigate(PageLink.MANAGE_ACCOUNT);
-                // }, 1000);
             }).catch(err => {
-                setLoading(false);
-            });
+                setLoading(false)
+                toast?.current?.show({
+                    severity: 'error',
+                    content: <GenericError />, closable: true, life: 5000
+                });
+            }
+            );
         } else {
-//             console.log("Not new account, calling profileURL")
             axios.get<AccountResponse>(profileURL, { params: profile }).then(res => {
-//                 console.log("HELLO, res = ", res)
                 if (res.data) {
                     setDisplayName(res.data.displayName ?? '');
                     setProfileId(res.data.id);
@@ -205,7 +206,11 @@ const LoginDashboard: React.FC = () => {
                     navigate(getHomeLink());
                 }, 1000);
             }).catch(err => {
-                setLoading(false);
+                setLoading(false)
+                toast?.current?.show({
+                    severity: 'error',
+                    content: <GenericError />, closable: true, life: 5000
+                });
             });
         }
     };
@@ -220,12 +225,14 @@ const LoginDashboard: React.FC = () => {
                             <div className="col-12 text-center">
                                 <img src={require('../../resources/TutorPeer.png')} width={400} height={120} alt="" onClick={() => navigate(getHomeLink())} />
                             </div>
+
+
                             <div className="mx-auto my-5 grid align-items-center gap-4 col-6">
                                 <InputText type="text" className="col-12" keyfilter={LOGIN_NAME_REGEX} value={name} onChange={(e) => setName(e.target.value)}
                                     placeholder="Name" maxLength={LOGIN_NAME_SIZE}
                                     tooltip="Name should not contain numeric or special characters" tooltipOptions={{ event: 'both', position: 'right' }} />
-                                <InputText type="text" className="col-12" keyfilter="email"  value={email} onChange={(e) => setEmail(e.target.value)}
-                                    placeholder="Email" 
+                                <InputText type="text" className="col-12" keyfilter="email" value={email} onChange={(e) => setEmail(e.target.value)}
+                                    placeholder="Email"
                                     tooltip="Please provide a valid email to receive OTP" tooltipOptions={{ event: 'both', position: 'right' }} />
                                 <Password className="col-12 p-0" inputClassName="col-12" value={password} onChange={(e) => setPassword(e.target.value)}
                                     keyfilter={/^[^\#\$\^\*\(\)\-\=\_\+\{\}\|\[\]\;\'\:\"\<\>\?\,\.\/]+$/}
@@ -313,8 +320,13 @@ const LoginDashboard: React.FC = () => {
                             <div className="flex flex-row col-12 p-0 align-items-center">
                                 <InputText type="text" className="col-11 flex" value={verificationCode}
                                     onChange={(e) => setVerificationCode(e.target.value)} placeholder="Verification Code" />
-                                <Button label="Verify" className="p-button-primary" onClick={verifyEmail} disabled={loading}/>
                             </div>
+                            <div className="flex flex-row col-12 p-0 align-items-center">
+                                <Button label="Verify" className="p-button-primary" onClick={verifyEmail} disabled={loading} />
+                            </div>
+                            <CountDowntimer showDisableButton={{
+                                onReset: resendCode
+                            }} countDownFromInSeconds={30} />
                         </div>
                     </Card>
                 </div>

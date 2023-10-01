@@ -37,6 +37,8 @@ axios.interceptors.request.use(async (config) => {
 
 axios.interceptors.response.use(
   (res) => {
+
+
     if (res.status === 401) {
       toast?.current?.show({
         severity: 'error',
