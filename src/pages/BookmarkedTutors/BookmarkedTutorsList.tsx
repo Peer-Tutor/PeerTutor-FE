@@ -37,7 +37,10 @@ const BookmarkedTutorsList = (props: AccountInfo, props2: BookmarkedTutorRespons
                         <div className="flex flex-row gap-3">
                          {bookmarkedTutorList && bookmarkedTutorList?.length > 0  ? bookmarkedTutorList?.map((record, idx) => {
                             return (
-                                    <BookmarkedTutorsCard key={idx} Id={record.id} Tutor={record.tutor} TutorId={record.tutorID} StudentId={record.studentID} forceUpdate={forceUpdate}/>)
+                            <React.Fragment key={idx} >
+                                    <BookmarkedTutorsCard key={idx} Id={record.id} Tutor={record.tutor} TutorId={record.tutorID} StudentId={record.studentID} forceUpdate={forceUpdate}/>
+                            </React.Fragment>
+                            )
                          }) : <p className="text-sm text-center text-black font-semibold">No tutors found.</p>}
                         </div>
                     </ScrollPanel>

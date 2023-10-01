@@ -54,11 +54,13 @@ const UpcomingActivities = (props: DasboardActionCardInput) => {
                     {activityList?.map((activity, idx)=>{
                         if(activity.selectedDates == date){
                             return(
+                            <React.Fragment key={activity.tutorId} >
                                 <UpcomingActivitiesCard
                                     studentName={activity.studentName}
                                     tutorName={activity.tutorName}
                                     tutorId={activity.tutorId}
                                     date={activity.selectedDates}/>
+                            </React.Fragment>
                             )
                         }
                     })
