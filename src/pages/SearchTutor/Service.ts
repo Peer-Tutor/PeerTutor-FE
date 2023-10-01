@@ -13,7 +13,8 @@ const getRecommendationsForMyself = (setRecommendationList: React.Dispatch<React
             id: getProfileId()
         }
     }).then(res => {
-        setRecommendationList(res.data);
+        const shuffled = res.data.slice().sort(()=> 0.5 - Math.random());
+        setRecommendationList(shuffled.slice(0,3));
         setTotalRecords(res.data.length);
     }).catch(err => {
     });

@@ -79,10 +79,10 @@ const SearchTutor = () => {
                     <div className="flex flex-column flex-1">
                     {tutorList && tutorList?.length > 0 ? tutorList?.map((tutor, idx) => {
                         return (
-                            <>
+                            <React.Fragment key={idx} >
                                 <TutorCard key={idx} intro={tutor.introduction} certs={tutor.certificates} tutorId={tutor.id} subject={tutor.subjects} name={tutor.displayName} getTutorList={getTutorList} setTotalRecords={setTotalRecords} setTutorList={setTutorList} currentPage={currentPage} bookmarkedTutorList={bookmarkedTutorList} forceUpdate={forceUpdate} />
                                 <Divider key={idx + 1} />
-                            </>
+                            </React.Fragment>
                         )
                     }) : <p className="text-sm text-center text-black font-semibold">No tutors found.</p>}
                     </div>
@@ -104,7 +104,9 @@ const RecommendationList = ({ recommendationList }: { recommendationList: TutorR
             {recommendationList.length > 0 ?
                 recommendationList.map((elt, idx) => {
                         return (
+                        <React.Fragment key={elt.id} >
                             <RecommendationCard tutorName={elt.displayName} subjectList={elt.subjects} tutorId={elt.id} />
+                        </React.Fragment>
                         )
                 })
 

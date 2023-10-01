@@ -7,7 +7,7 @@ export const RequireAuth = (props) => { // todo: typescript
     const location = useLocation();
     const { route } = useAuthenticator((context) => [context.route]);
     if (route !== 'authenticated') {
-        console.log("In requireAuth, is not authenticated. route = ", route)
+//         console.log("In requireAuth, is not authenticated. route = ", route)
         // return <Navigate to="/login" state={{ from: location }} replace />;
     }
     return <>
