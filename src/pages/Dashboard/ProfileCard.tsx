@@ -26,8 +26,8 @@ const ProfileCard = (props: AccountInfo) => {
                 url = getUrl(Subdomain.TUTOR_MGR, '/tutor');
             }
             axios.get<AccountResponse>(url, { params: {
-                name: getProfileName(),
-                accountName: getProfileName(),
+//                 name: getProfileName(),
+//                 accountName: getProfileName(),
                 id: getProfileId()
             } }).then(res => {
                 setIntroduction(res.data.introduction ?? getIntro());

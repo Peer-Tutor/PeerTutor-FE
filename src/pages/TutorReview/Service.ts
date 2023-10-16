@@ -10,7 +10,7 @@ const getListOfReviewByTutor = (setTutorList: any) => {
     const url = getUrl(Subdomain.REVIEW_MGR, '/reviews');
     axios.get<TutorResponse>(url, {
         params: {
-            name: getProfileName(),
+//             name: getProfileName(),
             tutorId: getProfileId(),
         }
     }).then(res => {

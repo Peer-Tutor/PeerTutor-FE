@@ -31,10 +31,10 @@ const CountDowntimer = (props: CountDowntimerProps) => {
         }
     }
     return (
-        <div className="col-12 pt-4">
-            <>You may request for another verification code after {timer}(s).</>
+        <div className="flex align-items-center col-12 pt-4">
+            <label className="col-10 p-0 text-black font-semibold text-base">You may request for another verification code after {timer}(s).</label>
             <Button label="Resend verification code"
-                className="p-button-primary"
+                className="p-button-tertiary flex"
                 onClick={handleResend}
                 disabled={isDisabled} />
         </div>
