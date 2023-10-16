@@ -11,7 +11,7 @@ export const getUpcomingActivities = (setActivities: React.Dispatch<React.SetSta
     const url = getUrl(Subdomain.TUITION_ORDER_MGR, '/detailedTuitionOrders');
     axios.get<UpcomingActivitiesResponse[]>(url, {
         params: {
-            name: getProfileName(),
+//             name: getProfileName(),
         }
     }).then(res => {
         let response = res.data;
@@ -78,7 +78,7 @@ export const getPendingRequest = (setActivities: React.Dispatch<React.SetStateAc
     const url = getUrl(Subdomain.TUITION_ORDER_MGR, '/detailedTuitionOrders');
     axios.get<UpcomingActivitiesResponse[]>(url, {
         params: {
-            name: getProfileName(),
+//             name: getProfileName(),
         }
     }).then(res => {
         let response = res.data;

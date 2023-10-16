@@ -15,7 +15,7 @@ const PageNotFound = () => {
                     </Link>
                     <label className="flex text-center font-bold text-2xl text-red">Invalid / Unauthorised Access Route</label>
                     <label className="flex text-center font-bold text-base text-black">The page you are attempting to access either could not be found or accessible under your current role access privileges.</label>
-                    <label className="flex text-center font-bold text-base text-black">Please do contact portal administrator if you regard it as a valid issue.</label>
+                    <label className="flex text-center font-bold text-base text-black">For more information, please contact portal administrator.</label>
                 </div>
                 <div className="flex flex-fill flex-1 flex-column align-items-center mt-3">
                     <Link to={getHomeLink()}>

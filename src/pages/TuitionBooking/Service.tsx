@@ -39,7 +39,7 @@ const submitForm = (tutorId: string, selectedDates: string[]) => {
         toast?.current?.show({ severity: 'error', content: successUpdate(false), closable: false, life: 5000 });
     } else {
         axios.post(url, {
-            name: getProfileName(),
+//             name: getProfileName(),
             selectedDates: selectedDates,
             studentId: getProfileId(),
             tutorId: tutorId,
@@ -60,7 +60,7 @@ const getATutorAvailableDates = (tutorId: string ,setAvailableDates: React.Dispa
     const url = getUrl(Subdomain.TUTOR_CALENDAR_MGR, '/calendar');
     axios.get<CalendarDetail>(url, {
         params: {
-            name: getProfileName(),
+//             name: getProfileName(),
             tutorId: tutorId,
         }
     }).then(res => {
@@ -81,7 +81,7 @@ const getSelectedTutorDetails = (tutorId: string, setTutorDetails: React.Dispatc
 
     axios.get<TutorDetail>(url, {
         params: {
-            name: getProfileName(),
+//             name: getProfileName(),
             id: tutorId,
         }
     }).then(res => {

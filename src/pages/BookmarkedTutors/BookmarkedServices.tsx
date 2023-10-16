@@ -21,7 +21,7 @@ const getBookmarkedTutorOfStudentTutorCard = (setBookmarkedTutorList: React.Disp
     const url = getUrl(Subdomain.BOOKMARK_MGR, '/bookmark');
     axios.get<BookmarkedTutorResponse[]>(url, {
         params: {
-            name: getProfileName(),
+//             name: getProfileName(),
             studentId: getProfileId(),
         }
     }).then(res => {
@@ -34,7 +34,7 @@ const getBookmarkedTutorOfStudentTutorCard = (setBookmarkedTutorList: React.Disp
 const addBookmarkTutorCard = (tutorID: string, onForceUpdate: any) =>{
     const url = getUrl(Subdomain.BOOKMARK_MGR, '/bookmark');
     axios.post<BookmarkResponse>(url, {
-            name: getProfileName(),
+//             name: getProfileName(),
             id: getProfileId(),
             studentID: getProfileId()?.toString(),
             tutorID: tutorID?.toString()
@@ -48,7 +48,7 @@ const deleteBookmarkTutorCard = (tutorId: any, onForceUpdate: any)=> {
     const url = getUrl(Subdomain.BOOKMARK_MGR, '/bookmark');
     axios.delete<BookmarkResponse>(url, {
         params:{
-            name: getProfileName(),
+//             name: getProfileName(),
             studentId: getProfileId(),
             tutorId: tutorId?? ''
         }
@@ -62,7 +62,7 @@ const getBookmarkedTutorOfStudent = (setBookmarkedTutorList: React.Dispatch<Reac
     const url = getUrl(Subdomain.BOOKMARK_MGR, '/bookmark');
     axios.get<BookmarkedTutorResponse[]>(url, {
         params: {
-            name: getProfileName(),
+//             name: getProfileName(),
             studentId: getProfileId()?.toString()
         }
     }).then(res => {
@@ -74,7 +74,7 @@ const getBookmarkedTutorOfStudent = (setBookmarkedTutorList: React.Dispatch<Reac
 const addBookmark = (id: string, tutorId: string, tutorName: string, setBookmarkTutor: React.Dispatch<React.SetStateAction<BookmarkResponse[]>>) => {
     const url = getUrl(Subdomain.BOOKMARK_MGR, '/bookmark');
     axios.post<BookmarkResponse[]>(url, {
-            name: getProfileName(),
+//             name: getProfileName(),
             studentID: getProfileId(),
             tutorID: tutorId?? '',
             id: id?? ''
@@ -87,7 +87,7 @@ const deleteBookmark = (tutorId: any, onForceUpdate: any)=> {
     const url = getUrl(Subdomain.BOOKMARK_MGR, '/bookmark');
     axios.delete<BookmarkResponse>(url, {
         params:{
-            name: getProfileName(),
+//             name: getProfileName(),
             studentId: getProfileId(),
             tutorId: tutorId?? ''
         }

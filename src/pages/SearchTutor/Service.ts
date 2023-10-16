@@ -9,7 +9,7 @@ const getRecommendationsForMyself = (setRecommendationList: React.Dispatch<React
     const url = getUrl(Subdomain.TUTOR_MGR, '/tutors');
     axios.get<TutorRecommendationResponse>(url, {
         params: {
-            name: getProfileName(),
+//             name: getProfileName(),
             id: getProfileId()
         }
     }).then(res => {
@@ -23,7 +23,7 @@ const getTutorList = (setTutorList: any, currentPage: number) => {
     const url = getUrl(Subdomain.TUTOR_MGR, '/tutors');
     axios.get<TutorResponse[]>(url, {
         params: {
-            name: getProfileName(),
+//             name: getProfileName(),
             page: currentPage,
             size: TUTOR_RESULTS_PAGINATION_PAGE_SIZE
         }
@@ -37,7 +37,7 @@ const searchTutor = (tutorName: string, setTutorList: React.Dispatch<React.SetSt
     const url = getUrl(Subdomain.TUTOR_MGR, '/tutors');
     axios.get<TutorResponse[]>(url, {
         params: {
-            name: getProfileName(),
+//             name: getProfileName(),
             displayName: tutorName ?? '',
             studentId: getProfileId()
         }

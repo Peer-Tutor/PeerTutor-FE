@@ -26,8 +26,8 @@ export default function NavBar(props: BaseLayoutProps) {
 
             axios.get<AccountResponse>(url, {
                 params: {
-                    name: getProfileName() ?? '',
-                    accountName: getProfileName(),
+//                     name: getProfileName() ?? '',
+//                     accountName: getProfileName(),
                     id: getProfileId() ?? ''
                 }
             }).then(res => {

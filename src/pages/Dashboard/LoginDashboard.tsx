@@ -164,15 +164,17 @@ const LoginDashboard: React.FC = () => {
         if (getAccountType().toString() === AccountType.STUDENT) {
             profileURL = getUrl(Subdomain.STUDENT_MGR, '/student');
             profile = {
-                name: getProfileName(),
-                accountName: getProfileName(), displayName: getProfileName(),
+//                 name: getProfileName(),
+//                 accountName: getProfileName(),
+                displayName: getProfileName(),
                 introduction: '', subjects: ''
             };
         } else {
             profileURL = getUrl(Subdomain.TUTOR_MGR, '/tutor');
             profile = {
-                name: getProfileName(),
-                accountName: getProfileName(), displayName: getProfileName(),
+//                 name: getProfileName(),
+//                 accountName: getProfileName(),
+                displayName: getProfileName(),
                 introduction: '', subjects: '', certificates: ''
             };
         }
@@ -225,7 +227,6 @@ const LoginDashboard: React.FC = () => {
                             <div className="col-12 text-center">
                                 <img src={require('../../resources/TutorPeer.png')} width={400} height={120} alt="" onClick={() => navigate(getHomeLink())} />
                             </div>
-
 
                             <div className="mx-auto my-5 grid align-items-center gap-4 col-6">
                                 <InputText type="text" className="col-12" keyfilter={LOGIN_NAME_REGEX} value={name} onChange={(e) => setName(e.target.value)}
@@ -318,11 +319,11 @@ const LoginDashboard: React.FC = () => {
                         <div className="flex flex-column col-12">
                             <label className="flex flex-row font-bold text-base text-orange">Verify email</label>
                             <div className="flex flex-row col-12 p-0 align-items-center">
-                                <InputText type="text" className="col-11 flex" value={verificationCode}
+                                <InputText type="text" className="col-10 flex" value={verificationCode}
                                     onChange={(e) => setVerificationCode(e.target.value)} placeholder="Verification Code" />
+                                <Button label="Verify" className="p-button-primary" onClick={verifyEmail} disabled={loading} />
                             </div>
                             <div className="flex flex-row col-12 p-0 align-items-center">
-                                <Button label="Verify" className="p-button-primary" onClick={verifyEmail} disabled={loading} />
                             </div>
                             <CountDowntimer showDisableButton={{
                                 onReset: resendCode
