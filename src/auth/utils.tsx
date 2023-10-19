@@ -65,9 +65,14 @@ export async function signIn({ username, password }: SignInParameters) {
   }
 }
 
+
+
 export async function signOut() {
   try {
-    await Auth.signOut();
+    let opts = {
+      global: true
+    }
+    await Auth.signOut(opts);
   } catch (error) {
     console.log('error signing out: ', error);
   }
