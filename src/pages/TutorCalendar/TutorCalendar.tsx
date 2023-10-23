@@ -57,7 +57,6 @@ const TutorCalendar = () => {
     const saveAvailableDates =  (availableDates: string[]) => {
         const url = getUrl(Subdomain.TUTOR_CALENDAR_MGR, '/calendar');
         axios.post(url, {
-//             name: getProfileName(),
             availableDates: availableDates,
             tutorId: getProfileId(),
         }).then(res => {

@@ -4,6 +4,7 @@ import { getUrl, getProfileName, getSessionToken, getProfileId } from '../../uti
 import { toast } from '../../utils/toastHooks';
 import { CalendarDetail } from '../TutorCalendar/Model';
 import { TutorDetail } from './BookingForm';
+import { UpcomingActivitiesResponse } from '../../constants/Model';
 
 const successUpdate = (valid: boolean) => {
     if(valid){
@@ -39,7 +40,6 @@ const submitForm = (tutorId: string, selectedDates: string[]) => {
         toast?.current?.show({ severity: 'error', content: successUpdate(false), closable: false, life: 5000 });
     } else {
         axios.post(url, {
-//             name: getProfileName(),
             selectedDates: selectedDates,
             studentId: getProfileId(),
             tutorId: tutorId,
@@ -60,7 +60,6 @@ const getATutorAvailableDates = (tutorId: string ,setAvailableDates: React.Dispa
     const url = getUrl(Subdomain.TUTOR_CALENDAR_MGR, '/calendar');
     axios.get<CalendarDetail>(url, {
         params: {
-//             name: getProfileName(),
             tutorId: tutorId,
         }
     }).then(res => {
@@ -81,15 +80,30 @@ const getSelectedTutorDetails = (tutorId: string, setTutorDetails: React.Dispatc
 
     axios.get<TutorDetail>(url, {
         params: {
-//             name: getProfileName(),
             id: tutorId,
         }
     }).then(res => {
-        // res.data
         setTutorDetails(res.data)
     }).catch(err => {
     });
 };
 
 
-export { submitForm, getSelectedTutorDetails , getATutorAvailableDates};
+const getUpcomingState = (tutorId: string, setUpcoming: React.Dispatch<React.SetStateAction<boolean>>) => {
+    const url = getUrl(Subdomain.TUITION_ORDER_MGR, '/detailedTuitionOrders');
+    axios.get<UpcomingActivitiesResponse[]>(url, {
+        params: { }
+    }).then(res => {
+        let response = res.data;
+        response = response.filter((element) => {
+            return element.status === 1 && element.studentId === getProfileId() && element.tutorId === Number(tutorId)
+         });
+        response.map((element) => {
+            if (element.selectedDates) { element.selectedDates = element.selectedDates.replace("[", "").replace("]", ""); }
+        });
+        if(response.length > 0){ setUpcoming(true); } else { setUpcoming(false); }
+    });
+};
+
+
+export { submitForm, getSelectedTutorDetails , getATutorAvailableDates, getUpcomingState};

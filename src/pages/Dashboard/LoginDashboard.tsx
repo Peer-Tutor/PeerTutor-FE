@@ -36,7 +36,6 @@ const LoginDashboard: React.FC = () => {
 
     const [pageType, setPageType] = useState<AUTH_PAGE_TYPE>(AUTH_PAGE_TYPE.SIGN_IN)
 
-    // const [registerView, setRegister] = useState(false);
     const [disableResendVerifyCode, setDisableResendVerifyCode] = useState(false)
     const [email, setEmail] = useState('')
     const [accountType, setAccountType] = useState(AccountType.STUDENT);
@@ -73,13 +72,10 @@ const LoginDashboard: React.FC = () => {
         setLoading(true);
         await Auth.signIn(name, password)
             .then((data) => {
-                //                 const token = data.signInUserSession.accessToken.jwtToken;
                 const userType = data.signInUserSession.idToken.payload["custom:role"];
                 const userName = data.signInUserSession.idToken.payload["cognito:username"];
-                //                 if (typeof token === 'string') {
                 saveSessionTokenValue(userName, userType ?? '');
                 updateProfile(false)
-                //                 }
             }).catch((err) => {
                 setLoading(false)
                 toast?.current?.show({
@@ -91,7 +87,6 @@ const LoginDashboard: React.FC = () => {
 
     const registerAccount = async () => {
         setLoading(true);
-        //         console.log("Registering account, accountType = ", accountType)
 
         const requestParam = {
             username: name,
@@ -104,11 +99,9 @@ const LoginDashboard: React.FC = () => {
                 enabled: true,
             }
         }
-        //         console.log("Signing up , ", requestParam)
         Auth.signUp(requestParam).then((data) => {
             setPageType(AUTH_PAGE_TYPE.CONFIRM_EMAIL);
             setLoading(false);
-            // navigation.navigate('Confirm Email', { username: username });
         }).catch((err) => {
             setLoading(false);
             toast?.current?.show({
@@ -158,29 +151,23 @@ const LoginDashboard: React.FC = () => {
     }
 
     const updateProfile = (newAccount: boolean) => {
-        //         console.log("Calling updateProfile")
         let profileURL = '';
         let profile = {}
         if (getAccountType().toString() === AccountType.STUDENT) {
             profileURL = getUrl(Subdomain.STUDENT_MGR, '/student');
             profile = {
-//                 name: getProfileName(),
-//                 accountName: getProfileName(),
                 displayName: getProfileName(),
                 introduction: '', subjects: ''
             };
         } else {
             profileURL = getUrl(Subdomain.TUTOR_MGR, '/tutor');
             profile = {
-//                 name: getProfileName(),
-//                 accountName: getProfileName(),
                 displayName: getProfileName(),
                 introduction: '', subjects: '', certificates: ''
             };
         }
 
         if (newAccount) {
-            //             console.log("Is new account, update profile MANAGE_ACCOUNT")
             axios.post(profileURL, profile).then(res => {
                 setDisplayName(res.data.displayName);
                 setProfileId(res.data.id);
@@ -294,7 +281,6 @@ const LoginDashboard: React.FC = () => {
                                         <Button label="Login" className="p-button-primary flex" onClick={loginAccount} disabled={isButtonDisabled} />
                                         <Button label="Register" className="p-button-secondary" onClick={() => {
                                             setPageType(AUTH_PAGE_TYPE.SIGN_UP)
-                                            // setRegister(true)
                                         }}
                                         />
                                     </div>

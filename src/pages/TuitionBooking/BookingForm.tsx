@@ -2,7 +2,7 @@ import { Button } from 'primereact/button'
 import { Card } from 'primereact/card'
 import { Chip } from 'primereact/chip'
 import React, { useEffect, useState } from 'react'
-import { getSelectedTutorDetails } from './Service'
+import { getSelectedTutorDetails, getUpcomingState } from './Service'
 
 import { Chips } from 'primereact/chips';
 import { MultiSelect } from 'primereact/multiselect'
@@ -35,10 +35,11 @@ type BookingFormProps = {
 const BookingForm = ({ tutorId, selectedDates, handleSubmit, setSelectedDates, selectedDateDetails }: BookingFormProps) => {
     const [toast] = useToastHook();
     const [tutorDetails, setTutorDetails] = useState<TutorDetail>();
+    const [upcoming, setUpcoming] = useState<boolean>(false);
     const navigate = useNavigate();
     useEffect(() => {
         if(!authorisedRoute(PageLink.TUITION_BOOKING)){ navigate(PageLink.UNAUTHORISED); }
-        else{ getSelectedTutorDetails(tutorId, setTutorDetails) }
+        else{ getSelectedTutorDetails(tutorId, setTutorDetails); getUpcomingState(tutorId, setUpcoming) }
     }, []);
     return (
     <>
@@ -65,22 +66,31 @@ const BookingForm = ({ tutorId, selectedDates, handleSubmit, setSelectedDates, s
                         <label className="text-black text-xs font-normal">{tutorDetails?.certificates ? tutorDetails?.certificates.replaceAll(';', ', ') : ''}</label>
                     </div>
                 </div>
-                <div className="flex flex-column gap-2">
-                    <label className="text-orange text-sm font-semibold">Selected Dates</label>
-                    {selectedDateDetails.length > 0 ?
-                        <MultiSelect display="chip" className="col-12"
-                            value={selectedDates}
-                            options={selectedDateDetails}
-                            optionLabel="code"
-                            optionValue="code"
-                            onChange={(e) => setSelectedDates(e.value)}
-                        /> :
-                        <><p className="text-sm text-center text-black font-semibold">No dates available</p></>}
-
-                </div>
-                <div className="flex flex-grow-1 flex-row-reverse">
-                    <Button label="Submit" className="p-button-primary" onClick={handleSubmit} disabled={selectedDates.length > 0 ? false : true} />
-                </div>
+                {upcoming ?
+                <>
+                    <div className="flex flex-column gap-2 mb-5">
+                        <p className="text-sm text-center text-black font-semibold">You have an upcoming tuition session with tutor.</p>
+                    </div>
+                </>:
+                <>
+                    <div className="flex flex-column gap-2">
+                        <label className="text-orange text-sm font-semibold">Selected Dates</label>
+                        {selectedDateDetails.length > 0 ?
+                            <MultiSelect display="chip" className="col-12"
+                                value={selectedDates}
+                                options={selectedDateDetails}
+                                optionLabel="code"
+                                optionValue="code"
+                                onChange={(e) => setSelectedDates(e.value)}
+                                disabled={upcoming}
+                            /> :
+                            <><p className="text-sm text-center text-black font-semibold">No dates available</p></>}
+                    </div>
+                    <div className="flex flex-grow-1 flex-row-reverse">
+                        <Button label="Submit" className="p-button-primary" onClick={handleSubmit} disabled={selectedDates.length > 0 ? false : true} />
+                    </div>
+                </>
+                }
             </div>
         </Panel>
         </>
