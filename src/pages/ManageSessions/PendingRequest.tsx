@@ -50,6 +50,7 @@ const PendingRequest = ({refresh}: {refresh: number}) => {
                                     if(activity.selectedDates === date){
                                         return(
                                             <UpcomingActivitiesCard
+                                                key={activity.studentName}
                                                 studentName={activity.studentName}
                                                 tutorName={activity.tutorName}
                                                 tutorId={activity.tutorId}

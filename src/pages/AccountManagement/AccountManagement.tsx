@@ -45,8 +45,6 @@ const AccountManagement = () => {
             }
 
             axios.get<AccountResponse>(url, { params: {
-//                 name: getProfileName() ?? '',
-//                 accountName: getProfileName(),
                 id: getProfileId() ?? ''
             } }).then(res => {
                 if(res.data){
@@ -79,8 +77,6 @@ const AccountManagement = () => {
     const updateStudentProfile = () =>{
        const url = getUrl(Subdomain.STUDENT_MGR, '/student');
        axios.post(url, {
-//             name: getProfileName(),
-//             accountName: getProfileName(),
             displayName: name,
             introduction: intro,
             subjects: subject.join(';')
@@ -96,8 +92,6 @@ const AccountManagement = () => {
     const updateTutorProfile = () =>{
        const url = getUrl(Subdomain.TUTOR_MGR, '/tutor');
        axios.post(url, {
-//             name: getProfileName(),
-//             accountName: getProfileName(),
             displayName: name,
             introduction: intro,
             subjects: subject.join(';'),
