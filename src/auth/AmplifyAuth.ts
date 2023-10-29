@@ -1,6 +1,6 @@
 import { Amplify, Hub, Logger } from "aws-amplify";
 
-const isDev = process.env.REACT_APP_IS_DEV !== undefined ? process.env.REACT_APP_IS_DEV : true
+const isDev = process.env.REACT_APP_IS_DEV === "prod" ? false : true // process.env.REACT_APP_IS_DEV !== undefined ? process.env.REACT_APP_IS_DEV : true
 const USER_POOL_ID = process.env.REACT_APP_COGNITO_USER_POOL_ID
 const CLIENT_ID = process.env.REACT_APP_COGNITO_CLIENT_ID
 const COGNITO_DOMAIN = process.env.REACT_APP_COGNITO_DOMAIN
@@ -37,7 +37,7 @@ Amplify.configure({
       // - Cookie domain (only required if cookieStorage is provided)
 
       // TODO CHANGE BASED ON DIFF ENV
-      domain: HOST_DOMAIN,//'.yourdomain.com',
+      domain: isDev ? 'localhost' : HOST_DOMAIN,//'.yourdomain.com',
       // (optional) - Cookie path
       path: '/',
       // (optional) - Cookie expiration in days
@@ -72,7 +72,7 @@ Amplify.configure({
       // TODO CHANGE BASED ON DIFF ENV
       redirectSignIn: REDIRECT_URI,//'http://localhost:3000/',
       // TODO CHANGE BASED ON DIFF ENV
-      redirectSignOut: REDIRECT_URI,//'http://localhost:3000/',
+      redirectSignOut: isDev === "1" ? 'http://localhost:3000/' : REDIRECT_URI,//'http://localhost:3000/',
       clientId: CLIENT_ID,
       responseType: 'code' // or 'token', note that REFRESH token will only be generated when the responseType is code
     }
@@ -106,7 +106,7 @@ let obj = {
       // - Cookie domain (only required if cookieStorage is provided)
 
       // TODO CHANGE BASED ON DIFF ENV
-      domain:  HOST_DOMAIN,//'.yourdomain.com',
+      domain: isDev ? 'localhost' : HOST_DOMAIN,//'.yourdomain.com',
       // (optional) - Cookie path
       path: '/',
       // (optional) - Cookie expiration in days
@@ -139,9 +139,9 @@ let obj = {
         // 'aws.cognito.signin.user.admin'
       ],
       // TODO CHANGE BASED ON DIFF ENV
-      redirectSignIn: REDIRECT_URI,//'http://localhost:3000/',
+      redirectSignIn: isDev ? 'http://localhost:3000/' : REDIRECT_URI,//'http://localhost:3000/',
       // TODO CHANGE BASED ON DIFF ENV
-      redirectSignOut: REDIRECT_URI,//'http://localhost:3000/',
+      redirectSignOut: isDev ? 'http://localhost:3000/' : REDIRECT_URI,//'http://localhost:3000/',
       clientId: CLIENT_ID,
       responseType: 'code' // or 'token', note that REFRESH token will only be generated when the responseType is code
     }

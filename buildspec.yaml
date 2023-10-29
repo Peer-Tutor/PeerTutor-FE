@@ -7,7 +7,7 @@ env:
     REACT_APP_HOST_DOMAIN: /dev/web/REACT_APP_HOST_DOMAIN
     REACT_APP_COGNITO_REDIRECT_URI: /dev/web/REACT_APP_COGNITO_REDIRECT_URI
   variables:
-    REACT_APP_IS_DEV: 0
+    REACT_APP_IS_DEV: "prod"
 phases:
   install:
     runtime-versions:
