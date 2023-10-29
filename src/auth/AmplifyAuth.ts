@@ -37,7 +37,7 @@ Amplify.configure({
       // - Cookie domain (only required if cookieStorage is provided)
 
       // TODO CHANGE BASED ON DIFF ENV
-      domain: isDev ? 'localhost' : HOST_DOMAIN,//'.yourdomain.com',
+      domain: HOST_DOMAIN,//'.yourdomain.com',
       // (optional) - Cookie path
       path: '/',
       // (optional) - Cookie expiration in days
@@ -70,9 +70,9 @@ Amplify.configure({
         // 'aws.cognito.signin.user.admin'
       ],
       // TODO CHANGE BASED ON DIFF ENV
-      redirectSignIn: isDev === "1" ? 'http://localhost:3000/' : REDIRECT_URI,//'http://localhost:3000/',
+      redirectSignIn: REDIRECT_URI,//'http://localhost:3000/',
       // TODO CHANGE BASED ON DIFF ENV
-      redirectSignOut: isDev === "1" ? 'http://localhost:3000/' : REDIRECT_URI,//'http://localhost:3000/',
+      redirectSignOut: REDIRECT_URI,//'http://localhost:3000/',
       clientId: CLIENT_ID,
       responseType: 'code' // or 'token', note that REFRESH token will only be generated when the responseType is code
     }
@@ -106,7 +106,7 @@ let obj = {
       // - Cookie domain (only required if cookieStorage is provided)
 
       // TODO CHANGE BASED ON DIFF ENV
-      domain: isDev ? 'localhost' : HOST_DOMAIN,//'.yourdomain.com',
+      domain:  HOST_DOMAIN,//'.yourdomain.com',
       // (optional) - Cookie path
       path: '/',
       // (optional) - Cookie expiration in days
@@ -139,9 +139,9 @@ let obj = {
         // 'aws.cognito.signin.user.admin'
       ],
       // TODO CHANGE BASED ON DIFF ENV
-      redirectSignIn: isDev ? 'http://localhost:3000/' : REDIRECT_URI,//'http://localhost:3000/',
+      redirectSignIn: REDIRECT_URI,//'http://localhost:3000/',
       // TODO CHANGE BASED ON DIFF ENV
-      redirectSignOut: isDev ? 'http://localhost:3000/' : REDIRECT_URI,//'http://localhost:3000/',
+      redirectSignOut: REDIRECT_URI,//'http://localhost:3000/',
       clientId: CLIENT_ID,
       responseType: 'code' // or 'token', note that REFRESH token will only be generated when the responseType is code
     }
