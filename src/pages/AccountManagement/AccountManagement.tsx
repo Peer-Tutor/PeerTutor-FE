@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Subdomain } from "../../constants/Subdomain";
 import { AccountResponse } from "../../constants/Model";
 import { AccountType, SubjectList, CertificateList, PageLink } from "../../constants/Constant";
-import { PROFILE_NAME_REGEX, PROFILE_NAME_SIZE, INTRO_SIZE } from "../../constants/Validation";
+import { PROFILE_NAME_REGEX, PROFILE_NAME_SIZE, INTRO_SIZE, INTRO_REGEX } from "../../constants/Validation";
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
@@ -120,7 +120,7 @@ const AccountManagement = () => {
                         <div className="flex flex-column gap-2">
                             <label className="text-orange text-sm font-semibold">Introduction</label>
                             <InputText  type="text" className="col-12"  value={intro} onChange={(e) => setIntroduction(e.target.value)}
-                                        maxLength={INTRO_SIZE}
+                                        keyfilter={INTRO_REGEX} maxLength={INTRO_SIZE}
                                         tooltip="Short introduction about yourself, when others view your profile" tooltipOptions={{ event: 'both', position: 'right' }}/>
                         </div>
                         <div className="flex flex-column gap-2">
@@ -150,7 +150,7 @@ const AccountManagement = () => {
                         <div className="flex flex-column gap-2">
                             <label className="text-orange text-sm font-semibold">Introduction</label>
                             <InputText type="text" className="col-12"  value={intro} onChange={(e) => setIntroduction(e.target.value)}
-                                       maxLength={INTRO_SIZE}
+                                       keyfilter={INTRO_REGEX}  maxLength={INTRO_SIZE}
                                        tooltip="Short introduction about yourself, when others view your profile" tooltipOptions={{ event: 'both', position: 'right' }}/>
                         </div>
                         <div className="flex flex-column gap-2">
