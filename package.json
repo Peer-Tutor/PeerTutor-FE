@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@adobe/css-tools": "^4.3.1",
-    "@aws-amplify/ui-react": "^5.3.1",
+    "@aws-amplify/ui-react": "^6.0.5",
     "@react-native-async-storage/async-storage": "^1.19.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
